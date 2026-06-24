@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="22px" height="24px" viewBox="0 0 22 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>26DF635B-686D-4509-BBB0-02C5DA072C8C</title>
+    <g id="1.Base基础/1.icon图标/12.文件类型/XLS" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-1, 0)">
+        <g id="excel" transform="translate(1.8, 0)">
+            <path d="M14.4,0 L2.79611465,0 C1.25186323,0 0,1.23445202 0,2.75725265 L0,21.2427743 C0,22.765548 1.25186323,24 2.79611465,24 L17.6038853,24 C19.1481368,24 20.4,22.765548 20.4,21.2427744 L20.4,6 C20.4,6 14.4,0 14.4,0 Z" id="路径" fill="#14BC64"></path>
+            <polygon id="x" stroke="#10B981" stroke-width="0.5" fill="#FFFFFF" fill-rule="nonzero" points="8.01923077 18 10.2161538 14.7992263 12.3969231 18 14.4 18 11.1530769 13.5319149 14.0446154 9.6 12.0415385 9.6 10.2161538 12.2646035 8.37461538 9.6 6.37153846 9.6 9.26307692 13.5319149 6 18"></polygon>
+            <path d="M14.4,0 L20.4,6 L15.6,6 C14.9372583,6 14.4,5.4627417 14.4,4.8 L14.4,0 L14.4,0 Z" id="矩形" fill="#FFFFFF" fill-rule="nonzero" opacity="0.400000006"></path>
+        </g>
+    </g>
+</svg>

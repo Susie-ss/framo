@@ -1,0 +1,28 @@
+{
+  "_class": "document",
+  "layerStyles": {
+    "objects": [
+      {
+        "name": "Surface/Card",
+        "value": {
+          "fills": [{ "isEnabled": true, "color": { "red": 1, "green": 1, "blue": 1, "alpha": 1 } }]
+        }
+      }
+    ]
+  },
+  "layerTextStyles": {
+    "objects": [
+      {
+        "name": "Heading/H2",
+        "value": {
+          "textStyle": {
+            "encodedAttributes": {
+              "MSAttributedStringFontAttribute": { "attributes": { "name": "Inter-SemiBold", "size": 24 } },
+              "MSAttributedStringColorAttribute": { "red": 0.12, "green": 0.14, "blue": 0.18, "alpha": 1 }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

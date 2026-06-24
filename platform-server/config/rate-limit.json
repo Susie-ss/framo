@@ -1,0 +1,44 @@
+{
+  "endpoints": {
+    "comment": {
+      "label": "评论",
+      "strategies": [
+        { "window": "minute", "max": 10,   "label": "每分钟" },
+        { "window": "hour",   "max": 200,  "label": "每小时" },
+        { "window": "day",    "max": 1000, "label": "每天" }
+      ]
+    },
+    "login_fail": {
+      "label": "登录失败",
+      "strategies": [
+        { "window": "minute", "max": 5,  "label": "每分钟" },
+        { "window": "hour",   "max": 20, "label": "每小时" }
+      ]
+    },
+    "register": {
+      "label": "注册",
+      "strategies": [
+        { "window": "hour", "max": 3,  "label": "每小时" },
+        { "window": "day",  "max": 10, "label": "每天" }
+      ]
+    },
+    "upload": {
+      "label": "上传",
+      "strategies": [
+        { "window": "day",   "max": 209715200,  "type": "bytes", "label": "每天200MB" },
+        { "window": "month", "max": 1073741824, "type": "bytes", "label": "每月1GB" }
+      ]
+    },
+    "invite": {
+      "label": "邀请查询",
+      "strategies": [
+        { "window": "minute", "max": 3,  "label": "每分钟" },
+        { "window": "hour",   "max": 10, "label": "每小时" }
+      ]
+    }
+  },
+  "defaults": {
+    "statusCode": 429,
+    "headers": true
+  }
+}

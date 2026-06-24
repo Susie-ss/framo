@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <!-- ===== 操作类图标 ===== -->
+  <symbol id="ico-download" viewBox="0 0 48 48"><path d="M24 6V28" fill="none" stroke="#5B5EF4" stroke-width="4" stroke-linecap="round"/><path d="M14 20L24 28L34 20" fill="none" stroke="#5B5EF4" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 36V40H40V36" fill="none" stroke="#A855F7" stroke-width="4" stroke-linecap="round"/></symbol>
+  <symbol id="ico-bell" viewBox="0 0 48 48"><path d="M24 6C17.373 6 12 11.373 12 18V30L8 34V36H40V34L36 30V18C36 11.373 30.627 6 24 6Z" fill="#F59E0B"/><path d="M24 6C24.5 6 25 6.05 25.5 6.15" fill="none" stroke="#D97706" stroke-width="1.5" stroke-linecap="round"/><circle cx="24" cy="42" r="3" fill="#EF4444"/></symbol>
+  <symbol id="ico-plus" viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="#22C55E"/><path d="M24 14V34M14 24H34" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/></symbol>
+  <symbol id="ico-chevron-left" viewBox="0 0 48 48"><path d="M30 12L16 24L30 36" fill="none" stroke="#9CA3AF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ico-chevron-right" viewBox="0 0 48 48"><path d="M18 12L32 24L18 36" fill="none" stroke="#9CA3AF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ico-search" viewBox="0 0 48 48"><circle cx="20" cy="20" r="14" fill="none" stroke="#9CA3AF" stroke-width="4"/><path d="M30 30L42 42" fill="none" stroke="#9CA3AF" stroke-width="4" stroke-linecap="round"/></symbol>
+
+  <!-- ===== 导航类图标 ===== -->
+  <symbol id="ico-person" viewBox="0 0 48 48"><circle cx="24" cy="16" r="10" fill="#5B5EF4"/><path d="M8 44C8 35.163 15.163 28 24 28C32.837 28 40 35.163 40 44" fill="#5B5EF4"/></symbol>
+  <symbol id="ico-lock" viewBox="0 0 48 48"><rect x="10" y="22" width="28" height="20" rx="4" fill="#6B7280"/><path d="M16 22V16C16 11.582 19.582 8 24 8C28.418 8 32 11.582 32 16V22" fill="none" stroke="#6B7280" stroke-width="4" stroke-linecap="round"/></symbol>
+  <symbol id="ico-calendar" viewBox="0 0 48 48"><rect x="6" y="10" width="36" height="32" rx="4" fill="#FFFFFF" stroke="#5B5EF4" stroke-width="3"/><path d="M6 18H42" fill="none" stroke="#5B5EF4" stroke-width="3"/><path d="M16 4V12M32 4V12" fill="none" stroke="#5B5EF4" stroke-width="4" stroke-linecap="round"/><rect x="6" y="10" width="36" height="8" rx="4" fill="#5B5EF4"/><rect x="6" y="14" width="36" height="4" fill="#5B5EF4"/></symbol>
+  <symbol id="ico-logout" viewBox="0 0 48 48"><path d="M22 6H8V42H22" fill="none" stroke="#EF4444" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M30 16L40 24L30 32" fill="none" stroke="#EF4444" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 24H40" fill="none" stroke="#EF4444" stroke-width="4" stroke-linecap="round"/></symbol>
+  <symbol id="ico-users" viewBox="0 0 48 48"><circle cx="18" cy="16" r="8" fill="#5B5EF4"/><path d="M4 42C4 34.268 10.268 28 18 28C25.732 28 32 34.268 32 42" fill="#5B5EF4"/><circle cx="32" cy="14" r="6" fill="#A855F7"/><path d="M26 34C26 30.134 29.134 27 33 27C36.866 27 40 30.134 40 34V38H26V34Z" fill="#A855F7"/></symbol>
+
+  <!-- ===== 列表/视图类图标 ===== -->
+  <symbol id="ico-grid" viewBox="0 0 48 48"><rect x="6" y="6" width="16" height="16" rx="3" fill="#5B5EF4"/><rect x="26" y="6" width="16" height="16" rx="3" fill="#A855F7"/><rect x="6" y="26" width="16" height="16" rx="3" fill="#A855F7"/><rect x="26" y="26" width="16" height="16" rx="3" fill="#5B5EF4"/></symbol>
+  <symbol id="ico-list" viewBox="0 0 48 48"><rect x="8" y="8" width="32" height="8" rx="3" fill="#5B5EF4"/><rect x="8" y="20" width="32" height="8" rx="3" fill="#A8A8FF"/><rect x="8" y="32" width="32" height="8" rx="3" fill="#A8A8FF"/></symbol>
+  <symbol id="ico-three-dots" viewBox="0 0 48 48"><circle cx="24" cy="10" r="4" fill="#6B7280"/><circle cx="24" cy="24" r="4" fill="#6B7280"/><circle cx="24" cy="38" r="4" fill="#6B7280"/></symbol>
+
+  <!-- ===== 编辑类图标 ===== -->
+  <symbol id="ico-edit" viewBox="0 0 48 48"><path d="M8 42H40" fill="none" stroke="#F59E0B" stroke-width="4" stroke-linecap="round"/><path d="M12 28L28 12L36 20L20 36Z" fill="#FEF3C7" stroke="#F59E0B" stroke-width="3" stroke-linejoin="round"/></symbol>
+  <symbol id="ico-delete" viewBox="0 0 48 48"><path d="M10 10V42H38V10" fill="#FEE2E2"/><path d="M10 10V42H38V10Z" fill="none" stroke="#EF4444" stroke-width="3" stroke-linejoin="round"/><path d="M16 18V34M24 18V34M32 18V34" fill="none" stroke="#EF4444" stroke-width="3" stroke-linecap="round"/><path d="M6 10H42M18 4H30" fill="none" stroke="#EF4444" stroke-width="4" stroke-linecap="round"/></symbol>
+  <symbol id="ico-eye" viewBox="0 0 48 48"><path d="M4 24C4 24 10 14 24 14C38 14 44 24 44 24C44 24 38 34 24 34C10 34 4 24 4 24Z" fill="#DBEAFE" stroke="#5B5EF4" stroke-width="3"/><circle cx="24" cy="24" r="6" fill="#5B5EF4"/></symbol>
+  <symbol id="ico-tag" viewBox="0 0 48 48"><path d="M42 28L30 40C29.3 40.7 28.5 41 27.5 41C26.5 41 25.7 40.7 25 40L10 26V10H26L42 26C43.3 27.3 43.3 29 42 28Z" fill="#E0E7FF" stroke="#5B5EF4" stroke-width="3" stroke-linejoin="round"/><circle cx="18" cy="18" r="3" fill="#F59E0B"/></symbol>
+
+  <!-- ===== 内容类图标 ===== -->
+  <symbol id="ico-file" viewBox="0 0 48 48"><path d="M28 4H12C9.791 4 8 5.791 8 8V40C8 42.209 9.791 44 12 44H36C38.209 44 40 42.209 40 40V16L28 4Z" fill="#DBEAFE" stroke="#5B5EF4" stroke-width="3"/><path d="M28 4V16H40" fill="#93C5FD" stroke="#5B5EF4" stroke-width="3"/><path d="M16 26H32M16 32H32M16 38H24" fill="none" stroke="#5B5EF4" stroke-width="2.5" stroke-linecap="round"/></symbol>
+  <symbol id="ico-chat" viewBox="0 0 48 48"><path d="M44 6H4V36H14V42L24 36H44V6Z" fill="#FEF3C7" stroke="#F59E0B" stroke-width="3" stroke-linejoin="round"/><circle cx="15" cy="21" r="2.5" fill="#F59E0B"/><circle cx="24" cy="21" r="2.5" fill="#F59E0B"/><circle cx="33" cy="21" r="2.5" fill="#F59E0B"/></symbol>
+  <symbol id="ico-phone" viewBox="0 0 48 48"><rect x="10" y="4" width="28" height="40" rx="6" fill="#E0E7FF" stroke="#5B5EF4" stroke-width="3"/><rect x="16" y="8" width="16" height="2" rx="1" fill="#5B5EF4" opacity="0.4"/><circle cx="24" cy="36" r="2" fill="#5B5EF4"/></symbol>
+  <symbol id="ico-link" viewBox="0 0 48 48"><path d="M24 12L30 6C33.314 2.686 38.686 2.686 42 6C45.314 9.314 45.314 14.686 42 18L36 24" fill="none" stroke="#06B6D4" stroke-width="4" stroke-linecap="round"/><path d="M24 36L18 42C14.686 45.314 9.314 45.314 6 42C2.686 38.686 2.686 33.314 6 30L12 24" fill="none" stroke="#06B6D4" stroke-width="4" stroke-linecap="round"/></symbol>
+  <symbol id="ico-refresh" viewBox="0 0 48 48"><path d="M32 8C28 6 24 4 20 6C12 8 8 18 10 26" fill="none" stroke="#22C55E" stroke-width="4" stroke-linecap="round"/><path d="M16 40C20 42 24 44 28 42C36 40 40 30 38 22" fill="none" stroke="#22C55E" stroke-width="4" stroke-linecap="round"/><path d="M32 8V18H22" fill="none" stroke="#22C55E" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 40V30H26" fill="none" stroke="#22C55E" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+
+  <!-- ===== 状态类图标 ===== -->
+  <symbol id="ico-folder" viewBox="0 0 48 48"><path d="M6 10L20 6H30L28 14H42V40H6V10Z" fill="#5B5EF4"/><path d="M20 6L24 14L18 14Z" fill="#06B6D4"/><rect x="12" y="22" width="24" height="3" rx="1.5" fill="#FFFFFF" opacity="0.5"/><rect x="12" y="28" width="16" height="3" rx="1.5" fill="#FFFFFF" opacity="0.3"/></symbol>
+  <symbol id="ico-folder-empty" viewBox="0 0 48 48"><path d="M6 10L20 6H30L28 14H42V40H6V10Z" fill="#E0E7FF" stroke="#5B5EF4" stroke-width="2.5"/><path d="M20 6L24 14L18 14Z" fill="#06B6D4" opacity="0.4"/></symbol>
+
+  <!-- 关闭小号 × -->
+  <symbol id="ico-close-sm" viewBox="0 0 48 48"><path d="M12 12L36 36M36 12L12 36" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></symbol>
+
+  <!-- ===== 变体 ===== -->
+  <symbol id="ico-plus-gray" viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="#E5E7EB"/><path d="M24 14V34M14 24H34" fill="none" stroke="#9CA3AF" stroke-width="4" stroke-linecap="round"/></symbol>
+
+  <!-- ===== 页面结构图标 ===== -->
+  <symbol id="ico-tree" viewBox="0 0 48 48"><rect x="6" y="8" width="36" height="10" rx="3" fill="#5B5EF4"/><rect x="6" y="22" width="24" height="10" rx="3" fill="#A855F7"/><rect x="6" y="36" width="30" height="10" rx="3" fill="#C4B5FD"/><rect x="36" y="22" width="6" height="10" rx="3" fill="#A855F7"/></symbol>
+  <symbol id="ico-page" viewBox="0 0 48 48"><path d="M28 6H12C9.791 6 8 7.791 8 10V38C8 40.209 9.791 42 12 42H36C38.209 42 40 40.209 40 38V18L28 6Z" fill="#DBEAFE" stroke="#5B5EF4" stroke-width="2.5"/><path d="M28 6V18H40" fill="none" stroke="#5B5EF4" stroke-width="2.5"/><rect x="14" y="24" width="20" height="3" rx="1.5" fill="#5B5EF4" opacity="0.3"/><rect x="14" y="30" width="14" height="3" rx="1.5" fill="#5B5EF4" opacity="0.2"/></symbol>
+  <symbol id="ico-folder-open-color" viewBox="0 0 48 48"><path d="M8 10V38L12 22H38.5V17C38.5 15.895 37.605 15 36.5 15H25L20 10H10C8.895 10 8 10.895 8 10Z" fill="#E0E7FF" stroke="#5B5EF4" stroke-width="2.5"/><path d="M38 38L42 22H12L8 38H38Z" fill="#A855F7"/></symbol>
+</svg>

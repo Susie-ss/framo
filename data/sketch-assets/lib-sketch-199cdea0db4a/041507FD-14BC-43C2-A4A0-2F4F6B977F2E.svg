@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="232px" height="292px" viewBox="0 0 232 292" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>041507FD-14BC-43C2-A4A0-2F4F6B977F2E</title>
+    <defs>
+        <polygon id="path-1" points="0 0 199.999968 0 199.999968 260 0 260"></polygon>
+        <filter x="-12.0%" y="-9.2%" width="124.0%" height="118.5%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="0" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="8" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.08 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="3.Data-Input-数据输入/11.TreeSelect-树选择/3.展开+选框" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(16, 16)">
+        <g id="矩形-18-拷贝-2">
+            <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+            <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+        </g>
+        <g id="编组" transform="translate(0, 10)">
+            <rect id="矩形" fill="#FFFFFF" x="0" y="0" width="200" height="40"></rect>
+            <text id="父级-1" fill="#333333" fill-rule="nonzero" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" line-spacing="22">
+                <tspan x="63.999984" y="23.99993">父级 1</tspan>
+            </text>
+            <g id="1.icon图标/1.action/disconnect" transform="translate(20, 11.9999)" fill="#AAAAAA">
+                <path d="M12.8255,5.49967 L13.6565,6.33067 L7.9835,12.00267 L7.9778,11.99667 L2.2998,6.33067 L3.1298,5.49967 L7.9768,10.34767 L12.8255,5.49967 Z" id="形状结合"></path>
+            </g>
+            <g id="1.icon图标/1.action/disconnect备份" transform="translate(42, 11.9999)" stroke="#DDDDDD">
+                <path d="M14,0.5 C14.4142183,0.5 14.7892135,0.667886649 15.0606541,0.939329356 C15.3320988,1.21077623 15.499984,1.58577992 15.499984,2 L15.499984,14.00004 C15.499984,14.4142601 15.3320988,14.7892638 15.0606541,15.0607106 C14.7892135,15.3321534 14.4142183,15.50004 14,15.50004 L1.999962,15.50004 C1.58578258,15.50004 1.2107885,15.3321366 0.939340657,15.0606836 C0.667902016,14.7892398 0.5,14.4142487 0.5,14.00004 L0.5,2 C0.5,1.58579129 0.667902016,1.21080017 0.939340657,0.939356374 C1.2107885,0.66790337 1.58578258,0.5 1.999962,0.5 Z" id="圆角矩形-12-拷贝-7"></path>
+            </g>
+        </g>
+        <g id="编组备份-3" transform="translate(0, 130)">
+            <rect id="矩形" fill="#FFFFFF" x="0" y="0" width="200" height="40"></rect>
+            <text id="按截止日期" fill="#333333" fill-rule="nonzero" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" line-spacing="22">
+                <tspan x="63.999984" y="23.99993">按截止日期</tspan>
+            </text>
+            <g id="1.icon图标/1.action/disconnect" transform="translate(20, 11.9999)" fill="#AAAAAA">
+                <path d="M12.8255,5 L13.6565,5.831 L7.9835,11.503 L7.9778,11.497 L2.2998,5.831 L3.1298,5 L7.9768,9.848 L12.8255,5 Z" id="形状结合" transform="translate(7.9781, 8.2515) scale(-1, -1) rotate(-270) translate(-7.9781, -8.2515)"></path>
+            </g>
+            <g id="1.icon图标/1.action/disconnect备份-2" transform="translate(42, 11.9999)" stroke="#DDDDDD">
+                <path d="M14,0.5 C14.4142183,0.5 14.7892135,0.667886649 15.0606541,0.939329356 C15.3320988,1.21077623 15.499984,1.58577992 15.499984,2 L15.499984,14.00004 C15.499984,14.4142601 15.3320988,14.7892638 15.0606541,15.0607106 C14.7892135,15.3321534 14.4142183,15.50004 14,15.50004 L1.999962,15.50004 C1.58578258,15.50004 1.2107885,15.3321366 0.939340657,15.0606836 C0.667902016,14.7892398 0.5,14.4142487 0.5,14.00004 L0.5,2 C0.5,1.58579129 0.667902016,1.21080017 0.939340657,0.939356374 C1.2107885,0.66790337 1.58578258,0.5 1.999962,0.5 Z" id="圆角矩形-12-拷贝-7"></path>
+            </g>
+        </g>
+        <g id="编组备份-4" transform="translate(0, 170)">
+            <rect id="矩形" fill="#FFFFFF" x="0" y="0" width="200" height="40"></rect>
+            <text id="按分配者" fill="#333333" fill-rule="nonzero" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" line-spacing="22">
+                <tspan x="63.999984" y="23.99993">按分配者</tspan>
+            </text>
+            <g id="1.icon图标/1.action/disconnect" transform="translate(20, 11.9999)" fill="#AAAAAA">
+                <path d="M12.8255,5 L13.6565,5.831 L7.9835,11.503 L7.9778,11.497 L2.2998,5.831 L3.1298,5 L7.9768,9.848 L12.8255,5 Z" id="形状结合" transform="translate(7.9781, 8.2515) scale(-1, -1) rotate(-270) translate(-7.9781, -8.2515)"></path>
+            </g>
+            <g id="1.icon图标/1.action/disconnect备份-2" transform="translate(42, 11.9999)" stroke="#DDDDDD">
+                <path d="M14,0.5 C14.4142183,0.5 14.7892135,0.667886649 15.0606541,0.939329356 C15.3320988,1.21077623 15.499984,1.58577992 15.499984,2 L15.499984,14.00004 C15.499984,14.4142601 15.3320988,14.7892638 15.0606541,15.0607106 C14.7892135,15.3321534 14.4142183,15.50004 14,15.50004 L1.999962,15.50004 C1.58578258,15.50004 1.2107885,15.3321366 0.939340657,15.0606836 C0.667902016,14.7892398 0.5,14.4142487 0.5,14.00004 L0.5,2 C0.5,1.58579129 0.667902016,1.21080017 0.939340657,0.939356374 C1.2107885,0.66790337 1.58578258,0.5 1.999962,0.5 Z" id="圆角矩形-12-拷贝-7"></path>
+            </g>
+        </g>
+        <g id="编组备份-5" transform="translate(0, 210)">
+            <rect id="矩形" fill="#FFFFFF" x="0" y="0" width="200" height="40"></rect>
+            <text id="没有子任务的父级" fill="#333333" fill-rule="nonzero" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" line-spacing="22">
+                <tspan x="41.999984" y="23.99993">没有子任务的父级</tspan>
+            </text>
+        </g>
+        <g id="编组备份" transform="translate(0, 50)">
+            <rect id="矩形" fill="#FFFFFF" x="0" y="0" width="200" height="40"></rect>
+            <text id="父级-1.1" fill="#333333" fill-rule="nonzero" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" line-spacing="22">
+                <tspan x="85.999984" y="23.99993">父级 1.1</tspan>
+            </text>
+            <g id="1.icon图标/1.action/disconnect" transform="translate(42, 11.9999)" fill="#AAAAAA">
+                <path d="M12.8255,5.49967 L13.6565,6.33067 L7.9835,12.00267 L7.9778,11.99667 L2.2998,6.33067 L3.1298,5.49967 L7.9768,10.34767 L12.8255,5.49967 Z" id="形状结合"></path>
+            </g>
+            <g id="1.icon图标/1.action/disconnect备份" transform="translate(64, 11.9999)" stroke="#DDDDDD">
+                <path d="M14,0.5 C14.4142183,0.5 14.7892135,0.667886649 15.0606541,0.939329356 C15.3320988,1.21077623 15.499984,1.58577992 15.499984,2 L15.499984,14.00004 C15.499984,14.4142601 15.3320988,14.7892638 15.0606541,15.0607106 C14.7892135,15.3321534 14.4142183,15.50004 14,15.50004 L1.999962,15.50004 C1.58578258,15.50004 1.2107885,15.3321366 0.939340657,15.0606836 C0.667902016,14.7892398 0.5,14.4142487 0.5,14.00004 L0.5,2 C0.5,1.58579129 0.667902016,1.21080017 0.939340657,0.939356374 C1.2107885,0.66790337 1.58578258,0.5 1.999962,0.5 Z" id="圆角矩形-12-拷贝-7"></path>
+            </g>
+        </g>
+        <g id="编组备份-2" transform="translate(0, 90)">
+            <rect id="矩形" fill="#FFFFFF" x="0" y="0" width="200" height="40"></rect>
+            <text id="父级-1.1.1" fill="#333333" fill-rule="nonzero" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" line-spacing="22">
+                <tspan x="107.999984" y="23.99993">父级 1.1.1</tspan>
+            </text>
+            <g id="1.icon图标/1.action/disconnect备份-2" transform="translate(86, 11.9999)" stroke="#DDDDDD">
+                <path d="M14,0.5 C14.4142183,0.5 14.7892135,0.667886649 15.0606541,0.939329356 C15.3320988,1.21077623 15.499984,1.58577992 15.499984,2 L15.499984,14.00004 C15.499984,14.4142601 15.3320988,14.7892638 15.0606541,15.0607106 C14.7892135,15.3321534 14.4142183,15.50004 14,15.50004 L1.999962,15.50004 C1.58578258,15.50004 1.2107885,15.3321366 0.939340657,15.0606836 C0.667902016,14.7892398 0.5,14.4142487 0.5,14.00004 L0.5,2 C0.5,1.58579129 0.667902016,1.21080017 0.939340657,0.939356374 C1.2107885,0.66790337 1.58578258,0.5 1.999962,0.5 Z" id="圆角矩形-12-拷贝-7"></path>
+            </g>
+        </g>
+    </g>
+</svg>

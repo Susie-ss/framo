@@ -1,0 +1,51 @@
+{
+  "_class": "page",
+  "name": "Components",
+  "layers": [
+    {
+      "_class": "symbolMaster",
+      "do_objectID": "button-master",
+      "symbolID": "button-primary",
+      "name": "Button/Primary",
+      "frame": { "width": 120, "height": 40 },
+      "style": {
+        "fills": [{ "isEnabled": true, "color": { "red": 0.25, "green": 0.36, "blue": 0.96, "alpha": 1 } }]
+      },
+      "layers": [
+        {
+          "_class": "text",
+          "do_objectID": "button-label",
+          "name": "Label",
+          "attributedString": { "string": "立即创建" },
+          "style": {
+            "textStyle": {
+              "encodedAttributes": {
+                "MSAttributedStringFontAttribute": { "attributes": { "name": "Inter-Medium", "size": 14 } },
+                "MSAttributedStringColorAttribute": { "red": 1, "green": 1, "blue": 1, "alpha": 1 }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "_class": "symbolMaster",
+      "do_objectID": "card-master",
+      "symbolID": "metric-card",
+      "name": "Card/Metric",
+      "frame": { "width": 260, "height": 136 },
+      "style": {
+        "fills": [{ "isEnabled": true, "color": { "red": 1, "green": 1, "blue": 1, "alpha": 1 } }]
+      }
+    },
+    {
+      "_class": "shapeGroup",
+      "do_objectID": "icon-arrow",
+      "name": "Icon/ArrowRight",
+      "frame": { "width": 24, "height": 24 },
+      "style": {
+        "fills": [{ "isEnabled": true, "color": { "red": 0.25, "green": 0.36, "blue": 0.96, "alpha": 1 } }]
+      }
+    }
+  ]
+}

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flowa · Design AI Platform</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <button id="mobile-menu-btn" class="icon-btn mobile-only" aria-label="展开导航">☰</button>
+      <a class="topbar-logo" href="#" data-go="dashboard"><span class="topbar-mark">F</span><strong>Flowa</strong><span class="beta-badge">Beta</span></a>
+      <div class="topbar-actions">
+        <button id="download-plugin-btn" class="ghost-btn topbar-download">⇩ 下载插件</button>
+        <button id="quick-create-btn" class="primary-btn compact">＋ 新建项目</button>
+        <button id="notification-btn" class="icon-btn" aria-label="通知">♢<span class="notify-dot"></span></button>
+        <button id="user-menu-btn" class="user-avatar" aria-label="用户菜单">FL</button>
+      </div>
+      <div id="notification-menu" class="dropdown-panel">
+        <div class="dropdown-head"><strong>通知</strong><span>2 条未读</span></div>
+        <div class="notification-row unread"><i></i><div><strong>Tethys 组件库解析完成</strong><p>已识别 931 个图标和 37 个组件族</p><small>刚刚</small></div></div>
+        <div class="notification-row unread"><i></i><div><strong>页面生成任务完成</strong><p>运营总览已使用组件库规范生成</p><small>12 分钟前</small></div></div>
+      </div>
+      <div id="user-menu" class="dropdown-panel user-dropdown">
+        <div class="dropdown-head"><strong>Flowa Labs</strong><span>设计协作空间</span></div>
+        <button data-go="architecture">工作空间设置</button><button>个人偏好</button><hr /><button class="danger-text">退出登录</button>
+      </div>
+    </header>
+    <div class="shell">
+      <aside class="sidebar">
+        <div>
+          <nav class="nav">
+            <p class="nav-label">工作台</p>
+            <button class="nav-link active" data-section="dashboard"><span>⌂</span><b>首页</b></button>
+            <button class="nav-link" data-section="projects"><span>▣</span><b>项目</b></button>
+            <p class="nav-label nav-section-gap">设计智能</p>
+            <button class="nav-link" data-section="libraries"><span>◫</span><b>组件库</b></button>
+            <button class="nav-link" data-section="generate"><span>✦</span><b>AI 生成</b></button>
+            <button class="nav-link" data-section="prototype"><span>▻</span><b>原型预览</b></button>
+            <p class="nav-label nav-section-gap">标签</p>
+            <div id="sidebar-tags" class="sidebar-tags"></div>
+            <button id="new-tag-btn" class="nav-link subtle"><span>＋</span><b>新建标签</b></button>
+          </nav>
+        </div>
+
+        <div class="sidebar-bottom">
+          <button class="nav-link" data-section="architecture"><span>⚙</span><b>工程与设置</b></button>
+          <button id="sidebar-collapse-btn" class="nav-link subtle"><span>‹</span><b>收起侧栏</b></button>
+        </div>
+      </aside>
+
+      <main class="main">
+        <section id="dashboard" class="panel active">
+          <div class="hero">
+            <div>
+              <p class="eyebrow">Enterprise Prototype Workflow</p>
+              <h2>把 UI 规范、Prompt、组件协议和原型协作串成一条链路</h2>
+              <p class="hero-copy">
+                这是一版可运行的 MVP 工作台，覆盖项目管理、组件库、AI 页面生成、原型托管与工程结构展示。
+              </p>
+            </div>
+            <div class="hero-badge">
+              <span>可继续扩展为</span>
+              <strong>Next.js + NestJS + PostgreSQL</strong>
+            </div>
+          </div>
+
+          <div class="metrics" id="metrics"></div>
+
+          <div class="grid two">
+            <article class="card">
+              <div class="card-head">
+                <div>
+                  <p class="eyebrow">最近项目</p>
+                  <h3>项目看板</h3>
+                </div>
+                <button class="ghost-btn" data-open-project>创建项目</button>
+              </div>
+              <div id="project-list" class="stack"></div>
+            </article>
+
+            <article class="card accent">
+              <div class="card-head">
+                <div>
+                  <p class="eyebrow">MVP 路线</p>
+                  <h3>7 天交付节奏</h3>
+                </div>
+              </div>
+              <ol class="timeline">
+                <li>Day 1-2：项目 / 上传 / 组织骨架</li>
+                <li>Day 3：原型 iframe 预览</li>
+                <li>Day 4：AI 生成 JSON 页面</li>
+                <li>Day 5：基础组件库</li>
+                <li>Day 6-7：UI 规范解析接入 AI</li>
+              </ol>
+            </article>
+          </div>
+        </section>
+
+        <section id="projects" class="panel">
+          <div class="section-head toolbar-head">
+            <div><p class="eyebrow">Projects</p><h2>项目</h2></div>
+            <div class="project-tools">
+              <label class="search-control"><span>⌕</span><input id="project-search" type="search" placeholder="搜索项目…" /></label>
+              <div class="view-switch"><button class="active" data-project-view="grid" aria-label="网格视图">▦</button><button data-project-view="list" aria-label="列表视图">☷</button></div>
+              <button class="primary-btn compact" data-open-project>＋ 新建项目</button>
+            </div>
+          </div>
+          <div id="project-filter" class="filter-summary"></div>
+          <div id="projects-browser" class="project-browser"></div>
+        </section>
+
+        <section id="libraries" class="panel">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Component Libraries</p>
+              <h2>组件库与 Token 管理</h2>
+            </div>
+            <button id="pick-sketch-btn" class="primary-btn">上传 Sketch 文件</button>
+            <input id="sketch-input" type="file" accept=".sketch,application/zip" hidden />
+          </div>
+
+          <article id="sketch-dropzone" class="upload-zone" tabindex="0" role="button" aria-label="上传 Sketch 文件">
+            <div class="upload-icon">S</div>
+            <div>
+              <h3>拖拽 .sketch 文件到这里</h3>
+              <p>真实解析 Sketch 文档中的 Symbol、图标、字体、共享样式与颜色 Token，单文件最大 200MB。</p>
+            </div>
+            <span id="upload-status" class="status-pill">等待上传</span>
+          </article>
+
+          <div class="grid two">
+            <article class="card">
+              <div class="card-head">
+                <div>
+                  <p class="eyebrow">Libraries</p>
+                  <h3>组件库列表</h3>
+                </div>
+              </div>
+              <div id="library-list" class="stack"></div>
+            </article>
+
+            <article class="card">
+              <div class="card-head">
+                <div>
+                  <p class="eyebrow">Normalized Tokens</p>
+                  <h3>当前 Token 输出</h3>
+                </div>
+              </div>
+              <pre id="token-preview" class="code-block"></pre>
+            </article>
+          </div>
+
+          <article id="asset-inspector" class="card asset-inspector empty">
+            <div class="card-head">
+              <div>
+                <p class="eyebrow">Sketch Asset Inspector</p>
+                <h3 id="asset-title">选择一个 Sketch 组件库查看识别结果</h3>
+              </div>
+              <div id="asset-stats" class="asset-stats"></div>
+            </div>
+            <div class="asset-tabs" role="tablist">
+              <button class="asset-tab active" data-asset="components">组件</button>
+              <button class="asset-tab" data-asset="icons">图标</button>
+              <button class="asset-tab" data-asset="fonts">字体</button>
+              <button class="asset-tab" data-asset="fontSizes">字号</button>
+              <button class="asset-tab" data-asset="colors">颜色</button>
+              <button class="asset-tab" data-asset="styles">共享样式</button>
+              <input id="asset-search" class="asset-search" type="search" placeholder="搜索当前资产…" aria-label="搜索当前资产" />
+            </div>
+            <div id="asset-grid" class="asset-grid">
+              <div class="asset-empty">上传 Sketch 文件后，识别出的设计资产会在这里出现。</div>
+            </div>
+          </article>
+
+          <article class="card flow-card">
+            <div class="card-head">
+              <div>
+                <p class="eyebrow">AI Parsing Flow</p>
+                <h3>规范解析流程</h3>
+              </div>
+            </div>
+            <div class="flow">
+              <div>上传文件</div>
+              <div>PDF / OCR 解析</div>
+              <div>LLM Prompt 分析</div>
+              <div>结构化 JSON</div>
+              <div>Token 标准化</div>
+              <div>入库</div>
+            </div>
+          </article>
+        </section>
+
+        <section id="generate" class="panel">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">AI Page Generation</p>
+              <h2>Prompt → JSON → Render</h2>
+            </div>
+          </div>
+
+          <div class="grid two">
+            <article class="card">
+              <label class="label" for="page-prompt">页面需求</label>
+              <textarea id="page-prompt" class="prompt-box">生成一个企业后台首页，包含顶部统计卡片、任务表格和操作按钮，严格使用默认组件库。</textarea>
+              <div class="toolbar">
+                <select id="library-select" class="select"></select>
+                <button id="generate-btn" class="primary-btn">生成页面</button>
+              </div>
+              <pre id="json-output" class="code-block"></pre>
+              <div class="reference-panel">
+                <p class="eyebrow">AI Component References</p>
+                <h3>本次生成引用</h3>
+                <div id="reference-list" class="reference-list"></div>
+              </div>
+            </article>
+
+            <article class="card canvas-card">
+              <div class="card-head">
+                <div>
+                  <p class="eyebrow">Live Renderer</p>
+                  <h3>页面预览画布</h3>
+                </div>
+              </div>
+              <div id="render-canvas" class="render-canvas"></div>
+            </article>
+          </div>
+        </section>
+
+        <section id="prototype" class="panel">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Prototype Hosting</p>
+              <h2>HTML 原型托管预览</h2>
+            </div>
+          </div>
+
+          <div class="grid two">
+            <article class="card">
+              <div class="stack">
+                <div id="prototype-meta"></div>
+                <div class="mini-card">
+                  <p class="eyebrow">托管说明</p>
+                  <h3>当前方案</h3>
+                  <p>优先走 Axure 导出 HTML 上传，平台侧通过 iframe 进行统一预览、分享和评论。</p>
+                </div>
+                <div class="mini-card">
+                  <p class="eyebrow">下一步</p>
+                  <h3>评论 & 版本</h3>
+                  <p>可以继续接入评论坐标、版本管理以及文件夹归档。</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="card iframe-card">
+              <iframe
+                id="prototype-frame"
+                title="prototype-preview"
+                src="./prototype/demo/index.html"
+                class="prototype-frame"
+              ></iframe>
+            </article>
+          </div>
+        </section>
+
+        <section id="architecture" class="panel">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Project Skeleton</p>
+              <h2>后端、数据库与 Prompt 骨架</h2>
+            </div>
+          </div>
+
+          <div class="grid three">
+            <article class="card">
+              <p class="eyebrow">Backend</p>
+              <h3>Nest 风格模块</h3>
+              <ul class="plain-list">
+                <li>`ai`：Prompt 构造与生成</li>
+                <li>`page`：按项目 + 组件库生成页面</li>
+                <li>`library`：Token / 组件库管理</li>
+                <li>`prototype`：原型托管占位</li>
+              </ul>
+            </article>
+
+            <article class="card">
+              <p class="eyebrow">Database</p>
+              <h3>Prisma Schema</h3>
+              <p>项目、组件库、页面、原型、评论和文件夹结构已落到代码骨架中。</p>
+            </article>
+
+            <article class="card">
+              <p class="eyebrow">Prompt Assets</p>
+              <h3>三类可复用模板</h3>
+              <p>规范解析、页面生成、JSON 转 HTML 模板已整理到 `docs/prompts.md`。</p>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div id="app-modal" class="modal-overlay" aria-hidden="true">
+      <div class="app-modal" role="dialog" aria-modal="true">
+        <div class="modal-header"><div><h3 id="modal-title">新建项目</h3><p id="modal-subtitle">创建新的设计项目</p></div><button id="modal-close" class="icon-btn">×</button></div>
+        <div id="modal-body"></div>
+        <div class="modal-actions"><button id="modal-cancel" class="ghost-btn">取消</button><button id="modal-confirm" class="primary-btn">创建</button></div>
+      </div>
+    </div>
+    <div id="toast" class="toast" role="status"></div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

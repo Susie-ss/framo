@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>80028365-D730-48B5-A13E-181E3ABD2EE1</title>
+    <g id="1.Base基础/1.icon图标/3.tips/check-circle-tt" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M0,8 C0,12.4 3.6,16 8,16 C12.4,16 16,12.4 16,8 C16,3.6 12.4,0 8,0 C3.6,0 0,3.6 0,8 Z" id="形状结合" fill="#888888"></path>
+        <path d="M0,8 C0,12.4 3.6,16 8,16 C12.4,16 16,12.4 16,8 C16,3.6 12.4,0 8,0 C3.6,0 0,3.6 0,8 Z M1.4,8 C1.4,4.37319865 4.37319865,1.4 8,1.4 C11.6268014,1.4 14.6,4.37319865 14.6,8 C14.6,11.6268014 11.6268014,14.6 8,14.6 C4.37319865,14.6 1.4,11.6268014 1.4,8 Z" id="形状结合" fill="#666666" fill-rule="nonzero"></path>
+        <polygon id="secondary-color" fill="#666666" fill-rule="nonzero" points="7.0968608 8.75755341 5.19949286 6.904565 4.22132633 7.90615886 7.12166657 10.73866 11.6839238 6.0542643 10.6809857 5.0774762"></polygon>
+    </g>
+</svg>

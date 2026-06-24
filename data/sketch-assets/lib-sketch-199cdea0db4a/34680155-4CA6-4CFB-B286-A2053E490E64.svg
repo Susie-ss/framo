@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="150px" height="250px" viewBox="0 0 150 250" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>34680155-4CA6-4CFB-B286-A2053E490E64</title>
+    <defs>
+        <path d="M4,0 L126,0 C128.209139,0 130,1.790861 130,4 L130,226 C130,228.209139 128.209139,230 126,230 L4,230 C1.790861,230 0,228.209139 0,226 L0,4 C0,1.790861 1.790861,4.4408921e-16 4,0 Z" id="path-1"></path>
+        <filter x="-13.1%" y="-5.7%" width="126.2%" height="114.8%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="4" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0.2   0 0 0 0 0.2   0 0 0 0 0.2  0 0 0 0.100000001 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <filter x="-31.3%" y="-21.6%" width="162.6%" height="157.6%" filterUnits="objectBoundingBox" id="filter-3">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.251253141 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="3.Data-Input-数据输入/14.TimePicker-时间选择器/3.时分选择器" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(10, 6)">
+        <g id="矩形" fill-rule="nonzero">
+            <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+            <path stroke="#EEEEEE" stroke-width="1" d="M126,0.5 C126.966498,0.5 127.841498,0.891750844 128.474874,1.52512627 C129.108249,2.15850169 129.5,3.03350169 129.5,4 L129.5,226 C129.5,226.966498 129.108249,227.841498 128.474874,228.474874 C127.841498,229.108249 126.966498,229.5 126,229.5 L4,229.5 C3.03350169,229.5 2.15850169,229.108249 1.52512627,228.474874 C0.891750844,227.841498 0.5,226.966498 0.5,226 L0.5,4 C0.5,3.03350169 0.891750844,2.15850169 1.52512627,1.52512627 C2.15850169,0.891750844 3.03350169,0.5 4,0.5 L126,0.5 Z" stroke-linejoin="square" fill="#FFFFFF" fill-rule="evenodd"></path>
+        </g>
+        <rect id="矩形" fill="#6698FF" opacity="0.1" x="1" y="12" width="64" height="24"></rect>
+        <text id="00" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" line-spacing="14" fill="#6698FF">
+            <tspan x="24" y="32">00</tspan>
+        </text>
+        <rect id="矩形" fill="#FFFFFF" x="65" y="40" width="64" height="24"></rect>
+        <text id="00" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#333333">
+            <tspan x="89.2" y="57">00</tspan>
+        </text>
+        <rect id="矩形" fill="#6698FF" opacity="0.1" x="65" y="12" width="64" height="24"></rect>
+        <text id="59" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#6698FF">
+            <tspan x="89.2" y="29">59</tspan>
+        </text>
+        <rect id="矩形备份" fill="#FFFFFF" x="1" y="40" width="64" height="24"></rect>
+        <text id="01" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" line-spacing="14" fill="#333333">
+            <tspan x="25" y="60">01</tspan>
+        </text>
+        <rect id="矩形备份" fill="#FFFFFF" x="1" y="68" width="64" height="24"></rect>
+        <text id="02" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" line-spacing="14" fill="#333333">
+            <tspan x="24" y="88">02</tspan>
+        </text>
+        <rect id="矩形备份" fill="#FFFFFF" x="65" y="68" width="64" height="24"></rect>
+        <text id="01" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#333333">
+            <tspan x="90.986" y="85">01</tspan>
+        </text>
+        <rect id="矩形备份" fill="#FFFFFF" x="1" y="96" width="64" height="24"></rect>
+        <text id="03" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" line-spacing="14" fill="#333333">
+            <tspan x="24" y="116">03</tspan>
+        </text>
+        <polygon id="矩形备份" fill="#FAFAFA" points="65 96 129 96 129 120 65 120"></polygon>
+        <text id="02" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#333333">
+            <tspan x="89.2" y="113">02</tspan>
+        </text>
+        <g id="1.Bace基础/3.Icon图标/系统/Pointing-hand" transform="translate(108, 102)" opacity="0.900000036">
+            <g id="编组" filter="url(#filter-3)" transform="translate(1.5, 1)">
+                <path d="M3.41908853,6.81222808 L1.78526496,5.62800385 L0.422351881,5.82712174 L0,7.06308 L1.09948793,8.89896913 L3.41908853,12.0894135 L5.4544735,13.8997086 L7.4544735,13.8997086 L8.93406093,13.0270686 L9.76137982,13.8997086 L10.8210245,13.8997086 L11.6169987,11.8261751 C12.3920154,10.8649226 12.7795238,10.2808897 12.7795238,10.0740763 C12.7795238,9.76385622 12.7795238,6.02623963 12.7795238,5.82712174 C12.7795238,5.69437648 12.5549134,5.34386224 12.1056926,4.77557902 L10.8210245,4.62740316 C10.4430534,4.62740316 10.2540678,4.62740316 10.2540678,4.62740316 C10.2540678,4.62740316 10.0100671,4.26922916 9.52206558,3.55288115 L8.25406785,3.55288115 L6.85427067,3.55288115 L5.4544735,3.55288115 L5.08859803,1.82040513 L3.99938626,0 L2.78459812,0.603171431 L2.54429901,1.82040513 L2.78459812,5.62800385 L3.41908853,6.81222808 Z" id="路径-5" fill="#FFFFFF"></path>
+                <path d="M5.08859803,13.8997086 L0.119507953,7.64518922 C-0.109940752,6.64420654 -0.00899277552,6.03818405 0.422351881,5.82712174 C1.06936887,5.51052827 1.90506958,5.61813127 2.2246843,5.82712174 C2.43776077,5.96644871 2.95208819,6.41710026 3.76766654,7.1790764" id="路径-2" stroke="#333333" stroke-linecap="round"></path>
+                <path d="M2.75249011,5.99827689 C2.61369605,3.58346165 2.54429901,2.11041942 2.54429901,1.5791502 C2.54429901,0.782246383 2.74898225,0 3.56466448,0 C4.38034672,0 4.75406165,0.697485513 4.86483429,1.21350055 C4.93868272,1.55751058 5.13522912,3.15243603 5.4544735,5.99827689" id="路径-3" stroke="#333333" stroke-linecap="round"></path>
+                <path d="M5.4544735,3.77766869 C6.71561921,3.47795197 7.5138924,3.47795197 7.84929307,3.77766869 C8.18469374,4.07738542 8.311657,4.81758815 8.23018285,5.99827689" id="路径-4" stroke="#333333" stroke-linecap="round"></path>
+                <path d="M7.4544735,3.77766869 C8.71561921,3.47795197 9.5138924,3.47795197 9.84929307,3.77766869 C10.1846937,4.07738542 10.311657,4.81758815 10.2301828,5.99827689" id="路径-4备份" stroke="#333333" stroke-linecap="round"></path>
+                <path d="M10.4544735,4.77766869 C11.4243369,4.54720949 12.076969,4.58183824 12.4123697,4.88155497 C12.7477703,5.1812717 12.853376,6.92007256 12.7291865,10.0979576 C11.987728,11.0371986 11.6169987,11.6132711 11.6169987,11.8261751 C11.6169987,12.145531 11.458795,13.8997086 11.1023619,13.8997086 C10.8647399,13.8997086 10.4177459,13.8997086 9.76137982,13.8997086 C9.71175181,13.2254545 9.4093821,12.8883275 8.85427067,12.8883275 C8.02160354,12.8883275 7.70954185,13.8997086 7.4544735,13.8997086 C7.28442793,13.8997086 6.49580277,13.8997086 5.08859803,13.8997086" id="路径-4备份-2" stroke="#333333" stroke-linecap="round"></path>
+                <line x1="6.38976191" y1="8.31539492" x2="6.38976191" y2="11.2524371" id="路径-6" stroke="#333333" stroke-linecap="round"></line>
+                <line x1="8.38976191" y1="8.31539492" x2="8.38976191" y2="11.2524371" id="路径-6备份" stroke="#333333" stroke-linecap="round"></line>
+                <line x1="10.3897619" y1="8.31539492" x2="10.3897619" y2="11.2524371" id="路径-6备份-2" stroke="#333333" stroke-linecap="round"></line>
+            </g>
+        </g>
+        <rect id="矩形备份" fill="#FFFFFF" x="1" y="124" width="64" height="24"></rect>
+        <text id="04" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" line-spacing="14" fill="#333333">
+            <tspan x="24" y="144">04</tspan>
+        </text>
+        <polygon id="矩形备份" fill="#FFFFFF" points="65 152 129 152 129 176 65 176"></polygon>
+        <text id="04" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#333333">
+            <tspan x="89.2" y="169">04</tspan>
+        </text>
+        <rect id="矩形备份" fill="#FFFFFF" x="65" y="124" width="64" height="24"></rect>
+        <text id="03" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#333333">
+            <tspan x="89.2" y="141">03</tspan>
+        </text>
+        <rect id="矩形备份" fill="#FFFFFF" x="1" y="153" width="64" height="24"></rect>
+        <text id="05" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" line-spacing="14" fill="#333333">
+            <tspan x="24" y="173">05</tspan>
+        </text>
+        <polygon id="直线" fill="#EEEEEE" fill-rule="nonzero" points="65 0 65 182 64 182 64 0"></polygon>
+        <polygon id="直线备份" fill="#EEEEEE" fill-rule="nonzero" points="129 181 129 182 0 182 0 181"></polygon>
+        <g id="1.Base基础/2.Button-按钮-/-1.基础按钮-/-3.sm" transform="translate(70, 194)">
+            <rect id="矩形" fill="#6698FF" x="0" y="0" width="48" height="24" rx="4"></rect>
+            <text id="确定" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" line-spacing="18" fill="#FFFFFF">
+                <tspan x="12" y="16">确定</tspan>
+            </text>
+        </g>
+        <text id="此刻" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" line-spacing="18" fill="#999999">
+            <tspan x="12" y="210">此刻</tspan>
+        </text>
+    </g>
+</svg>
