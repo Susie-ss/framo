@@ -48,20 +48,9 @@ if (!isVercel) {
   });
 }
 
-// 静态文件：前端页面（本地开发用 express.static，Vercel 上手动 sendFile）
-if (!isVercel) {
-  app.use(express.static(path.join(__dirname, 'public')));
-  app.use('/data/sketch-assets', express.static(path.join(__dirname, '..', 'data', 'sketch-assets')));
-} else {
-  // Vercel 上 express.static() 会被忽略，手动处理静态文件
-  const publicDir = path.join(__dirname, 'public');
-  // CSS/JS/图片等静态资源
-  app.use('/css', (req, res, next) => { try { res.sendFile(path.join(publicDir, req.path)); } catch(e) { next(); } });
-  app.use('/js', (req, res, next) => { try { res.sendFile(path.join(publicDir, req.path)); } catch(e) { next(); } });
-  app.use('/libs', (req, res, next) => { try { res.sendFile(path.join(publicDir, req.path)); } catch(e) { next(); } });
-  app.get('/favicon.png', (req, res) => { res.sendFile(path.join(publicDir, 'favicon.png')); });
-  app.get('/preview.html', (req, res) => { res.sendFile(path.join(publicDir, 'preview.html')); });
-}
+// 静态文件（express.static 在 Vercel 和本地都可用）
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/data/sketch-assets', express.static(path.join(__dirname, '..', 'data', 'sketch-assets')));
 
 // 数据库（自动检测 Postgres/SQLite）
 const db = require('./db/connector');
@@ -90,13 +79,11 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', db: process.env.DATABASE_URL ? 'postgres' : 'sqlite', vercel: isVercel });
 });
 
-// SPA 回退（仅 Vercel，本地由 express.static + sendFile 处理）
-if (isVercel) {
-  const publicDir = path.join(__dirname, 'public');
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(publicDir, 'index.html'));
-  });
-}
+// SPA 回退 - 所有未匹配的路由都返回 index.html
+// 必须在 API 路由之后，确保 API 优先匹配
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 // 错误处理
 app.use((err, req, res, next) => {
@@ -110,21 +97,17 @@ app.use((err, req, res, next) => {
   });
 });
 
-// 只在本地运行时启动服务器（Vercel 上由 serverless 函数处理）
+// 启动服务器（不等待数据库初始化，数据库错误在 API 层处理）
 if (!isVercel && require.main === module) {
-  function startServer() {
-    app.listen(PORT, '0.0.0.0', () => {
-      console.log(`Framo running on http://0.0.0.0:${PORT}`);
-    });
-  }
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Framo running on http://0.0.0.0:${PORT}`);
+  });
 
+  // 异步初始化数据库（不影响 HTTP 服务启动）
   if (db.onDBReady) {
     db.onDBReady(() => {
-      console.log('Database ready');
-      startServer();
+      console.log('[DB] Database ready');
     });
-  } else {
-    startServer();
   }
 }
 
