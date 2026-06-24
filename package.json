@@ -1,9 +1,0 @@
-{
-  "name": "framo",
-  "version": "1.0.0",
-  "private": true,
-  "scripts": {
-    "start": "node platform-server/index.js",
-    "test": "node platform-server/tests/run-local.js"
-  }
-}

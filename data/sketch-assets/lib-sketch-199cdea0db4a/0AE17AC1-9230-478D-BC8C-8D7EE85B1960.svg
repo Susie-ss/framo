@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="248px" height="15px" viewBox="0 0 248 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>0AE17AC1-9230-478D-BC8C-8D7EE85B1960</title>
-    <g id="3.Data-Input-数据输入/8.Slider-滑动输入条/1.disable" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <path d="M3,5 L244.252808,5 C245.909662,5 247.252808,6.34314575 247.252808,8 C247.252808,9.65685425 245.909662,11 244.252808,11 L3,11 C1.34314575,11 0,9.65685425 0,8 C0,6.34314575 1.34314575,5 3,5 Z" id="矩形" fill="#EEEEEE"></path>
-        <path d="M3,5 L160,5 C161.656854,5 163,6.34314575 163,8 C163,9.65685425 161.656854,11 160,11 L3,11 C1.34314575,11 0,9.65685425 0,8 C0,6.34314575 1.34314575,5 3,5 Z" id="矩形" fill="#CACACA"></path>
-        <circle id="椭圆形" stroke="#CACACA" stroke-width="2" fill="#FFFFFF" cx="163.5" cy="7.5" r="6.5"></circle>
-    </g>
-</svg>

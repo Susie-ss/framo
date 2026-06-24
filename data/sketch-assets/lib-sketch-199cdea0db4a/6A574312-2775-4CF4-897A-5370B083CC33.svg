@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="28px" height="16px" viewBox="0 0 28 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>6A574312-2775-4CF4-897A-5370B083CC33</title>
-    <g id="3.Data-Input-数据输入/9.Switc-开关/3.xs/6.off-loading" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <rect id="矩形复制-5" fill="#CACACA" x="0" y="0" width="28" height="16" rx="8"></rect>
-        <circle id="椭圆形复制-5" fill="#FFFFFF" cx="8" cy="8" r="6"></circle>
-        <path d="M8,11 C9.65685425,11 11,9.65685425 11,8 C11,6.34314575 9.65685425,5 8,5 C6.34314575,5 5,6.34314575 5,8 C5,9.65685425 6.34314575,11 8,11 Z" id="椭圆形" stroke="#CACACA" stroke-linecap="round" stroke-dasharray="12,4" transform="translate(8, 8) rotate(-120) translate(-8, -8)"></path>
-    </g>
-</svg>
