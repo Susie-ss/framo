@@ -2,7 +2,7 @@
   "name": "framo-backend",
   "version": "0.1.0",
   "private": true,
-  "description": "Nest-style backend skeleton for Framo",
+  "description": "Nest-style backend skeleton for Flowa",
   "scripts": {
     "start:dev": "nest start --watch",
     "build": "nest build"

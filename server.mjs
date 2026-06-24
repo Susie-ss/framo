@@ -12,7 +12,7 @@ const PORT = Number(process.env.PORT || 4173);
 const ROOT = dirname(fileURLToPath(import.meta.url));
 const DATA_FILE = join(ROOT, "data", "sketch-libraries.json");
 const PLATFORM_FILE = join(ROOT, "data", "platform.json");
-const PLUGIN_FILE = join(ROOT, "downloads", "Framo-Axure-Plugin-1.0.0.zip");
+const PLUGIN_FILE = join(ROOT, "downloads", "Flowa-Axure-Plugin-1.0.0.zip");
 const SKETCHTOOL = "/Applications/Sketch.app/Contents/MacOS/sketchtool";
 const ASSET_ROOT = join(ROOT, "data", "sketch-assets");
 const execFileAsync = promisify(execFile);
@@ -184,6 +184,8 @@ function iconPaths(layer, paths = [], rootSize = null, offset = { x: 0, y: 0 }, 
 function iconPriority(name = "") {
   let score = 0;
   if (/Base基础\/1\.icon图标/i.test(name)) score += 120;
+  if (/anticon|iconfont/i.test(name)) score += 140;
+  if (/(^|[./\s_-])icon([/\s_-]|$)/i.test(name)) score += 130;
   if (/(^|\/)icon图标(\/|$)/i.test(name)) score += 70;
   if (/(^|\/)(icon|ico)(\/|$)/i.test(name)) score += 50;
   if (/图标按钮|图标\+文字|带icon/i.test(name)) score -= 45;
@@ -283,6 +285,26 @@ function parseSketchDocument(document, pages) {
   const textStyles = [];
   const layerStyles = [];
 
+  const registerReusableAsset = (layer) => {
+    if (!layer) return;
+    if (layer._class === "symbolMaster") {
+      components.push({
+        id: layer.do_objectID,
+        symbolId: layer.symbolID,
+        name: layer.name || "Unnamed component",
+        width: Math.round(layer.frame?.width || 0),
+        height: Math.round(layer.frame?.height || 0),
+        category: (layer.name || "Component").split(/[\/_-]/)[0],
+        preview: { color: rgba(deepFill(layer) || { red: .94, green: .94, blue: .94, alpha: 1 }), radius: layer?.style?.contextSettings?.opacity === 0 ? 0 : 10 }
+      });
+    }
+
+    const iconLike = /icon|ico|图标/i.test(layer.name || "") && ["shapeGroup", "group", "symbolMaster"].includes(layer._class);
+    if (iconLike && iconCandidates.length < 10000) {
+      iconCandidates.push({ id: layer.do_objectID, name: layer.name, width: Math.round(layer.frame?.width || 24), height: Math.round(layer.frame?.height || 24), color: rgba(deepFill(layer) || { red: .2, green: .2, blue: .2, alpha: 1 }), paths: iconPaths(layer), priority: iconPriority(layer.name) });
+    }
+  };
+
   const registerColor = (color, usage) => {
     if (!color) return;
     const value = rgba(color);
@@ -312,23 +334,19 @@ function parseSketchDocument(document, pages) {
       }
       registerColor(text?.MSAttributedStringColorAttribute, usage);
 
-      if (layer._class === "symbolMaster") {
-        components.push({
-          id: layer.do_objectID,
-          symbolId: layer.symbolID,
-          name: layer.name || "Unnamed component",
-          width: Math.round(layer.frame?.width || 0),
-          height: Math.round(layer.frame?.height || 0),
-          category: (layer.name || "Component").split(/[\/_-]/)[0],
-          preview: { color: rgba(deepFill(layer) || { red: .94, green: .94, blue: .94, alpha: 1 }), radius: layer?.style?.contextSettings?.opacity === 0 ? 0 : 10 }
-        });
-      }
-
-      const iconLike = /icon|ico|图标/i.test(layer.name || "") && ["shapeGroup", "group", "symbolMaster"].includes(layer._class);
-      if (iconLike && iconCandidates.length < 10000) {
-        iconCandidates.push({ id: layer.do_objectID, name: layer.name, width: Math.round(layer.frame?.width || 24), height: Math.round(layer.frame?.height || 24), color: rgba(deepFill(layer) || { red: .2, green: .2, blue: .2, alpha: 1 }), paths: iconPaths(layer), priority: iconPriority(layer.name) });
-      }
+      registerReusableAsset(layer);
     });
+  }
+
+  // 旧版 Sketch 会把可复用 Symbol 放在 document.foreignSymbols 中，
+  // 页面 JSON 里只有实例；同时兼容直接存放在 layerSymbols.objects 的文档。
+  const documentSymbols = [
+    ...(document.foreignSymbols || []).map((item) => item?.symbolMaster).filter(Boolean),
+    ...(document.layerSymbols?.objects || []).map((item) => item?.symbolMaster || item).filter(Boolean)
+  ];
+  for (const symbol of documentSymbols) {
+    registerReusableAsset(symbol);
+    walkLayers(symbol.layers, registerReusableAsset, [symbol.name || "Symbol"]);
   }
 
   const sharedText = document.layerTextStyles?.objects || [];
@@ -482,8 +500,8 @@ async function parseSketchUpload(file) {
       previewResult = { engine: "json-fallback", exported: 0, warning: error instanceof Error ? error.message : "Sketch 预览导出失败" };
     }
     if (previewResult.engine === "sketchtool") {
-      parsed.assets.icons = parsed.assets.icons.filter((item) => item.previewUrl);
-      parsed.assets.components = parsed.assets.components.filter((item) => item.previewUrl);
+      // sketchtool 无法导出部分旧版 foreignSymbols；保留已从 JSON
+      // 可靠识别出的资产，缺少 SVG 时由前端使用矢量路径或样式预览降级展示。
       parsed.components = parsed.assets.components.map((item) => item.fullName);
       parsed.stats.icons = parsed.assets.icons.length;
       parsed.stats.components = parsed.assets.components.length;
@@ -652,13 +670,13 @@ const server = createServer(async (req, res) => {
     return;
   }
 
-  if (["GET", "HEAD"].includes(req.method) && url.pathname === "/downloads/Framo-Axure-Plugin-1.0.0.zip") {
+  if (["GET", "HEAD"].includes(req.method) && url.pathname === "/downloads/Flowa-Axure-Plugin-1.0.0.zip") {
     try {
       const buffer = await readFile(PLUGIN_FILE);
       res.writeHead(200, {
         "Content-Type": "application/zip",
         "Content-Length": buffer.length,
-        "Content-Disposition": 'attachment; filename="Framo-Axure-Plugin-1.0.0.zip"'
+        "Content-Disposition": 'attachment; filename="Flowa-Axure-Plugin-1.0.0.zip"'
       });
       res.end(req.method === "HEAD" ? undefined : buffer);
     } catch {
@@ -789,7 +807,7 @@ const server = createServer(async (req, res) => {
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   server.listen(PORT, "::", () => {
-    console.log(`Framo running at http://[::1]:${PORT}`);
+    console.log(`Flowa running at http://[::1]:${PORT}`);
   });
 }
 

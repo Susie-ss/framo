@@ -274,22 +274,22 @@ function tagModal() {
 
 function pluginModal() {
   openModal({
-    title: "下载 Framo 插件",
+    title: "下载 Flowa 插件",
     subtitle: "一键同步 Axure 原型到设计协作平台",
     confirmText: "⇩ 立即下载",
     body: `
-      <div class="plugin-hero"><span class="plugin-mark">F</span><div><strong>Framo Axure Sync 1.0.0</strong><p>通用 Electron 插件包 · 约 106KB · 支持 macOS / Windows 构建</p></div></div>
+      <div class="plugin-hero"><span class="plugin-mark">F</span><div><strong>Flowa Axure Sync 1.0.0</strong><p>通用 Electron 插件包 · 约 106KB · 支持 macOS / Windows 构建</p></div></div>
       <div class="plugin-steps">
         <div class="plugin-step"><b>1</b><div><strong>下载并解压插件</strong><small>安装包内包含源码、依赖清单和平台构建脚本</small></div></div>
-        <div class="plugin-step"><b>2</b><div><strong>安装并启动</strong><small>按安装说明运行，首次使用前配置 Framo 服务地址</small></div></div>
+        <div class="plugin-step"><b>2</b><div><strong>安装并启动</strong><small>按安装说明运行，首次使用前配置 Flowa 服务地址</small></div></div>
         <div class="plugin-step"><b>3</b><div><strong>打开 Axure 预览</strong><small>插件自动检测本地预览并整理页面结构进行发布</small></div></div>
       </div>
       <div class="plugin-features"><span>↻ 版本自动覆盖</span><span>♧ 团队共享预览</span><span>↗ 一键生成链接</span><span>▱ 多端在线预览</span></div>
     `,
     onConfirm: () => {
       const link = document.createElement("a");
-      link.href = "/downloads/Framo-Axure-Plugin-1.0.0.zip";
-      link.download = "Framo-Axure-Plugin-1.0.0.zip";
+      link.href = "/downloads/Flowa-Axure-Plugin-1.0.0.zip";
+      link.download = "Flowa-Axure-Plugin-1.0.0.zip";
       document.body.appendChild(link);
       link.click();
       link.remove();

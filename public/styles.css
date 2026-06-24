@@ -845,41 +845,6 @@ body { padding: 0; overflow: hidden; }
 
 body.sidebar-collapsed .sidebar { width: 68px; }
 body.sidebar-collapsed .main { margin-left: 68px; }
-
-/* 嵌入完整平台时，仅保留之前完成的组件库或 AI 生成工作区。 */
-body.framo-embedded {
-  min-width: 0;
-  height: auto;
-  min-height: 100vh;
-  overflow-x: hidden;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  background: #f7f8fa;
-}
-
-body.framo-embedded .topbar,
-body.framo-embedded .sidebar,
-body.framo-embedded .dropdown-panel {
-  display: none !important;
-}
-
-body.framo-embedded .shell {
-  min-height: 100vh;
-  padding-top: 0;
-}
-
-body.framo-embedded .main,
-body.framo-embedded.sidebar-collapsed .main {
-  height: auto;
-  min-height: 100vh;
-  margin-left: 0;
-  padding: 28px 30px 50px;
-  overflow: visible;
-}
-
-body.framo-embedded .panel.active {
-  max-width: 1500px;
-}
 body.sidebar-collapsed .nav-link b, body.sidebar-collapsed .nav-label, body.sidebar-collapsed .sidebar-tags, body.sidebar-collapsed #new-tag-btn { display: none; }
 body.sidebar-collapsed .nav-link { justify-content: center; }
 .mobile-only { display: none; }

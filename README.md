@@ -1,6 +1,6 @@
-# Framo
+# Flowa
 
-Framo 已完整复用 `WorkBuddy/成品/ProtoPlatform` 的平台能力，并保留原有的 Sketch 组件库识别与 AI 生成逻辑。当前主应用是一个真实可运行的 Express + SQLite 平台，不再是静态演示页。
+Flowa 已完整复用 `WorkBuddy/成品/ProtoPlatform` 的平台能力，并保留原有的 Sketch 组件库识别与 AI 生成逻辑。当前主应用是一个真实可运行的 Express + SQLite 平台，不再是静态演示页。
 
 ## 启动与预览
 
@@ -38,7 +38,7 @@ npm start
 
 ## 插件
 
-- 页面下载地址：<http://127.0.0.1:4173/downloads/Framo-Axure-Plugin-1.0.0.zip>
+- 页面下载地址：<http://127.0.0.1:4173/downloads/Flowa-Axure-Plugin-1.0.0.zip>
 - 插件源码：`AxurePlugin/`
 - 包含 Electron 主进程、同步界面、服务配置、macOS/Windows 构建脚本和安装说明
 - 本地服务地址已配置为 `http://localhost:4173`
@@ -46,7 +46,7 @@ npm start
 ## 目录
 
 - `platform-server/`：完整 ProtoPlatform 前端、后端、SQLite 数据库、原型查看器和业务路由
-- `server.mjs`：原 Framo Sketch 深度解析与 AI 结构化生成逻辑
+- `server.mjs`：Flowa Sketch 深度解析与 AI 结构化生成逻辑
 - `data/`：组件库、项目数据和 Sketch SVG 资源
 - `AxurePlugin/`：真实 Axure/Electron 插件工程
 - `downloads/`：可直接下载的插件开发包
@@ -64,5 +64,5 @@ npm start
 - `/api/framo/libraries`：深度识别后的组件库
 - `/api/framo/sketch/import`：Sketch 上传解析
 - `/api/framo/ai/generate`：引用组件库的结构化 AI 生成
-- `/api/framo/prototypes`：Framo 原型列表
+- `/api/framo/prototypes`：Flowa 原型列表
 - `/api/health`：运行状态

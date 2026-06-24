@@ -1,9 +1,9 @@
-Framo Axure 同步插件 1.0.0
+Flowa Axure 同步插件 1.0.0
 
 用途：
 - 监听 Axure 本地预览输出
 - 自动整理页面树与资源文件
-- 将原型发布到 Framo 平台进行在线预览
+- 将原型发布到 Flowa 平台进行在线预览
 
 开发运行：
 1. 安装 Node.js 20 或更高版本。
@@ -15,6 +15,6 @@ Framo Axure 同步插件 1.0.0
 - Windows：执行 build_win.bat
 
 说明：
-- config.json 中的 serverUrl 需要配置为实际部署的 Framo 服务地址。
+- config.json 中的 serverUrl 需要配置为实际部署的 Flowa 服务地址。
 - 首次启动建议关闭正在运行的 Axure 预览窗口后重新预览。
 - 安装包不包含账号 Cookie、Token 和测试原型数据。

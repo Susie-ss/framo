@@ -42,3 +42,4 @@ build/
 # 大文件 - PDF 设计文档
 *.pdf
 *.pdf.png
+.vercel

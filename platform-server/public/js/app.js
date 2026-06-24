@@ -447,7 +447,7 @@ function showDownloadPluginModal() {
       '</div>' +
     '</div>' +
     '<div class="modal-actions">' +
-      '<a class="btn btn-primary" href="/downloads/Framo-Axure-Plugin-1.0.0.zip" download="Framo-Axure-Plugin-1.0.0.zip" onclick="showToast(\'插件下载已开始\',\'success\');document.getElementById(\'plugin-modal\').remove()"><svg class="icon-color icon-sm"><use href="/libs/iconpark/icons.svg#ico-download"/></svg> 立即下载</a>' +
+      '<a class="btn btn-primary" href="/downloads/Flowa-Axure-Plugin-1.0.0.zip" download="Flowa-Axure-Plugin-1.0.0.zip" onclick="showToast(\'插件下载已开始\',\'success\');document.getElementById(\'plugin-modal\').remove()"><svg class="icon-color icon-sm"><use href="/libs/iconpark/icons.svg#ico-download"/></svg> 立即下载</a>' +
     '</div>' +
   '</div>';
   document.body.appendChild(modal);

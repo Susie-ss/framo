@@ -12,7 +12,7 @@ function renderAIGeneratePage() {
   if (typeof restoreHeaderDefault === 'function') restoreHeaderDefault();
   mainContent.innerHTML =
     '<div class="framo-module-host">' +
-      '<iframe class="framo-module-frame" title="Framo AI 生成" src="/framo/index.html?section=generate"></iframe>' +
+      '<iframe class="framo-module-frame" title="Flowa AI 生成" src="/framo/index.html?section=generate"></iframe>' +
     '</div>';
 }
 
@@ -250,7 +250,7 @@ function generateAIResponse(prompt, dsId, dsName) {
         return '<span class="ai-gen-page-badge" onclick="scrollPreviewTo(\'' + s + '\')">' + s + '</span>';
       }).join('') +
     '</div>' +
-    '<div class="ai-gen-comp-refs"><strong>引用的组件（Framo componentReferences）:</strong>' +
+    '<div class="ai-gen-comp-refs"><strong>引用的组件：</strong>' +
       '<div class="comp-refs-list">' + refsHTML + '</div>' +
     '</div>' +
     '<div style="margin-top:8px;font-size:12px;color:var(--text-muted)">' +

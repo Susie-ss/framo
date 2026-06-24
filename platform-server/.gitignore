@@ -22,3 +22,4 @@ Thumbs.db
 # 测试文件
 test-*.js
 tests/
+.vercel

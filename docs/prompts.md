@@ -1,4 +1,4 @@
-# Framo Prompt Templates
+# Flowa Prompt Templates
 
 ## 1. UI 规范解析 Prompt
 

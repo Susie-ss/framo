@@ -1,4 +1,4 @@
-# Framo MVP Architecture
+# Flowa MVP Architecture
 
 ## Frontend
 

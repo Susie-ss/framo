@@ -1,5 +1,1338 @@
 [
   {
+    "id": "lib-sketch-3e46464584fe",
+    "name": "AntDesign Pro 4.0",
+    "version": "1.0.0",
+    "sourceType": "sketch",
+    "importedAt": "2026-06-24T07:21:15.412Z",
+    "previewResult": {
+      "engine": "sketchtool",
+      "exported": 9,
+      "requested": 11,
+      "warnings": []
+    },
+    "tokens": {
+      "colorPrimary": "#1890FF",
+      "colorSurface": "#FFFFFF",
+      "borderRadius": "1px",
+      "fontSizeBase": 14,
+      "spacingBase": 8
+    },
+    "assets": {
+      "colors": [
+        {
+          "value": "#FFFFFF",
+          "usages": [
+            "10.个人页/2.个人设置/4.新消息通知 / Rectangle 5",
+            "10.个人页/2.个人设置/4.新消息通知 / 编组 32备份 8 / 编组 6备份 / Rectangle 2 Copy",
+            "10.个人页/2.个人设置/4.新消息通知 / 编组 32备份 8 / 编组 6备份 / Group 20 / Group 28 Copy 4 / Group / Group 2 / Stroke 702"
+          ],
+          "count": 4452,
+          "chroma": 0,
+          "luminance": 1
+        },
+        {
+          "value": "#E1E9F0",
+          "usages": [
+            "4.Dashboard/2.监控页 / 活动实时交易情况 / Group 14 / Group 9 / Combined Shape / Fill 1",
+            "4.Dashboard/2.监控页 / 活动实时交易情况 / Group 14 / Group 9 / Combined Shape / Fill 3",
+            "4.Dashboard/2.监控页 / 活动实时交易情况 / Group 14 / Group 9 / Combined Shape / Fill 5"
+          ],
+          "count": 3084,
+          "chroma": 0.05882352941176472,
+          "luminance": 0.9090376470588234
+        },
+        {
+          "value": "#979797",
+          "usages": [
+            "10.个人页/2.个人设置/4.新消息通知 / Rectangle 4",
+            "10.个人页/2.个人设置/4.新消息通知 / Rectangle 5",
+            "10.个人页/2.个人设置/4.新消息通知 / 编组 32备份 8 / 编组 6备份 / Rectangle 2 Copy"
+          ],
+          "count": 3042,
+          "chroma": 0,
+          "luminance": 0.592
+        },
+        {
+          "value": "#1890FF",
+          "usages": [
+            "10.个人页/2.个人设置/4.新消息通知 / 编组 6备份 5 / 编组 5 / Group 11 / Ant Design Pro",
+            "10.个人页/2.个人设置/4.新消息通知 / 编组 6备份 5 / 编组 5 / Group 11 / Ant Design Pro / Path",
+            "10.个人页/2.个人设置/4.新消息通知 / 编组 6 / Rectangle 8 Copy 2备份 4"
+          ],
+          "count": 1236,
+          "chroma": 0.90588235294,
+          "luminance": 0.496087058857436
+        },
+        {
+          "value": "rgba(0, 0, 0, 0.45)",
+          "usages": [
+            "10.个人页/2.个人设置/4.新消息通知 / 当前未绑定淘宝账号",
+            "10.个人页/2.个人设置/4.新消息通知 / 当前未绑定支付宝账号",
+            "10.个人页/2.个人设置/4.新消息通知 / 当前未绑定钉钉账号"
+          ],
+          "count": 1135,
+          "chroma": 0,
+          "luminance": 0
+        },
+        {
+          "value": "rgba(0, 0, 0, 0.65)",
+          "usages": [
+            "10.个人页/2.个人设置/4.新消息通知 / 编组 32备份 8 / 编组 6备份 / Group 20 / Group 28 Copy 4 / 用户名",
+            "10.个人页/2.个人设置/4.新消息通知 / 编组 32备份 8 / 编组 6备份 / Group 20 / Group 19 Copy 4 / bells / Fill 1",
+            "10.个人页/2.个人设置/4.新消息通知 / 编组 32备份 8 / 编组 6备份 / Group 20 / Group 19 Copy 4 / bells / Fill 1 / Path"
+          ],
+          "count": 1066,
+          "chroma": 0,
+          "luminance": 0
+        },
+        {
+          "value": "#D8D8D8",
+          "usages": [
+            "10.个人页/2.个人设置/4.新消息通知 / 编组 6备份 5 / 编组 5 / Group 3 / 编组 32 / 矩形",
+            "10.个人页/2.个人设置/4.新消息通知 / 编组 6备份 5 / 编组 5 / Group 3 / 编组 32 / Group 7 Copy / Rectangle 17",
+            "10.个人页/2.个人设置/4.新消息通知 / 编组 6备份 5 / 编组 5 / Group 3 / 编组 32 / Shape / 椭圆形"
+          ],
+          "count": 988,
+          "chroma": 0,
+          "luminance": 0.847
+        },
+        {
+          "value": "#002140",
+          "usages": [
+            "10.个人页/2.个人设置/4.新消息通知 / 编组 6备份 5 / 编组 5 / Group 11 / Ant Design Pro",
+            "10.个人页/2.个人设置/4.新消息通知 / 编组 6备份 5 / 编组 5 / Group 11 / Ant Design Pro / Path",
+            "10.个人页/2.个人设置/3.账号绑定 / 编组 6备份 5 / 编组 5 / Group 11 / Ant Design Pro"
+          ],
+          "count": 803,
+          "chroma": 0.2509803921568627,
+          "luminance": 0.11067607843137252
+        },
+        {
+          "value": "#000000",
+          "usages": [
+            "10.个人页/2.个人设置/4.新消息通知 / 编组 6备份 5 / 编组 5 / Group 11 / Group 5 / Group-25 / 2 / Shape",
+            "10.个人页/2.个人设置/4.新消息通知 / 编组 6备份 5 / 编组 5 / Group 11 / Group 5 / Group-25 / Shape",
+            "10.个人页/2.个人设置/4.新消息通知 / 编组 6备份 5 / 编组 5 / Group 11 / Group 5 / Combined-Shape"
+          ],
+          "count": 692,
+          "chroma": 0,
+          "luminance": 0
+        },
+        {
+          "value": "#2150B7",
+          "usages": [
+            "10.个人页/2.个人设置/4.新消息通知 / 编组 32备份 8 / 编组 6备份 / Group 20 / Group 28 Copy 4 / Group / Group 2 / Stroke 600",
+            "10.个人页/2.个人设置/4.新消息通知 / 编组 32备份 8 / 编组 6备份 / Group 20 / Group 28 Copy 4 / Group / Group 2 / Stroke 602",
+            "10.个人页/2.个人设置/4.新消息通知 / 编组 32备份 8 / 编组 6备份 / Group 20 / Group 28 Copy 4 / Group / Group 2 / Stroke 604"
+          ],
+          "count": 630,
+          "chroma": 0.589,
+          "luminance": 0.3038378
+        },
+        {
+          "value": "#E9E9E9",
+          "usages": [
+            "10.个人页/2.个人设置/4.新消息通知 / 路径 24",
+            "10.个人页/2.个人设置/4.新消息通知 / 路径 25备份 5",
+            "10.个人页/2.个人设置/4.新消息通知 / 路径 25备份 6"
+          ],
+          "count": 347,
+          "chroma": 0,
+          "luminance": 0.9137254901960784
+        },
+        {
+          "value": "rgba(0, 0, 0, 0.85)",
+          "usages": [
+            "10.个人页/2.个人设置/4.新消息通知 / 新消息通知",
+            "10.个人页/2.个人设置/3.账号绑定 / 账号绑定",
+            "10.个人页/2.个人设置/2.安全绑定 / 安全设置"
+          ],
+          "count": 330,
+          "chroma": 0,
+          "luminance": 0
+        },
+        {
+          "value": "#F7F7F7",
+          "usages": [
+            "10.个人页/2.个人设置/4.新消息通知 / 编组 6备份 5 / 编组 5 / Group 3 / 编组 32 / Group 52 Copy 11备份 3 / Rectangle 12",
+            "10.个人页/2.个人设置/4.新消息通知 / 编组 6备份 5 / 编组 5 / Group 3 / 编组 31 / Group 52 Copy 11备份 2 / Rectangle 12",
+            "10.个人页/2.个人设置/4.新消息通知 / 编组 6备份 5 / 编组 5 / Group 3 / 编组 30 / Group 52 Copy 11备份 / Rectangle 12"
+          ],
+          "count": 293,
+          "chroma": 0,
+          "luminance": 0.97
+        },
+        {
+          "value": "rgba(0, 0, 0, 0.09)",
+          "usages": [
+            "10.个人页/2.个人设置/4.新消息通知 / 编组 6备份 5 / 编组 5 / Group 3 / 编组 32 / Group 52 Copy 11备份 3 / Rectangle 12",
+            "10.个人页/2.个人设置/4.新消息通知 / 编组 6备份 5 / 编组 5 / Group 3 / 编组 31 / Group 52 Copy 11备份 2 / Rectangle 12",
+            "10.个人页/2.个人设置/4.新消息通知 / 编组 6备份 5 / 编组 5 / Group 3 / 编组 30 / Group 52 Copy 11备份 / Rectangle 12"
+          ],
+          "count": 279,
+          "chroma": 0,
+          "luminance": 0
+        },
+        {
+          "value": "rgba(255, 255, 255, 0.65)",
+          "usages": [
+            "10.个人页/2.个人设置/4.新消息通知 / Rectangle 4",
+            "10.个人页/2.个人设置/4.新消息通知 / 编组 6备份 5 / 编组 5 / Group 3 / 编组 29 / Group 5 Copy 2 / Rectangle 4",
+            "10.个人页/2.个人设置/4.新消息通知 / 编组 6备份 5 / 编组 5 / Group 3 / 编组 24 / Group 3 Copy / Rectangle 4"
+          ],
+          "count": 238,
+          "chroma": 0,
+          "luminance": 1
+        },
+        {
+          "value": "#D9D9D9",
+          "usages": [
+            "10.个人页/2.个人设置/1.基本设置 / Group 5 / Rectangle 26 Copy 23",
+            "10.个人页/2.个人设置/1.基本设置 / Group 5备份 / 编组 33 / Rectangle 26 Copy 23备份",
+            "10.个人页/2.个人设置/1.基本设置 / Group 5备份 2 / 编组 33 / Rectangle 26 Copy 23备份"
+          ],
+          "count": 222,
+          "chroma": 0,
+          "luminance": 0.85
+        },
+        {
+          "value": "rgba(0, 0, 0, 0.25)",
+          "usages": [
+            "10.个人页/2.个人设置/1.基本设置 / Group 5备份 / 编组 33 / down",
+            "10.个人页/2.个人设置/1.基本设置 / Group 5备份 / 编组 33 / down / Rectangle 15",
+            "10.个人页/2.个人设置/1.基本设置 / Group 5备份 2 / 编组 33 / down"
+          ],
+          "count": 201,
+          "chroma": 0,
+          "luminance": 0
+        },
+        {
+          "value": "rgba(255, 255, 255, 0.00)",
+          "usages": [
+            "10.个人页/2.个人设置/4.新消息通知 / 编组 32备份 8 / 编组 6备份 / Group 20 / Group 19 Copy 4 / Rectangle 19",
+            "10.个人页/2.个人设置/4.新消息通知 / 编组 32备份 8 / 编组 6备份 / Group 20 / Group 55 Copy 2 / Rectangle 40",
+            "10.个人页/2.个人设置/3.账号绑定 / 编组 32备份 8 / 编组 6备份 / Group 20 / Group 19 Copy 4 / Rectangle 19"
+          ],
+          "count": 161,
+          "chroma": 0,
+          "luminance": 1
+        },
+        {
+          "value": "#CFDAE6",
+          "usages": [
+            "1.登录/3.注册页/2.成功 / Group 18 / Oval 11",
+            "1.登录/3.注册页/2.成功 / Group 18 / Oval 3",
+            "1.登录/3.注册页/2.成功 / Group 18 / Oval 3 Copy"
+          ],
+          "count": 132,
+          "chroma": 0.09019607843137256,
+          "luminance": 0.8491286274509804
+        },
+        {
+          "value": "#A3A3A3",
+          "usages": [
+            "10.个人页/1.个人中心/3.项目 / Group 22 / Group 12 / Group 11 / Oval / Combined Shape",
+            "10.个人页/1.个人中心/3.项目 / Group 22 / Group 12 / Group 11 / Oval / Combined Shape / Path 9",
+            "10.个人页/1.个人中心/3.项目 / Group 22 / Group 12 / Group 11 / Oval / Combined Shape / Path 11"
+          ],
+          "count": 128,
+          "chroma": 0,
+          "luminance": 0.6382865646258502
+        },
+        {
+          "value": "#E6F7FF",
+          "usages": [
+            "10.个人页/2.个人设置/4.新消息通知 / 编组 32备份 8 / 编组 6备份 / Group 20 / Group 28 Copy 4 / Group / Group 2 / Fill 744",
+            "10.个人页/2.个人设置/4.新消息通知 / 编组 32备份 8 / 编组 6备份 / Group 20 / Group 28 Copy 4 / Group / Group 2 / Fill 766",
+            "10.个人页/2.个人设置/3.账号绑定 / 编组 32备份 8 / 编组 6备份 / Group 20 / Group 28 Copy 4 / Group / Group 2 / Fill 744"
+          ],
+          "count": 78,
+          "chroma": 0.0980392156862745,
+          "luminance": 0.9567192156862745
+        },
+        {
+          "value": "#E8E8E8",
+          "usages": [
+            "10.个人页/1.个人中心/3.项目 / Group 26 / 路径 27",
+            "10.个人页/1.个人中心/2.应用 / Group 26 / 路径 27",
+            "10.个人页/1.个人中心/1.文章 / Group 26 / 路径 27"
+          ],
+          "count": 72,
+          "chroma": 0,
+          "luminance": 0.9098039215686273
+        },
+        {
+          "value": "#F5222D",
+          "usages": [
+            "7.详情页/2.高级详情页 / Group 33 / Group 15 / Oval 2 Copy",
+            "6.列表页/3.标准列表 / Group 17 / Group 10 / Rectangle 57 Copy 29",
+            "6.列表页/3.标准列表 / Group 17 / Group 10 / Rectangle 57 Copy 30"
+          ],
+          "count": 64,
+          "chroma": 0.8256,
+          "luminance": 0.31290297599999994
+        },
+        {
+          "value": "#001529",
+          "usages": [
+            "10.个人页/2.个人设置/4.新消息通知 / 编组 6备份 5 / 编组 5 / Group 3 / Rectangle Copy",
+            "10.个人页/2.个人设置/4.新消息通知 / 编组 6备份 5 / 编组 5 / Group 3 / 编组 27 / 矩形",
+            "10.个人页/2.个人设置/3.账号绑定 / 编组 6备份 5 / 编组 5 / Group 3 / Rectangle Copy"
+          ],
+          "count": 63,
+          "chroma": 0.1607843137254902,
+          "luminance": 0.07050745098039216
+        },
+        {
+          "value": "#BACAD9",
+          "usages": [
+            "1.登录/3.注册页/2.成功 / Group 18 / Path 15",
+            "1.登录/3.注册页/2.成功 / Group 14 / Oval 2",
+            "1.登录/3.注册页/2.成功 / Group 10 / Group 12 / Oval 7"
+          ],
+          "count": 60,
+          "chroma": 0.1215686274509804,
+          "luminance": 0.78306431372549
+        },
+        {
+          "value": "rgba(0, 0, 0, 0.20)",
+          "usages": [
+            "1.登录/2.手机号登录 / Group 4 / Shape",
+            "1.登录/2.手机号登录 / Group 4 / Shape / Path",
+            "1.登录/1.账户密码登录/2.出错 / Group 4 / Group 6 / Shape"
+          ],
+          "count": 59,
+          "chroma": 0,
+          "luminance": 0
+        },
+        {
+          "value": "#4670B2",
+          "usages": [
+            "9.异常页/3.500 / 500提醒 / 插图 / 女_摊手 / 女_摊手 / 女_摊手 / Fill 111",
+            "9.异常页/3.500 / 500提醒 / 插图 / 女_摊手 / 女_摊手 / 女_摊手 / Fill 113",
+            "9.异常页/3.500 / 500提醒 / 插图 / 女_摊手 / 女_摊手 / 女_摊手 / Fill 115"
+          ],
+          "count": 57,
+          "chroma": 0.42300000000000004,
+          "luminance": 0.42283339999999997
+        },
+        {
+          "value": "#F5F5F5",
+          "usages": [
+            "10.个人页/1.个人中心/3.项目 / 编组 8 / Rectangle 193 Copy 3",
+            "10.个人页/1.个人中心/3.项目 / 编组 2 / Rectangle 193 Copy 3备份 4",
+            "10.个人页/1.个人中心/3.项目 / 编组 9 / Rectangle 193 Copy 3备份"
+          ],
+          "count": 48,
+          "chroma": 0,
+          "luminance": 0.9607843137254901
+        },
+        {
+          "value": "#FAFAFA",
+          "usages": [
+            "10.个人页/1.个人中心/3.项目 / 编组 4 / Rectangle 193 Copy 3备份 6",
+            "10.个人页/1.个人中心/2.应用 / 编组 4 / Rectangle 193 Copy 3备份 6",
+            "10.个人页/1.个人中心/2.应用 / Group 38 / Group 15 / Group 6 / Rectangle 8"
+          ],
+          "count": 48,
+          "chroma": 0,
+          "luminance": 0.980392156862745
+        },
+        {
+          "value": "#0B0105",
+          "usages": [
+            "10.个人页/1.个人中心/3.项目 / Group 22 / Group 12 / Group 11 / Oval / Mask",
+            "10.个人页/1.个人中心/3.项目 / Group 22 / Group 12 / Group 11 / Oval / Mask / Path 9",
+            "10.个人页/1.个人中心/3.项目 / Group 22 / Group 12 / Group 11 / Oval / Mask / Path 11"
+          ],
+          "count": 48,
+          "chroma": 0.039215686274509796,
+          "luminance": 0.013391372549019608
+        },
+        {
+          "value": "#D4D7D9",
+          "usages": [
+            "10.个人页/2.个人设置/4.新消息通知 / 编组 32备份 8 / 编组 6备份 / Group 20 / Group 28 Copy 4 / Oval",
+            "10.个人页/2.个人设置/3.账号绑定 / 编组 32备份 8 / 编组 6备份 / Group 20 / Group 28 Copy 4 / Oval",
+            "10.个人页/2.个人设置/2.安全绑定 / 编组 32备份 8 / 编组 6备份 / Group 20 / Group 28 Copy 4 / Oval"
+          ],
+          "count": 40,
+          "chroma": 0.017000000000000015,
+          "luminance": 0.84050924
+        },
+        {
+          "value": "rgba(255, 255, 255, 0.85)",
+          "usages": [
+            "4.Dashboard/2.监控页 / Group 7 / Group 37 / Combined Shape",
+            "4.Dashboard/2.监控页 / Group 7 / Group 37 / Combined Shape / Oval 8",
+            "4.Dashboard/2.监控页 / Group 7 / Group 37 / Combined Shape / Path 10"
+          ],
+          "count": 37,
+          "chroma": 0,
+          "luminance": 1
+        },
+        {
+          "value": "rgba(163, 177, 191, 0.40)",
+          "usages": [
+            "2.通知/3.任务为空 / Group 26 Copy / Group 6 / Triangle 36",
+            "2.通知/3.任务为空 / Group 26 Copy / Group 6 / Oval 203",
+            "2.通知/3.任务为空 / Group 26 Copy / Group 6 / Combined Shape"
+          ],
+          "count": 37,
+          "chroma": 0.1098039215686275,
+          "luminance": 0.6864094117647058
+        },
+        {
+          "value": "#91D5FF",
+          "usages": [
+            "10.个人页/2.个人设置/4.新消息通知 / 编组 32备份 8 / 编组 6备份 / Group 20 / Group 28 Copy 4 / Group / Group 2 / Fill 624",
+            "10.个人页/2.个人设置/3.账号绑定 / 编组 32备份 8 / 编组 6备份 / Group 20 / Group 28 Copy 4 / Group / Group 2 / Fill 624",
+            "10.个人页/2.个人设置/2.安全绑定 / 编组 32备份 8 / 编组 6备份 / Group 20 / Group 28 Copy 4 / Group / Group 2 / Fill 624"
+          ],
+          "count": 36,
+          "chroma": 0.43137254901960786,
+          "luminance": 0.7904925490196077
+        },
+        {
+          "value": "#131B24",
+          "usages": [
+            "10.个人页/2.个人设置/4.新消息通知 / 收起 / BG/fill",
+            "10.个人页/2.个人设置/3.账号绑定 / 收起 / BG/fill",
+            "10.个人页/2.个人设置/2.安全绑定 / 收起 / BG/fill"
+          ],
+          "count": 36,
+          "chroma": 0.06666666666666667,
+          "luminance": 0.1017607843137255
+        },
+        {
+          "value": "#C2C0CC",
+          "usages": [
+            "9.异常页/3.500 / 500提醒 / 插图 / 女_摊手 / 女_摊手 / 女_摊手 / Fill 79",
+            "9.异常页/3.500 / 500提醒 / 插图 / 女_摊手 / 女_摊手 / 女_摊手 / Fill 81",
+            "9.异常页/3.500 / 500提醒 / 插图 / 女_摊手 / 女_摊手 / 女_摊手 / Fill 83"
+          ],
+          "count": 36,
+          "chroma": 0.04700000000000004,
+          "luminance": 0.7580941999999999
+        },
+        {
+          "value": "#A6DBFF",
+          "usages": [
+            "10.个人页/2.个人设置/4.新消息通知 / 编组 32备份 8 / 编组 6备份 / Group 20 / Group 28 Copy 4 / Group / Oval",
+            "10.个人页/2.个人设置/3.账号绑定 / 编组 32备份 8 / 编组 6备份 / Group 20 / Group 28 Copy 4 / Group / Oval",
+            "10.个人页/2.个人设置/2.安全绑定 / 编组 32备份 8 / 编组 6备份 / Group 20 / Group 28 Copy 4 / Group / Oval"
+          ],
+          "count": 35,
+          "chroma": 0.34901960784313724,
+          "luminance": 0.8248290196078432
+        },
+        {
+          "value": "#43BCFF",
+          "usages": [
+            "10.个人页/2.个人设置/4.新消息通知 / 编组 32备份 8 / 编组 6备份 / Group 20 / Group 28 Copy 4 / Group / Group 2 / Fill 626",
+            "10.个人页/2.个人设置/3.账号绑定 / 编组 32备份 8 / 编组 6备份 / Group 20 / Group 28 Copy 4 / Group / Group 2 / Fill 626",
+            "10.个人页/2.个人设置/2.安全绑定 / 编组 32备份 8 / 编组 6备份 / Group 20 / Group 28 Copy 4 / Group / Group 2 / Fill 626"
+          ],
+          "count": 35,
+          "chroma": 0.7372549019607844,
+          "luminance": 0.6553443137254905
+        },
+        {
+          "value": "#D7F0FF",
+          "usages": [
+            "10.个人页/2.个人设置/4.新消息通知 / 编组 32备份 8 / 编组 6备份 / Group 20 / Group 28 Copy 4 / Group / Group 2 / Fill 628",
+            "10.个人页/2.个人设置/3.账号绑定 / 编组 32备份 8 / 编组 6备份 / Group 20 / Group 28 Copy 4 / Group / Group 2 / Fill 628",
+            "10.个人页/2.个人设置/2.安全绑定 / 编组 32备份 8 / 编组 6备份 / Group 20 / Group 28 Copy 4 / Group / Group 2 / Fill 628"
+          ],
+          "count": 35,
+          "chroma": 0.15700000000000003,
+          "luminance": 0.924425
+        },
+        {
+          "value": "#E4E6EF",
+          "usages": [
+            "9.异常页/3.500 / 500提醒 / 插图 / 编组 / 编组 / Fill 1",
+            "9.异常页/3.500 / 500提醒 / 插图 / 编组 / Fill 3",
+            "9.异常页/3.500 / 500提醒 / 插图 / 编组 / Fill 5"
+          ],
+          "count": 34,
+          "chroma": 0.04300000000000004,
+          "luminance": 0.9028262
+        },
+        {
+          "value": "#F0F2F5",
+          "usages": [
+            "4.Dashboard/2.监控页 / 编组 / Group 18 / Variable segments circle / Segment 68",
+            "4.Dashboard/2.监控页 / 编组 / Group 17 / Variable segments circle / Segment 78",
+            "4.Dashboard/2.监控页 / 编组 / Group 16 / Variable segments circle / Segment 72"
+          ],
+          "count": 34,
+          "chroma": 0.019199999999999995,
+          "luminance": 0.9492810239999999
+        },
+        {
+          "value": "#000D17",
+          "usages": [
+            "10.个人页/2.个人设置/4.新消息通知 / 矩形",
+            "10.个人页/2.个人设置/3.账号绑定 / 矩形",
+            "10.个人页/2.个人设置/2.安全绑定 / 矩形"
+          ],
+          "count": 33,
+          "chroma": 0.09019607843137255,
+          "luminance": 0.042973333333333315
+        },
+        {
+          "value": "#434E59",
+          "usages": [
+            "9.异常页/3.500 / 500提醒 / 500 / 500 / Path",
+            "9.异常页/2.404 / 400提醒 / 404 / 404",
+            "9.异常页/2.404 / 400提醒 / 404 / 404 / Path"
+          ],
+          "count": 33,
+          "chroma": 0.08749999999999997,
+          "luminance": 0.30115050000000004
+        },
+        {
+          "value": "#FFD300",
+          "usages": [
+            "10.个人页/1.个人中心/3.项目 / Group 22 / Group 12 / Group 11 / Group 9 / Group 8 / Oval 6 / Mask",
+            "10.个人页/1.个人中心/3.项目 / Group 22 Copy / Group 12 / Group 11 / Group 9 / Group 8 / Oval 6 / Mask",
+            "10.个人页/1.个人中心/2.应用 / Group 22 / Group 12 / Group 11 / Group 9 / Group 8 / Oval 6 / Mask"
+          ],
+          "count": 32,
+          "chroma": 1,
+          "luminance": 0.8051179347826086
+        },
+        {
+          "value": "#848587",
+          "usages": [
+            "10.个人页/2.个人设置/4.新消息通知 / 编组备份 7 / github / 路径",
+            "10.个人页/2.个人设置/3.账号绑定 / 编组备份 6 / github / 路径",
+            "10.个人页/2.个人设置/2.安全绑定 / 编组备份 5 / github / 路径"
+          ],
+          "count": 31,
+          "chroma": 0.0117647058823529,
+          "luminance": 0.5213011764705882
+        },
+        {
+          "value": "#52C41A",
+          "usages": [
+            "7.详情页/2.高级详情页 / Group 33 / Group 15 / Oval 2",
+            "7.详情页/2.高级详情页 / Group 33 / Group 15 / Oval 2 Copy 2",
+            "7.详情页/2.高级详情页 / Group 33 / Group 15 / Oval 2 Copy 3"
+          ],
+          "count": 30,
+          "chroma": 0.6666666666666667,
+          "luminance": 0.6254494117647059
+        },
+        {
+          "value": "#E0B4B7",
+          "usages": [
+            "1.登录/3.注册页/2.成功 / Group 18 / Path 16",
+            "1.登录/3.注册页/2.成功 / Group 14 / Oval 10 Copy 2",
+            "1.登录/3.注册页/2.成功 / Group 14 / Oval 10 Copy"
+          ],
+          "count": 30,
+          "chroma": 0.1725490196078432,
+          "luminance": 0.7434156862745097
+        },
+        {
+          "value": "#C7C4CE",
+          "usages": [
+            "9.异常页/2.404 / 400提醒 / 插图 / 男_尴尬 / 男_尴尬 / 编组 3 / 编组 2 / Fill 29",
+            "9.异常页/2.404 / 400提醒 / 插图 / 男_尴尬 / 男_尴尬 / 编组 3 / 编组 2 / Fill 31",
+            "9.异常页/2.404 / 400提醒 / 插图 / 男_尴尬 / 男_尴尬 / 编组 3 / 编组 2 / Fill 33"
+          ],
+          "count": 28,
+          "chroma": 0.039000000000000035,
+          "luminance": 0.7741543999999999
+        },
+        {
+          "value": "#2FC25B",
+          "usages": [
+            "4.Dashboard/3.工作台 / Group 30 / Group 26 / Oval Copy 4",
+            "4.Dashboard/3.工作台 / Group 12 / Path 7",
+            "4.Dashboard/3.工作台 / Group 12 / Oval 2 Copy 10"
+          ],
+          "count": 26,
+          "chroma": 0.5764705882352941,
+          "luminance": 0.6090635294117646
+        },
+        {
+          "value": "#FF4D4F",
+          "usages": [
+            "5.表单页/3.高级表单-出错 / Group 30 / Group 12 / Rectangle 26 Copy 7",
+            "5.表单页/3.高级表单-出错 / Group 35 / Group 7 / Group 34 / Rectangle 26 Copy 7",
+            "5.表单页/3.高级表单-出错 / Group 37 / Group 7 Copy 3 / Rectangle 26 Copy 7"
+          ],
+          "count": 23,
+          "chroma": 0.6980392156862745,
+          "luminance": 0.45093019607843143
+        },
+        {
+          "value": "#FFBF00",
+          "usages": [
+            "10.个人页/1.个人中心/3.项目 / Group 21 / Oval 2",
+            "10.个人页/1.个人中心/3.项目 / Oval 2",
+            "10.个人页/1.个人中心/2.应用 / Group 21 / Oval 2"
+          ],
+          "count": 21,
+          "chroma": 1,
+          "luminance": 0.7482988235294118
+        },
+        {
+          "value": "#EA967D",
+          "usages": [
+            "9.异常页/3.500 / 500提醒 / 插图 / 女_摊手 / 女_摊手 / 女_摊手 / Fill 45",
+            "9.异常页/3.500 / 500提醒 / 插图 / 女_摊手 / 女_摊手 / 女_摊手 / Fill 47",
+            "9.异常页/2.404 / 400提醒 / 插图 / 男_尴尬 / 男_尴尬 / Fill 27"
+          ],
+          "count": 20,
+          "chroma": 0.42800000000000005,
+          "luminance": 0.6510824000000001
+        },
+        {
+          "value": "#E5E3EA",
+          "usages": [
+            "9.异常页/3.500 / 500提醒 / 插图 / 女_摊手 / 女_摊手 / 女_摊手 / Fill 73",
+            "9.异常页/3.500 / 500提醒 / 插图 / 女_摊手 / 女_摊手 / 女_摊手 / Fill 75",
+            "9.异常页/3.500 / 500提醒 / 插图 / 女_摊手 / 女_摊手 / 女_摊手 / Fill 77"
+          ],
+          "count": 19,
+          "chroma": 0.028000000000000025,
+          "luminance": 0.8937224
+        },
+        {
+          "value": "#FACC14",
+          "usages": [
+            "4.Dashboard/3.工作台 / Group 30 / Group 27 / Group 25 / Oval Copy 3",
+            "4.Dashboard/3.工作台 / Group 12 / Path 6",
+            "4.Dashboard/3.工作台 / Group 12 / Oval 2 Copy 5"
+          ],
+          "count": 19,
+          "chroma": 0.9019607843137254,
+          "luminance": 0.7862541176470589
+        },
+        {
+          "value": "#DDE4EB",
+          "usages": [
+            "1.登录/3.注册页/2.成功 / Group 4 Copy / Oval 8",
+            "1.登录/3.注册页/2.成功 / Group 4 Copy / Oval 8 / Path",
+            "1.登录/3.注册 / Group 4 Copy / Oval 8"
+          ],
+          "count": 18,
+          "chroma": 0.05520000000000003,
+          "luminance": 0.889182944
+        },
+        {
+          "value": "#FFC6A0",
+          "usages": [
+            "9.异常页/3.500 / 500提醒 / 插图 / 女_摊手 / 女_摊手 / 女_摊手 / Fill 1",
+            "9.异常页/3.500 / 500提醒 / 插图 / 女_摊手 / 女_摊手 / 女_摊手 / Fill 3",
+            "9.异常页/3.500 / 500提醒 / 插图 / 女_摊手 / 女_摊手 / 女_摊手 / Fill 13"
+          ],
+          "count": 17,
+          "chroma": 0.373,
+          "luminance": 0.8128646
+        },
+        {
+          "value": "#2E2E2E",
+          "usages": [
+            "10.个人页/1.个人中心/3.项目 / Group 22 / Oval 2",
+            "10.个人页/1.个人中心/3.项目 / Group 22 Copy / Oval 2",
+            "10.个人页/1.个人中心/2.应用 / Group 22 / Oval 2"
+          ],
+          "count": 16,
+          "chroma": 0,
+          "luminance": 0.18
+        },
+        {
+          "value": "#2C92F6",
+          "usages": [
+            "10.个人页/1.个人中心/3.项目 / Group 14 / Oval 2",
+            "10.个人页/1.个人中心/2.应用 / Group 14 / Oval 2",
+            "10.个人页/1.个人中心/2.应用 / Group 38备份 3 / Group 15 / Group 14 / Oval 2"
+          ],
+          "count": 16,
+          "chroma": 0.7921568627450981,
+          "luminance": 0.5158227450980392
+        },
+        {
+          "value": "rgba(0, 0, 0, 0.15)",
+          "usages": [
+            "10.个人页/2.个人设置/1.基本设置 / 编组 / 矩形",
+            "8.结果页/2.提交失败 / 编组 2 / Rectangle 7",
+            "8.结果页/1.提交成功 / 编组 / Rectangle 7"
+          ],
+          "count": 14,
+          "chroma": 0,
+          "luminance": 0
+        },
+        {
+          "value": "#5C2552",
+          "usages": [
+            "9.异常页/2.404 / 400提醒 / 插图 / 男_尴尬 / 男_尴尬 / Fill 29",
+            "9.异常页/2.404 / 400提醒 / 插图 / 男_尴尬 / 男_尴尬 / Fill 31",
+            "9.异常页/2.404 / 400提醒 / 插图 / 男_尴尬 / 男_尴尬 / Fill 41"
+          ],
+          "count": 14,
+          "chroma": 0.216,
+          "luminance": 0.203701
+        },
+        {
+          "value": "rgba(255, 255, 255, 0.20)",
+          "usages": [
+            "6.列表页/1.搜索列表/1.搜索列表（文章） / Group 7 / Rectangle 26 Copy 38",
+            "5.表单页/3.高级表单-出错 / Group 30 / Group 12 / Rectangle 26 Copy 7",
+            "5.表单页/3.高级表单-出错 / Group 35 / Group 7 / Group 34 / Rectangle 26 Copy 7"
+          ],
+          "count": 14,
+          "chroma": 0,
+          "luminance": 1
+        },
+        {
+          "value": "#FFCCC7",
+          "usages": [
+            "5.表单页/3.高级表单-出错 / Group 30 / Group 12 / Rectangle 26 Copy 7",
+            "5.表单页/3.高级表单-出错 / Group 35 / Group 7 / Group 34 / Rectangle 26 Copy 7",
+            "5.表单页/3.高级表单-出错 / Group 37 / Group 7 Copy 3 / Rectangle 26 Copy 7"
+          ],
+          "count": 14,
+          "chroma": 0.2196078431372549,
+          "luminance": 0.8411043137254902
+        },
+        {
+          "value": "#FAAD14",
+          "usages": [
+            "5.表单页/3.高级表单-出错 / Group 18 / exclamation-circle-o - anticon",
+            "5.表单页/3.高级表单-出错 / Group 18 / exclamation-circle-o - anticon / Path",
+            "4.Dashboard/3.工作台 / 全局提示 Alert-基本型警告提示-小（提示） / Group 31 / Group 32 / Shape Copy 2"
+          ],
+          "count": 14,
+          "chroma": 0.90196078435,
+          "luminance": 0.69930823526705
+        },
+        {
+          "value": "#5BD171",
+          "usages": [
+            "10.个人页/1.个人中心/3.项目 / Group 13 / Oval 2",
+            "10.个人页/1.个人中心/2.应用 / Group 13 / Oval 2",
+            "10.个人页/1.个人中心/2.应用 / Group 38备份 / Group 15 / Oval 2"
+          ],
+          "count": 13,
+          "chroma": 0.4638184664266294,
+          "luminance": 0.6931005152735688
+        },
+        {
+          "value": "#DB836E",
+          "usages": [
+            "9.异常页/3.500 / 500提醒 / 插图 / 女_摊手 / 女_摊手 / 女_摊手 / Fill 17",
+            "9.异常页/3.500 / 500提醒 / 插图 / 女_摊手 / 女_摊手 / 女_摊手 / Fill 27",
+            "9.异常页/3.500 / 500提醒 / 插图 / 女_摊手 / 女_摊手 / 女_摊手 / Fill 33"
+          ],
+          "count": 13,
+          "chroma": 0.428,
+          "luminance": 0.5813543999999999
+        },
+        {
+          "value": "#393D65",
+          "usages": [
+            "9.异常页/3.500 / 500提醒 / 插图 / 分组 / Fill 1",
+            "9.异常页/3.500 / 500提醒 / 插图 / 分组 / Fill 3",
+            "9.异常页/3.500 / 500提醒 / 插图 / 分组 / Fill 11"
+          ],
+          "count": 13,
+          "chroma": 0.1725490196078431,
+          "luminance": 0.24720627450980392
+        },
+        {
+          "value": "#BFBFBF",
+          "usages": [
+            "8.结果页/1.提交成功 / 编组 / Group 10 / Oval 2 Copy 2",
+            "8.结果页/1.提交成功 / 编组 / Group 10 / Oval 2 Copy 3",
+            "7.详情页/2.高级详情页 / Oval 2 Copy 2"
+          ],
+          "count": 13,
+          "chroma": 0,
+          "luminance": 0.75
+        },
+        {
+          "value": "#EFEFEF",
+          "usages": [
+            "6.列表页/4.卡片列表 / Group 13 / Path 636",
+            "6.列表页/4.卡片列表 / Group 13 / Rectangle 354",
+            "6.列表页/4.卡片列表 / Group 13 / Combined Shape"
+          ],
+          "count": 13,
+          "chroma": 0,
+          "luminance": 0.9372549019607843
+        },
+        {
+          "value": "#FAFBFC",
+          "usages": [
+            "10.个人页/1.个人中心/3.项目 / Group 13 / Group 35 / Clip 2",
+            "10.个人页/1.个人中心/2.应用 / Group 13 / Group 35 / Clip 2",
+            "10.个人页/1.个人中心/2.应用 / Group 38备份 / Group 15 / Clip 2"
+          ],
+          "count": 12,
+          "chroma": 0.00990000000000002,
+          "luminance": 0.98435502
+        },
+        {
+          "value": "#92C110",
+          "usages": [
+            "9.异常页/3.500 / 500提醒 / 插图 / 编组 4 / Fill 3",
+            "9.异常页/3.500 / 500提醒 / 插图 / 编组 4 / Fill 5",
+            "9.异常页/3.500 / 500提醒 / 插图 / 编组 4 / Fill 9"
+          ],
+          "count": 12,
+          "chroma": 0.6941176470588235,
+          "luminance": 0.6675623529411764
+        },
+        {
+          "value": "#69C0FF",
+          "usages": [
+            "4.Dashboard/2.监控页 / 活动实时交易情况 / Group 14 / Oval 4",
+            "4.Dashboard/2.监控页 / 活动实时交易情况 / Group 14 / Oval 4 Copy 3",
+            "4.Dashboard/2.监控页 / 活动实时交易情况 / Group 14 / Oval 4 Copy 2"
+          ],
+          "count": 12,
+          "chroma": 0.5882352941176471,
+          "luminance": 0.6982447058823529
+        },
+        {
+          "value": "#E6A1A6",
+          "usages": [
+            "1.登录/3.注册页/2.成功 / Group 14 / Group 9 / Oval 2 Copy 2",
+            "1.登录/3.注册 / Group 14 / Group 9 / Oval 2 Copy 2",
+            "1.登录/2.手机号登录 / Group 14 / Group 9 / Oval 2 Copy 2"
+          ],
+          "count": 12,
+          "chroma": 0.2705882352941177,
+          "luminance": 0.6903152941176469
+        },
+        {
+          "value": "#F7E1AD",
+          "usages": [
+            "1.登录/3.注册页/2.成功 / Group 10 / Oval Copy",
+            "1.登录/3.注册页/2.成功 / Group 4 Copy / Oval 9 Copy 3",
+            "1.登录/3.注册 / Group 10 / Oval Copy"
+          ],
+          "count": 12,
+          "chroma": 0.29100000000000004,
+          "luminance": 0.8865528399999999
+        },
+        {
+          "value": "#C1D1E0",
+          "usages": [
+            "1.登录/3.注册页/2.成功 / Group 19 / Oval 5",
+            "1.登录/3.注册页/2.成功 / Group 19 / Oval 5 Copy 3",
+            "1.登录/3.注册 / Group 19 / Oval 5"
+          ],
+          "count": 12,
+          "chroma": 0.12319999999999998,
+          "luminance": 0.811219904
+        },
+        {
+          "value": "rgba(209, 222, 237, 0.60)",
+          "usages": [
+            "1.登录/3.注册页/2.成功 / Group 19 / Oval 5 Copy 2",
+            "1.登录/3.注册页/2.成功 / Group 19 / Oval 5 Copy 4",
+            "1.登录/3.注册 / Group 19 / Oval 5 Copy 2"
+          ],
+          "count": 12,
+          "chroma": 0.11160000000000003,
+          "luminance": 0.8650354080000001
+        },
+        {
+          "value": "#0050B3",
+          "usages": [
+            "4.Dashboard/2.监控页 / 活动实时交易情况 / Group 14 / Oval 4",
+            "4.Dashboard/2.监控页 / 活动实时交易情况 / Group 14 / Oval 4备份",
+            "4.Dashboard/2.监控页 / 活动实时交易情况 / Group 14 / Oval 4备份 2"
+          ],
+          "count": 11,
+          "chroma": 0.7019607843137254,
+          "luminance": 0.275058039215686
+        },
+        {
+          "value": "rgba(105, 192, 255, 0.30)",
+          "usages": [
+            "4.Dashboard/2.监控页 / 活动实时交易情况 / Group 14 / Oval 4",
+            "4.Dashboard/2.监控页 / 活动实时交易情况 / Group 14 / Oval 4 Copy 3",
+            "4.Dashboard/2.监控页 / 活动实时交易情况 / Group 14 / Oval 4 Copy 2"
+          ],
+          "count": 11,
+          "chroma": 0.5882352941176471,
+          "luminance": 0.6982447058823529
+        },
+        {
+          "value": "#E8E9EB",
+          "usages": [
+            "10.个人页/1.个人中心/3.项目 / Group 13 / Group 35 / Clip 9",
+            "10.个人页/1.个人中心/2.应用 / Group 13 / Group 35 / Clip 9",
+            "10.个人页/1.个人中心/1.文章 / Group 13 / Group 35 / Clip 9"
+          ],
+          "count": 10,
+          "chroma": 0.009199999999999986,
+          "luminance": 0.91475416
+        },
+        {
+          "value": "#DEDFE0",
+          "usages": [
+            "10.个人页/1.个人中心/3.项目 / Group 13 / Group 35 / Clip 19",
+            "10.个人页/1.个人中心/2.应用 / Group 13 / Group 35 / Clip 19",
+            "10.个人页/1.个人中心/1.文章 / Group 13 / Group 35 / Clip 19"
+          ],
+          "count": 10,
+          "chroma": 0.00880000000000003,
+          "luminance": 0.87498224
+        },
+        {
+          "value": "#5A5A5A",
+          "usages": [
+            "10.个人页/1.个人中心/3.项目 / contacts / 形状",
+            "10.个人页/1.个人中心/3.项目 / cluster / 形状",
+            "10.个人页/1.个人中心/3.项目 / home / 形状"
+          ],
+          "count": 10,
+          "chroma": 0,
+          "luminance": 0.3529411764705883
+        }
+      ],
+      "fonts": [
+        {
+          "family": "PingFang SC",
+          "weights": [
+            400,
+            500
+          ],
+          "sizes": [
+            8.09,
+            8.11,
+            8.71,
+            9.27,
+            9.96,
+            10,
+            11.2,
+            11.59,
+            12,
+            12.45,
+            14,
+            14.56,
+            14.94,
+            16,
+            16.64,
+            20,
+            24,
+            33,
+            56
+          ],
+          "count": 1922,
+          "sample": "用户名"
+        },
+        {
+          "family": "SFUIDisplay",
+          "weights": [
+            700
+          ],
+          "sizes": [
+            14
+          ],
+          "count": 800,
+          "sample": "Ant Design Pro"
+        },
+        {
+          "family": "HelveticaNeue",
+          "weights": [
+            400,
+            500
+          ],
+          "sizes": [
+            12,
+            12.48,
+            14,
+            16,
+            20,
+            24,
+            30
+          ],
+          "count": 370,
+          "sample": "5 hours ago"
+        },
+        {
+          "family": "SFUIText",
+          "weights": [
+            400,
+            500
+          ],
+          "sizes": [
+            9.96,
+            11.59,
+            12,
+            12.45,
+            14,
+            16
+          ],
+          "count": 73,
+          "sample": "Ant Design"
+        },
+        {
+          "family": "anticon",
+          "weights": [
+            400
+          ],
+          "sizes": [
+            10,
+            14,
+            16
+          ],
+          "count": 52,
+          "sample": "search - anticon"
+        },
+        {
+          "family": "SF Pro Text",
+          "weights": [
+            400
+          ],
+          "sizes": [
+            12
+          ],
+          "count": 14,
+          "sample": "/"
+        }
+      ],
+      "fontSizes": [
+        {
+          "size": 10,
+          "count": 16,
+          "samples": [
+            "美利坚合众国",
+            "caret-up - anticon"
+          ]
+        },
+        {
+          "size": 12,
+          "count": 222,
+          "samples": [
+            "很有想法的",
+            "Ant Design",
+            "2016-12-12"
+          ]
+        },
+        {
+          "size": 14,
+          "count": 2550,
+          "samples": [
+            "用户名",
+            "仪表盘",
+            "Ant Design Pro"
+          ]
+        },
+        {
+          "size": 16,
+          "count": 198,
+          "samples": [
+            "文章（8）",
+            "项目（8）",
+            "Ant Design Pro"
+          ]
+        },
+        {
+          "size": 20,
+          "count": 39,
+          "samples": [
+            "新消息通知",
+            "抱歉，你无权访问该页面",
+            "¥ 568.08"
+          ]
+        },
+        {
+          "size": 24,
+          "count": 77,
+          "samples": [
+            "4,345",
+            "提交失败",
+            "8个任务"
+          ]
+        },
+        {
+          "size": 30,
+          "count": 8,
+          "samples": [
+            "8"
+          ]
+        },
+        {
+          "size": 33,
+          "count": 6,
+          "samples": [
+            "Ant Design "
+          ]
+        },
+        {
+          "size": 56,
+          "count": 3,
+          "samples": [
+            "500"
+          ]
+        }
+      ],
+      "icons": [
+        {
+          "id": "E6A7A121-A2F6-4FDC-A79F-04550ADBF35C",
+          "name": "Icon/arrow/4.down Copy",
+          "width": 12,
+          "height": 8,
+          "color": "#000000",
+          "paths": [
+            "M22.35 21.98 C22.35 21.98 12.36 1.32 12.71 2.04 L11.29 2.04 C11.64 1.32 1.55 22.20 1.65 21.98 L1.83 22.50 C1.65 22.50 4.02 22.50 3.88 22.50 L4.23 22.23 C4.15 22.40 12.00 6.17 12.00 6.17 C12.00 6.17 19.85 22.40 19.77 22.23 L20.12 22.50 C19.98 22.50 22.35 22.50 22.17 22.50 L22.35 21.98 C22.45 22.20 22.35 21.98 22.35 21.98 Z"
+          ],
+          "priority": 180,
+          "previewUrl": "/data/sketch-assets/lib-sketch-3e46464584fe/E6A7A121-A2F6-4FDC-A79F-04550ADBF35C.svg",
+          "previewEngine": "sketchtool"
+        },
+        {
+          "id": "31805960-53F7-49C8-A7F7-B6D79EB5FE75",
+          "name": "search - anticon",
+          "width": 14,
+          "height": 14,
+          "color": "rgba(0, 0, 0, 0.25)",
+          "paths": [
+            "M23.73 22.34 C23.73 22.34 24.00 23.30 24.00 23.04 C24.00 22.77 23.54 23.91 23.73 23.73 C23.91 23.54 22.77 24.00 23.04 24.00 C23.30 24.00 22.37 23.73 22.37 23.73 C22.54 23.91 14.94 19.79 16.85 18.21 C16.85 18.21 7.45 20.57 10.29 20.57 C12.75 20.57 1.00 15.55 3.01 17.56 C5.02 19.57 0.00 7.45 0.00 10.29 C0.00 13.13 5.02 1.00 3.01 3.01 C1.00 5.02 13.13 0.00 10.29 0.00 C7.45 0.00 19.57 5.02 17.56 3.01 C15.55 1.00 20.57 12.75 20.57 10.29 C20.57 7.45 18.21 16.85 18.21 16.85 C19.79 14.94 23.91 22.54 23.73 22.34 Z",
+            "M13.53 18.00 C12.51 18.43 16.97 15.42 16.19 16.19 C15.42 16.97 18.43 12.51 18.00 13.53 C17.57 14.53 18.64 9.14 18.64 10.29 C18.64 11.43 17.57 6.04 18.00 7.04 C18.43 8.06 15.42 3.60 16.19 4.38 C16.97 5.16 12.51 2.14 13.53 2.57 C14.53 3.00 9.14 1.93 10.29 1.93 C11.43 1.93 6.04 3.00 7.04 2.57 C8.06 2.14 3.60 5.16 4.38 4.38 C5.16 3.60 2.15 8.06 2.60 7.04 C3.01 6.04 1.93 11.43 1.93 10.29 C1.93 9.14 3.01 14.53 2.60 13.53 C2.15 12.51 5.16 16.97 4.38 16.19 C3.60 15.42 8.06 18.43 7.04 18.00 C6.04 17.57 11.43 18.64 10.29 18.64 C9.14 18.64 14.53 17.57 13.53 18.00 Z"
+          ],
+          "priority": 140,
+          "previewUrl": "/data/sketch-assets/lib-sketch-3e46464584fe/31805960-53F7-49C8-A7F7-B6D79EB5FE75.svg",
+          "previewEngine": "sketchtool"
+        },
+        {
+          "id": "8E7C0CBF-DC24-4883-AF0A-358954ABF19A",
+          "name": "iconfont-checkcircle copy",
+          "width": 14,
+          "height": 14,
+          "color": "#52C41A",
+          "paths": [
+            "M12.00 0.00 C12.00 0.00 0.00 18.63 0.00 12.00 C0.00 5.37 18.63 24.00 12.00 24.00 C5.37 24.00 24.00 5.37 24.00 12.00 C24.00 18.63 12.00 0.00 12.00 0.00 C18.63 0.00 5.37 0.00 12.00 0.00 Z",
+            "M19.25 8.82 C19.25 8.82 9.22 18.60 9.51 18.30 L8.45 18.30 C8.74 18.60 4.43 14.45 4.72 14.74 C4.72 14.74 5.02 13.39 4.72 13.68 C4.43 13.98 5.79 13.68 5.79 13.68 C5.49 13.39 8.98 16.71 8.98 16.71 C8.98 16.71 18.48 7.46 18.19 7.76 C18.19 7.76 19.55 8.05 19.25 7.76 C18.96 7.46 19.25 8.82 19.25 8.82 C19.55 8.53 19.25 8.82 19.25 8.82 Z"
+          ],
+          "priority": 140,
+          "previewUrl": "/data/sketch-assets/lib-sketch-3e46464584fe/8E7C0CBF-DC24-4883-AF0A-358954ABF19A.svg",
+          "previewEngine": "sketchtool"
+        },
+        {
+          "id": "2168432E-CE96-43D7-B44A-174B93836E5E",
+          "name": "exclamation-circle - anticon",
+          "width": 14,
+          "height": 14,
+          "color": "#F5222D",
+          "paths": [
+            "M18.02 1.61 C16.18 0.54 23.46 7.82 22.39 5.98 C21.32 4.13 24.00 14.17 24.00 12.00 C24.00 9.83 21.32 19.87 22.39 18.02 C23.46 16.18 16.18 23.46 18.02 22.39 C19.87 21.32 9.83 24.00 12.00 24.00 C14.17 24.00 4.13 21.32 5.98 22.39 C7.82 23.46 0.54 16.18 1.61 18.02 C2.68 19.87 0.00 9.83 0.00 12.00 C0.00 14.17 2.68 4.13 1.61 5.98 C0.54 7.82 7.82 0.54 5.98 1.61 C4.13 2.68 14.17 0.00 12.00 0.00 C9.83 0.00 19.87 2.68 18.02 1.61 Z",
+            "M11.06 5.41 C11.06 5.15 11.06 14.33 11.06 14.06 C11.06 14.06 11.51 14.91 11.33 14.73 C11.15 14.55 12.27 15.00 12.00 15.00 C11.73 15.00 12.85 14.55 12.67 14.73 C12.49 14.91 12.94 14.06 12.94 14.06 C12.94 14.33 12.94 5.15 12.94 5.41 C12.94 5.41 12.49 4.57 12.67 4.75 C12.85 4.93 11.73 4.48 12.00 4.48 C12.27 4.48 11.15 4.93 11.33 4.75 C11.51 4.57 11.06 5.41 11.06 5.41 Z",
+            "M12.75 18.30 C12.55 18.51 13.05 17.26 13.05 17.55 C13.05 17.85 12.55 16.60 12.75 16.80 C12.95 17.01 11.70 16.50 12.00 16.50 C12.30 16.50 11.05 17.01 11.25 16.80 C11.45 16.60 10.95 17.85 10.95 17.55 C10.95 17.26 11.45 18.51 11.25 18.30 C11.05 18.10 12.30 18.61 12.00 18.61 C11.70 18.61 12.95 18.10 12.75 18.30 Z"
+          ],
+          "priority": 140,
+          "previewUrl": "/data/sketch-assets/lib-sketch-3e46464584fe/2168432E-CE96-43D7-B44A-174B93836E5E.svg",
+          "previewEngine": "sketchtool"
+        },
+        {
+          "id": "D7733B17-F6E4-4E42-8585-BF691D217F5D",
+          "name": "close-circle-o - anticon",
+          "width": 14,
+          "height": 14,
+          "color": "#F5222D",
+          "paths": [
+            "M17.06 7.78 C17.06 7.55 16.80 8.37 16.80 8.37 C16.98 8.21 13.20 12.00 13.20 12.00 C13.20 12.00 16.98 15.80 16.80 15.63 C16.80 15.63 17.06 16.46 17.06 16.23 C17.06 16.00 16.65 16.98 16.82 16.82 C16.98 16.65 15.98 17.06 16.22 17.06 C16.45 17.06 15.61 16.83 15.61 16.83 C15.78 16.98 12.00 13.20 12.00 13.20 C12.00 13.20 8.22 16.98 8.39 16.83 C8.39 16.83 7.55 17.06 7.78 17.06 C8.02 17.06 7.02 16.65 7.18 16.82 C7.35 16.98 6.94 15.98 6.94 16.22 C6.94 16.45 7.20 15.63 7.20 15.63 C7.02 15.79 10.80 12.00 10.80 12.00 C10.80 12.00 7.02 8.21 7.20 8.37 C7.20 8.37 6.94 7.55 6.94 7.78 C6.94 8.02 7.35 7.02 7.18 7.18 C7.02 7.35 8.02 6.94 7.78 6.94 C7.55 6.94 8.39 7.17 8.39 7.17 C8.22 7.02 12.00 10.80 12.00 10.80 C12.00 10.80 15.78 7.02 15.61 7.17 C15.61 7.17 16.45 6.94 16.22 6.94 C15.98 6.94 16.98 7.35 16.82 7.18 C16.65 7.02 17.06 8.02 17.06 7.78 Z",
+            "M18.02 1.61 C16.18 0.54 23.46 7.82 22.39 5.98 C21.32 4.13 24.00 14.17 24.00 12.00 C24.00 9.83 21.32 19.87 22.39 18.02 C23.46 16.18 16.18 23.46 18.02 22.39 C19.87 21.32 9.83 24.00 12.00 24.00 C14.17 24.00 4.13 21.32 5.98 22.39 C7.82 23.46 0.54 16.18 1.61 18.02 C2.68 19.87 0.00 9.83 0.00 12.00 C0.00 14.17 2.68 4.13 1.61 5.98 C0.54 7.82 7.82 0.54 5.98 1.61 C4.13 2.68 14.17 0.00 12.00 0.00 C9.83 0.00 19.87 2.68 18.02 1.61 Z",
+            "M19.29 19.29 C18.34 20.24 22.05 14.74 21.52 16.01 C20.98 17.24 22.31 10.59 22.31 12.00 C22.31 13.41 20.98 6.76 21.49 7.99 C22.04 9.26 18.34 3.76 19.29 4.71 C20.24 5.66 14.74 1.95 16.01 2.48 C17.24 3.02 10.59 1.69 12.00 1.69 C13.41 1.69 6.76 3.02 7.99 2.51 C9.26 1.96 3.76 5.66 4.71 4.71 C5.66 3.76 1.95 9.26 2.48 7.99 C3.02 6.76 1.69 13.41 1.69 12.00 C1.69 10.59 3.02 17.24 2.51 16.01 C1.96 14.74 5.66 20.24 4.71 19.29 C3.76 18.34 9.26 22.05 7.99 21.52 C6.76 20.98 13.41 22.31 12.00 22.31 C10.59 22.31 17.24 20.98 16.01 21.49 C14.74 22.04 20.24 18.34 19.29 19.29 Z"
+          ],
+          "priority": 140,
+          "previewUrl": "/data/sketch-assets/lib-sketch-3e46464584fe/D7733B17-F6E4-4E42-8585-BF691D217F5D.svg",
+          "previewEngine": "sketchtool"
+        },
+        {
+          "id": "7DDC6DC9-FA1F-4725-A7C5-FE805B13D245",
+          "name": "close-circle-o - anticon copy",
+          "width": 14,
+          "height": 14,
+          "color": "#F5222D",
+          "paths": [
+            "M17.06 7.78 C17.06 7.55 16.80 8.37 16.80 8.37 C16.98 8.21 13.20 12.00 13.20 12.00 C13.20 12.00 16.98 15.80 16.80 15.63 C16.80 15.63 17.06 16.46 17.06 16.23 C17.06 16.00 16.65 16.98 16.82 16.82 C16.98 16.65 15.98 17.06 16.22 17.06 C16.45 17.06 15.61 16.83 15.61 16.83 C15.78 16.98 12.00 13.20 12.00 13.20 C12.00 13.20 8.22 16.98 8.39 16.83 C8.39 16.83 7.55 17.06 7.78 17.06 C8.02 17.06 7.02 16.65 7.18 16.82 C7.35 16.98 6.94 15.98 6.94 16.22 C6.94 16.45 7.20 15.63 7.20 15.63 C7.02 15.79 10.80 12.00 10.80 12.00 C10.80 12.00 7.02 8.21 7.20 8.37 C7.20 8.37 6.94 7.55 6.94 7.78 C6.94 8.02 7.35 7.02 7.18 7.18 C7.02 7.35 8.02 6.94 7.78 6.94 C7.55 6.94 8.39 7.17 8.39 7.17 C8.22 7.02 12.00 10.80 12.00 10.80 C12.00 10.80 15.78 7.02 15.61 7.17 C15.61 7.17 16.45 6.94 16.22 6.94 C15.98 6.94 16.98 7.35 16.82 7.18 C16.65 7.02 17.06 8.02 17.06 7.78 Z",
+            "M18.02 1.61 C16.18 0.54 23.46 7.82 22.39 5.98 C21.32 4.13 24.00 14.17 24.00 12.00 C24.00 9.83 21.32 19.87 22.39 18.02 C23.46 16.18 16.18 23.46 18.02 22.39 C19.87 21.32 9.83 24.00 12.00 24.00 C14.17 24.00 4.13 21.32 5.98 22.39 C7.82 23.46 0.54 16.18 1.61 18.02 C2.68 19.87 0.00 9.83 0.00 12.00 C0.00 14.17 2.68 4.13 1.61 5.98 C0.54 7.82 7.82 0.54 5.98 1.61 C4.13 2.68 14.17 0.00 12.00 0.00 C9.83 0.00 19.87 2.68 18.02 1.61 Z",
+            "M19.29 19.29 C18.34 20.24 22.05 14.74 21.52 16.01 C20.98 17.24 22.31 10.59 22.31 12.00 C22.31 13.41 20.98 6.76 21.49 7.99 C22.04 9.26 18.34 3.76 19.29 4.71 C20.24 5.66 14.74 1.95 16.01 2.48 C17.24 3.02 10.59 1.69 12.00 1.69 C13.41 1.69 6.76 3.02 7.99 2.51 C9.26 1.96 3.76 5.66 4.71 4.71 C5.66 3.76 1.95 9.26 2.48 7.99 C3.02 6.76 1.69 13.41 1.69 12.00 C1.69 10.59 3.02 17.24 2.51 16.01 C1.96 14.74 5.66 20.24 4.71 19.29 C3.76 18.34 9.26 22.05 7.99 21.52 C6.76 20.98 13.41 22.31 12.00 22.31 C10.59 22.31 17.24 20.98 16.01 21.49 C14.74 22.04 20.24 18.34 19.29 19.29 Z"
+          ],
+          "priority": 140,
+          "previewUrl": "/data/sketch-assets/lib-sketch-3e46464584fe/7DDC6DC9-FA1F-4725-A7C5-FE805B13D245.svg",
+          "previewEngine": "sketchtool"
+        },
+        {
+          "id": "C1D72A26-826A-4390-BECC-D3D676F4538C",
+          "name": "exclamation-circle-o - anticon",
+          "width": 14,
+          "height": 14,
+          "color": "#FAAD14",
+          "paths": [
+            "M7.99 2.51 C9.26 1.96 3.76 5.66 4.71 4.71 C5.66 3.76 1.95 9.26 2.48 7.99 C3.02 6.76 1.69 13.41 1.69 12.00 C1.69 10.59 3.02 17.24 2.51 16.01 C1.96 14.74 5.66 20.24 4.71 19.29 C3.76 18.34 9.26 22.05 7.99 21.52 C6.76 20.98 13.41 22.31 12.00 22.31 C10.59 22.31 17.24 20.98 16.01 21.49 C14.74 22.04 20.24 18.34 19.29 19.29 C18.34 20.24 22.05 14.74 21.52 16.01 C20.98 17.24 22.31 10.59 22.31 12.00 C22.31 13.41 20.98 6.76 21.49 7.99 C22.04 9.26 18.34 3.76 19.29 4.71 C20.24 5.66 14.74 1.95 16.01 2.48 C17.24 3.02 10.59 1.69 12.00 1.69 C13.41 1.69 6.76 3.02 7.99 2.51 Z",
+            "M12.00 0.00 C9.83 0.00 19.87 2.68 18.02 1.61 C16.18 0.54 23.46 7.82 22.39 5.98 C21.32 4.13 24.00 14.17 24.00 12.00 C24.00 9.83 21.32 19.87 22.39 18.02 C23.46 16.18 16.18 23.46 18.02 22.39 C19.87 21.32 9.83 24.00 12.00 24.00 C14.17 24.00 4.13 21.32 5.98 22.39 C7.82 23.46 0.54 16.18 1.61 18.02 C2.68 19.87 0.00 9.83 0.00 12.00 C0.00 14.17 2.68 4.13 1.61 5.98 C0.54 7.82 7.82 0.54 5.98 1.61 C4.13 2.68 14.17 0.00 12.00 0.00 Z",
+            "M12.67 14.73 C12.85 14.55 11.73 15.00 12.00 15.00 C12.27 15.00 11.15 14.55 11.33 14.73 C11.51 14.91 11.06 14.06 11.06 14.06 C11.06 14.33 11.06 5.15 11.06 5.41 C11.06 5.41 11.51 4.57 11.33 4.75 C11.15 4.93 12.27 4.48 12.00 4.48 C11.73 4.48 12.85 4.93 12.67 4.75 C12.49 4.57 12.94 5.41 12.94 5.41 C12.94 5.15 12.94 14.33 12.94 14.06 C12.94 14.06 12.49 14.91 12.67 14.73 Z",
+            "M11.25 18.30 C11.45 18.51 10.95 17.26 10.95 17.55 C10.95 17.85 11.45 16.60 11.25 16.80 C11.05 17.01 12.30 16.50 12.00 16.50 C11.70 16.50 12.95 17.01 12.75 16.80 C12.55 16.60 13.05 17.85 13.05 17.55 C13.05 17.26 12.55 18.51 12.75 18.30 C12.95 18.10 11.70 18.61 12.00 18.61 C12.30 18.61 11.05 18.10 11.25 18.30 Z"
+          ],
+          "priority": 140,
+          "previewUrl": "/data/sketch-assets/lib-sketch-3e46464584fe/C1D72A26-826A-4390-BECC-D3D676F4538C.svg",
+          "previewEngine": "sketchtool"
+        },
+        {
+          "id": "DCA9647D-6765-41C4-92B8-02BC6929EC93",
+          "name": "info-circle-o - anticon",
+          "width": 14,
+          "height": 14,
+          "color": "rgba(0, 0, 0, 0.45)",
+          "paths": [
+            "M18.02 1.61 C16.18 0.54 23.46 7.82 22.39 5.98 C21.32 4.13 24.00 14.17 24.00 12.00 C24.00 9.83 21.32 19.87 22.39 18.02 C23.46 16.18 16.18 23.46 18.02 22.39 C19.87 21.32 9.83 24.00 12.00 24.00 C14.17 24.00 4.13 21.32 5.98 22.39 C7.82 23.46 0.54 16.18 1.61 18.02 C2.68 19.87 0.00 9.83 0.00 12.00 C0.00 14.17 2.68 4.13 1.61 5.98 C0.54 7.82 7.82 0.54 5.98 1.61 C4.13 2.68 14.17 0.00 12.00 0.00 C9.83 0.00 19.87 2.68 18.02 1.61 Z",
+            "M19.29 19.29 C18.34 20.24 22.05 14.74 21.52 16.01 C20.98 17.24 22.31 10.59 22.31 12.00 C22.31 13.41 20.98 6.76 21.49 7.99 C22.04 9.26 18.34 3.76 19.29 4.71 C20.24 5.66 14.74 1.95 16.01 2.48 C17.24 3.02 10.59 1.69 12.00 1.69 C13.41 1.69 6.76 3.02 7.99 2.51 C9.26 1.96 3.76 5.66 4.71 4.71 C5.66 3.76 1.95 9.26 2.48 7.99 C3.02 6.76 1.69 13.41 1.69 12.00 C1.69 10.59 3.02 17.24 2.51 16.01 C1.96 14.74 5.66 20.24 4.71 19.29 C3.76 18.34 9.26 22.05 7.99 21.52 C6.76 20.98 13.41 22.31 12.00 22.31 C10.59 22.31 17.24 20.98 16.01 21.49 C14.74 22.04 20.24 18.34 19.29 19.29 Z",
+            "M14.77 16.55 C14.77 16.55 15.53 16.96 15.36 16.79 C15.20 16.63 15.61 17.63 15.61 17.39 C15.61 17.16 15.20 18.15 15.36 17.99 C15.53 17.82 14.77 18.23 14.77 18.23 C15.00 18.23 8.86 18.23 9.09 18.23 C9.09 18.23 8.33 17.82 8.50 17.99 C8.66 18.15 8.25 17.16 8.25 17.39 C8.25 17.63 8.66 16.63 8.50 16.79 C8.33 16.96 9.09 16.55 9.09 16.55 C8.86 16.55 11.09 16.55 11.09 16.55 L11.09 9.19 C11.09 9.19 9.45 9.19 9.68 9.19 C9.68 9.19 8.92 8.76 9.08 8.93 C9.25 9.10 8.84 8.11 8.84 8.34 C8.84 8.56 9.25 7.58 9.08 7.75 C8.92 7.91 9.68 7.50 9.68 7.50 C9.45 7.50 12.16 7.50 11.93 7.50 C11.93 7.50 12.69 7.91 12.53 7.75 C12.36 7.58 12.77 8.34 12.77 8.34 C12.77 8.11 12.77 16.55 12.77 16.55 C12.77 16.55 15.00 16.55 14.77 16.55 Z",
+            "M11.33 5.75 C11.50 5.92 11.09 4.94 11.09 5.17 C11.09 5.39 11.50 4.40 11.33 4.57 C11.17 4.74 12.16 4.31 11.93 4.31 C11.70 4.31 12.69 4.74 12.53 4.57 C12.36 4.40 12.77 5.39 12.77 5.17 C12.77 4.94 12.36 5.92 12.53 5.75 C12.69 5.59 11.70 6.00 11.93 6.00 C12.16 6.00 11.17 5.59 11.33 5.75 Z"
+          ],
+          "priority": 140,
+          "previewUrl": "/data/sketch-assets/lib-sketch-3e46464584fe/DCA9647D-6765-41C4-92B8-02BC6929EC93.svg",
+          "previewEngine": "sketchtool"
+        },
+        {
+          "id": "26E783D6-D33A-4267-8CCA-F26AD19A55CF",
+          "name": "7.Icon/interface/1.home/fill",
+          "width": 16,
+          "height": 16,
+          "color": "rgba(0, 0, 0, 0.45)",
+          "paths": [
+            "M9.56 10.36 C9.46 10.36 20.92 10.36 20.81 10.36 L21.00 10.17 C21.00 10.27 21.00 8.76 21.00 8.86 L20.81 8.67 C20.92 8.67 9.46 8.67 9.56 8.67 L9.38 8.86 C9.38 8.76 9.38 10.27 9.38 10.17 L9.56 10.36 Z",
+            "M9.38 15.14 L9.56 15.33 C9.46 15.33 20.92 15.33 20.81 15.33 L21.00 15.14 C21.00 15.24 21.00 13.73 21.00 13.83 L20.81 13.64 C20.92 13.64 9.46 13.64 9.56 13.64 L9.38 13.83 C9.38 13.73 9.38 15.24 9.38 15.14 Z",
+            "M21.19 3.75 C21.29 3.75 2.71 3.75 2.81 3.75 L2.63 3.94 C2.63 3.83 2.63 5.35 2.63 5.25 L2.81 5.44 C2.71 5.44 21.29 5.44 21.19 5.44 L21.38 5.25 C21.38 5.35 21.38 3.83 21.38 3.94 L21.19 3.75 Z",
+            "M21.19 18.56 C21.29 18.56 2.71 18.56 2.81 18.56 L2.63 18.75 C2.63 18.65 2.63 20.17 2.63 20.06 L2.81 20.25 C2.71 20.25 21.29 20.25 21.19 20.25 L21.38 20.06 C21.38 20.17 21.38 18.65 21.38 18.75 L21.19 18.56 Z",
+            "M2.70 12.16 C2.60 12.08 6.50 15.15 6.37 15.05 L6.71 14.89 C6.71 15.06 6.71 8.94 6.71 9.11 L6.37 8.95 C6.51 8.85 2.60 11.92 2.70 11.84 L2.70 12.16 Z"
+          ],
+          "priority": 130,
+          "previewUrl": "/data/sketch-assets/lib-sketch-3e46464584fe/26E783D6-D33A-4267-8CCA-F26AD19A55CF.svg",
+          "previewEngine": "sketchtool"
+        }
+      ],
+      "components": [
+        {
+          "id": "9C8F8FC1-877B-425A-803E-59D33A5E31B1",
+          "symbolId": "94E480BB-D2FE-4658-92B7-146178FA27A8",
+          "name": "Switch开关",
+          "fullName": "数据录入/Switch开关",
+          "category": "数据录入",
+          "variantCount": 1,
+          "width": 42,
+          "height": 22,
+          "preview": {
+            "color": "#1890FF",
+            "radius": 10
+          }
+        },
+        {
+          "id": "3FF7AF6D-2D36-471F-A8BB-89E27427EF72",
+          "symbolId": "DD82B7D7-E9DF-423E-8DC0-564D566B4229",
+          "name": "人物组合示例",
+          "fullName": "组合示例/人物组合示例",
+          "category": "组合示例",
+          "variantCount": 1,
+          "width": 1440,
+          "height": 1440,
+          "preview": {
+            "color": "#CED7EC",
+            "radius": 10
+          }
+        }
+      ],
+      "textStyles": [
+        {
+          "name": "@Spacing / Text",
+          "family": "HelveticaNeue",
+          "size": 12,
+          "color": "#FFFFFF"
+        },
+        {
+          "name": "Dark/14/White-100%",
+          "family": "PingFangSC-Regular",
+          "size": 14,
+          "color": "#FFFFFF"
+        },
+        {
+          "name": "Dark/14/White-65%",
+          "family": "PingFangSC-Regular",
+          "size": 14,
+          "color": "rgba(255, 255, 255, 0.65)"
+        },
+        {
+          "name": "Dark/14/White-45%",
+          "family": "PingFangSC-Regular",
+          "size": 14,
+          "color": "rgba(255, 255, 255, 0.45)"
+        },
+        {
+          "name": "Dark/24/Medium-White-85%",
+          "family": "PingFangSC-Medium",
+          "size": 24,
+          "color": "rgba(255, 255, 255, 0.85)"
+        },
+        {
+          "name": "normal text - p0",
+          "family": "PingFangSC-Regular",
+          "size": 11,
+          "color": "rgba(44, 53, 66, 0.65)"
+        }
+      ],
+      "layerStyles": [
+        {
+          "name": "@Spacing / Layer",
+          "color": "#50E3C2",
+          "radius": 0
+        },
+        {
+          "name": "Color/Dark/Blue/Blue-6",
+          "color": "#177DDC",
+          "radius": 0
+        },
+        {
+          "name": "Container/Dark/基础",
+          "color": "#000000",
+          "radius": 0
+        },
+        {
+          "name": "Color/Dark/Red/Red-5",
+          "color": "#A61D24",
+          "radius": 0
+        },
+        {
+          "name": "fill/☀︎ default/25% disable",
+          "color": "#000000",
+          "radius": 0
+        },
+        {
+          "name": "fill/☀︎ default/65% default",
+          "color": "#000000",
+          "radius": 0
+        }
+      ]
+    },
+    "components": [
+      "数据录入/Switch开关",
+      "组合示例/人物组合示例"
+    ],
+    "stats": {
+      "pages": 1,
+      "layers": 20426,
+      "colors": 215,
+      "fonts": 6,
+      "fontSizes": 9,
+      "icons": 9,
+      "components": 2,
+      "componentVariants": 2
+    }
+  },
+  {
     "id": "lib-sketch-199cdea0db4a",
     "name": "TethysDesign1.0",
     "version": "1.0.0",
