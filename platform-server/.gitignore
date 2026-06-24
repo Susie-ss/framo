@@ -1,0 +1,24 @@
+# 环境变量（含密钥）
+.env
+
+# 数据库
+*.sqlite
+*.sqlite-journal
+
+# 日志
+logs/
+server.log
+
+# 上传缓存
+../previewCache/
+
+# 依赖
+node_modules/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 测试文件
+test-*.js
+tests/

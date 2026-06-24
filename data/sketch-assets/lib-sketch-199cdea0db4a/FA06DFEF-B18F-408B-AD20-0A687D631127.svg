@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="120px" height="32px" viewBox="0 0 120 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>FA06DFEF-B18F-408B-AD20-0A687D631127</title>
+    <g id="3.Data-Input-数据输入/6.InputNumber-数字输入框/3.click" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Input-/-数字输入框/normal备份">
+            <text id="0" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" line-spacing="8" fill="#333333">
+                <tspan x="14" y="25">0</tspan>
+            </text>
+            <line x1="98.5" y1="0.5" x2="98.5" y2="30.5" id="直线-3" stroke="#DDDDDD" stroke-linecap="square"></line>
+            <line x1="98.5" y1="16.5" x2="118.5" y2="16.5" id="直线-4" stroke="#DDDDDD" stroke-linecap="square"></line>
+            <rect id="矩形" stroke="#6698FF" x="0.5" y="0.5" width="119" height="31" rx="4"></rect>
+            <polyline id="路径-2" stroke="#6698FF" points="107.229309 10.0758057 109.394104 7.76739502 111.68158 10.0758057"></polyline>
+            <polyline id="路径-2" stroke="#AAAAAA" transform="translate(109.4554, 23.9216) rotate(-180) translate(-109.4554, -23.9216)" points="107.229309 25.0758057 109.394104 22.767395 111.68158 25.0758057"></polyline>
+        </g>
+    </g>
+</svg>

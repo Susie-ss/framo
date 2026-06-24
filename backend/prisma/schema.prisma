@@ -1,0 +1,122 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String           @id @default(uuid())
+  email        String           @unique
+  name         String
+  avatar       String?
+  createdAt    DateTime         @default(now())
+  memberships  UserOrg[]
+  organizations Organization[]  @relation("OrganizationOwner")
+  comments     Comment[]
+}
+
+model Organization {
+  id        String      @id @default(uuid())
+  name      String
+  ownerId   String
+  owner     User        @relation("OrganizationOwner", fields: [ownerId], references: [id])
+  createdAt DateTime    @default(now())
+  members   UserOrg[]
+  projects  Project[]
+  libraries ComponentLibrary[]
+  folders   Folder[]
+}
+
+model UserOrg {
+  id     String       @id @default(uuid())
+  userId String
+  orgId  String
+  role   String
+  user   User         @relation(fields: [userId], references: [id])
+  org    Organization @relation(fields: [orgId], references: [id])
+}
+
+model Project {
+  id          String             @id @default(uuid())
+  name        String
+  description String?
+  orgId       String
+  libraryId   String?
+  createdBy   String?
+  createdAt   DateTime           @default(now())
+  org         Organization       @relation(fields: [orgId], references: [id])
+  library     ComponentLibrary?  @relation(fields: [libraryId], references: [id])
+  pages       Page[]
+  prototypes  Prototype[]
+}
+
+model ComponentLibrary {
+  id          String        @id @default(uuid())
+  name        String
+  version     String
+  orgId       String
+  sourceType  String
+  tokens      Json
+  components  Json
+  createdAt   DateTime      @default(now())
+  org         Organization  @relation(fields: [orgId], references: [id])
+  projects    Project[]
+  specs       DesignSpec[]
+}
+
+model DesignSpec {
+  id           String            @id @default(uuid())
+  libraryId    String
+  fileUrl      String
+  fileType     String
+  parsedResult Json
+  createdAt    DateTime          @default(now())
+  library      ComponentLibrary  @relation(fields: [libraryId], references: [id])
+}
+
+model Page {
+  id        String   @id @default(uuid())
+  projectId String
+  name      String
+  prompt    String
+  layout    Json
+  createdBy String?
+  createdAt DateTime @default(now())
+  project   Project  @relation(fields: [projectId], references: [id])
+}
+
+model Prototype {
+  id        String    @id @default(uuid())
+  projectId String
+  name      String
+  fileUrl   String
+  type      String
+  version   String
+  createdBy String?
+  createdAt DateTime  @default(now())
+  project   Project   @relation(fields: [projectId], references: [id])
+  comments  Comment[]
+}
+
+model Comment {
+  id          String    @id @default(uuid())
+  prototypeId String
+  userId      String
+  content     String
+  x           Float?
+  y           Float?
+  createdAt   DateTime  @default(now())
+  prototype   Prototype @relation(fields: [prototypeId], references: [id])
+  user        User      @relation(fields: [userId], references: [id])
+}
+
+model Folder {
+  id       String        @id @default(uuid())
+  orgId    String
+  name     String
+  parentId String?
+  org      Organization  @relation(fields: [orgId], references: [id])
+}

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="500px" height="369px" viewBox="0 0 500 369" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>B04DD4D0-478C-4623-AECC-0DEEBE39AE67</title>
+    <defs>
+        <path d="M1.38816485,0 C1.38816485,0 456.612212,0 456.612212,0 C457.378642,0 458,0.800071844 458,1.7869483 C458,1.7869483 458,325.213052 458,325.213052 C458,326.199928 457.378642,327 456.612212,327 C456.612212,327 1.38816485,327 1.38816485,327 C0.621358262,327 0,326.199928 0,325.213052 C0,325.213052 0,1.7869483 0,1.7869483 C0,0.800071844 0.621358262,0 1.38816485,0 Z" id="path-1"></path>
+        <filter x="-7.5%" y="-8.7%" width="115.1%" height="121.1%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="6" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="10.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.8666667   0 0 0 0 0.8666667   0 0 0 0 0.8666667  0 0 0 0.63 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <path d="M4,0 L63,0 C65.209139,0 67,1.790861 67,4 L67,24 C67,26.209139 65.209139,28 63,28 L4,28 C1.790861,28 0,26.209139 0,24 L0,4 C0,1.790861 1.790861,4.4408921e-16 4,0 Z" id="path-3"></path>
+        <mask id="mask-4" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="67" height="28" fill="white">
+            <use xlink:href="#path-3"></use>
+        </mask>
+        <path d="M3.51162791,0 L62.5116279,0 C64.7207669,0 66.5116279,1.790861 66.5116279,4 L66.5116279,24 C66.5116279,26.209139 64.7207669,28 62.5116279,28 L3.51162791,28 C1.30248891,28 -0.488372093,26.209139 -0.488372093,24 L-0.488372093,4 C-0.488372093,1.790861 1.30248891,4.4408921e-16 3.51162791,0 Z" id="path-5"></path>
+        <mask id="mask-6" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="67" height="28" fill="white">
+            <use xlink:href="#path-5"></use>
+        </mask>
+        <path d="M4.25581395,0 L63.255814,0 C65.464953,0 67.255814,1.790861 67.255814,4 L67.255814,24 C67.255814,26.209139 65.464953,28 63.255814,28 L4.25581395,28 C2.04667495,28 0.255813953,26.209139 0.255813953,24 L0.255813953,4 C0.255813953,1.790861 2.04667495,4.4408921e-16 4.25581395,0 Z" id="path-7"></path>
+        <mask id="mask-8" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="67" height="28" fill="white">
+            <use xlink:href="#path-7"></use>
+        </mask>
+        <path d="M4,0 L43,0 C45.209139,0 47,1.790861 47,4 L47,24 C47,26.209139 45.209139,28 43,28 L4,28 C1.790861,28 0,26.209139 0,24 L0,4 C0,1.790861 1.790861,4.4408921e-16 4,0 Z" id="path-9"></path>
+        <mask id="mask-10" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="47" height="28" fill="white">
+            <use xlink:href="#path-9"></use>
+        </mask>
+        <path d="M4,0 L43,0 C45.209139,0 47,1.790861 47,4 L47,24 C47,26.209139 45.209139,28 43,28 L4,28 C1.790861,28 0,26.209139 0,24 L0,4 C0,1.790861 1.790861,4.4408921e-16 4,0 Z" id="path-11"></path>
+        <mask id="mask-12" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="47" height="28" fill="white">
+            <use xlink:href="#path-11"></use>
+        </mask>
+        <path d="M4,0 L43,0 C45.209139,0 47,1.790861 47,4 L47,24 C47,26.209139 45.209139,28 43,28 L4,28 C1.790861,28 0,26.209139 0,24 L0,4 C0,1.790861 1.790861,4.4408921e-16 4,0 Z" id="path-13"></path>
+        <mask id="mask-14" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="47" height="28" fill="white">
+            <use xlink:href="#path-13"></use>
+        </mask>
+        <path d="M4,0 L43,0 C45.209139,0 47,1.790861 47,4 L47,24 C47,26.209139 45.209139,28 43,28 L4,28 C1.790861,28 0,26.209139 0,24 L0,4 C0,1.790861 1.790861,4.4408921e-16 4,0 Z" id="path-15"></path>
+        <mask id="mask-16" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="47" height="28" fill="white">
+            <use xlink:href="#path-15"></use>
+        </mask>
+        <path d="M4,0 L43,0 C45.209139,0 47,1.790861 47,4 L47,24 C47,26.209139 45.209139,28 43,28 L4,28 C1.790861,28 0,26.209139 0,24 L0,4 C0,1.790861 1.790861,4.4408921e-16 4,0 Z" id="path-17"></path>
+        <mask id="mask-18" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="47" height="28" fill="white">
+            <use xlink:href="#path-17"></use>
+        </mask>
+    </defs>
+    <g id="3.Data-Input-数据输入/4.DatePicker日期选择-/8.高级选择" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(21, 15)">
+        <g id="编组-6">
+            <g id="时间段选择">
+                <g id="圆角矩形-9-拷贝-10">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                    <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                </g>
+                <line x1="121.5" y1="0.499965" x2="121.5" y2="326.5" id="直线" stroke="#EEEEEE" stroke-linecap="square"></line>
+            </g>
+            <g id="时间" transform="translate(15, 15)">
+                <path d="M88,0.5 C88.9664983,0.5 89.8414983,0.891750844 90.4748737,1.52512627 C91.1082492,2.15850169 91.5,3.03350169 91.5,4 L91.5,24 C91.5,24.9664983 91.1082492,25.8414983 90.4748737,26.4748737 C89.8414983,27.1082492 88.9664983,27.5 88,27.5 L4,27.5 C3.03350169,27.5 2.15850169,27.1082492 1.52512627,26.4748737 C0.891750844,25.8414983 0.5,24.9664983 0.5,24 L0.5,4 C0.5,3.03350169 0.891750844,2.15850169 1.52512627,1.52512627 C2.15850169,0.891750844 3.03350169,0.5 4,0.5 Z" id="矩形" stroke="#EEEEEE"></path>
+                <text id="最近-7-天" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" fill="#333333">
+                    <tspan x="21.222" y="19">最近 7 天</tspan>
+                </text>
+            </g>
+            <g id="时间" transform="translate(15, 53)">
+                <path d="M88,0.5 C88.9664983,0.5 89.8414983,0.891750844 90.4748737,1.52512627 C91.1082492,2.15850169 91.5,3.03350169 91.5,4 L91.5,24 C91.5,24.9664983 91.1082492,25.8414983 90.4748737,26.4748737 C89.8414983,27.1082492 88.9664983,27.5 88,27.5 L4,27.5 C3.03350169,27.5 2.15850169,27.1082492 1.52512627,26.4748737 C0.891750844,25.8414983 0.5,24.9664983 0.5,24 L0.5,4 C0.5,3.03350169 0.891750844,2.15850169 1.52512627,1.52512627 C2.15850169,0.891750844 3.03350169,0.5 4,0.5 Z" id="矩形" stroke="#EEEEEE"></path>
+                <text id="最近-30-天" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" fill="#333333">
+                    <tspan x="17.304" y="19">最近 30 天</tspan>
+                </text>
+            </g>
+            <g id="时间" transform="translate(15, 91)">
+                <path d="M88,0.5 C88.9664983,0.5 89.8414983,0.891750844 90.4748737,1.52512627 C91.1082492,2.15850169 91.5,3.03350169 91.5,4 L91.5,24 C91.5,24.9664983 91.1082492,25.8414983 90.4748737,26.4748737 C89.8414983,27.1082492 88.9664983,27.5 88,27.5 L4,27.5 C3.03350169,27.5 2.15850169,27.1082492 1.52512627,26.4748737 C0.891750844,25.8414983 0.5,24.9664983 0.5,24 L0.5,4 C0.5,3.03350169 0.891750844,2.15850169 1.52512627,1.52512627 C2.15850169,0.891750844 3.03350169,0.5 4,0.5 Z" id="矩形" stroke="#EEEEEE"></path>
+                <text id="本周" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" fill="#333333">
+                    <tspan x="34" y="19">本周</tspan>
+                </text>
+            </g>
+            <g id="时间" transform="translate(15, 129)">
+                <path d="M88,0.5 C88.9664983,0.5 89.8414983,0.891750844 90.4748737,1.52512627 C91.1082492,2.15850169 91.5,3.03350169 91.5,4 L91.5,24 C91.5,24.9664983 91.1082492,25.8414983 90.4748737,26.4748737 C89.8414983,27.1082492 88.9664983,27.5 88,27.5 L4,27.5 C3.03350169,27.5 2.15850169,27.1082492 1.52512627,26.4748737 C0.891750844,25.8414983 0.5,24.9664983 0.5,24 L0.5,4 C0.5,3.03350169 0.891750844,2.15850169 1.52512627,1.52512627 C2.15850169,0.891750844 3.03350169,0.5 4,0.5 Z" id="矩形" stroke="#EEEEEE"></path>
+                <text id="本月" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" fill="#333333">
+                    <tspan x="34" y="19">本月</tspan>
+                </text>
+            </g>
+            <path d="" id="形状-19-拷贝" stroke="#EEEEEE" fill="#FFFFFF"></path>
+            <text id="自定义" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#999999">
+                <tspan x="217" y="25">自定义</tspan>
+            </text>
+            <path d="M400.375,13 C400.858249,13 401.25,13.3917508 401.25,13.875 L401.25,17.375 L404.75,17.375 C405.233249,17.375 405.625,17.7667508 405.625,18.25 L405.625,26.125 C405.625,26.6082492 405.233249,27 404.75,27 L393.375,27 C392.891751,27 392.5,26.6082492 392.5,26.125 L392.5,18.25 C392.5,17.7667508 392.891751,17.375 393.375,17.375 L396.875,17.375 L396.875,13.875 C396.875,13.3917508 397.266751,13 397.75,13 L400.375,13 Z M404.575,21.837 L393.549,21.837 L393.55,25.95 L395.912,25.95 L395.9125,23.4125 L396.9625,23.4125 L396.962,25.95 L398.537,25.95 L398.5375,22.5375 L399.5875,22.5375 L399.587,25.95 L401.162,25.95 L401.1625,23.4125 L402.2125,23.4125 L402.212,25.95 L404.575,25.95 L404.575,21.837 Z M400.2,14.05 L397.925,14.05 L397.925,18.425 L393.55,18.425 L393.549,20.787 L404.575,20.787 L404.575,18.425 L400.2,18.425 L400.2,14.05 Z" id="形状结合" fill="#999999"></path>
+            <text id="清除" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#888888">
+                <tspan x="411" y="25">清除</tspan>
+            </text>
+            <rect id="矩形" fill="#6698FF" x="141" y="37" width="56" height="2"></rect>
+            <text id="高级选择" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#6698FF">
+                <tspan x="141" y="25">高级选择</tspan>
+            </text>
+            <g id="编组-4" transform="translate(142, 62)">
+                <g id="编组" transform="translate(38, 32)">
+                    <use id="矩形" stroke="#6698FF" mask="url(#mask-4)" stroke-width="2" fill="#FFFFFF" stroke-dasharray="3" xlink:href="#path-3"></use>
+                    <text id="2020" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" fill="#333333">
+                        <tspan x="19.1" y="18">2020</tspan>
+                    </text>
+                </g>
+                <g id="编组备份" transform="translate(191.4884, 32)">
+                    <use id="矩形" stroke="#DDDDDD" mask="url(#mask-6)" stroke-width="2" fill="#FFFFFF" stroke-dasharray="3" xlink:href="#path-5"></use>
+                    <text id="2022" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" fill="#333333">
+                        <tspan x="19.6116279" y="18">2022</tspan>
+                    </text>
+                </g>
+                <g id="编组-5" transform="translate(0.0001, 32)" stroke="#DDDDDD">
+                    <rect id="矩形" fill="#FFFFFF" x="0.5" y="0.5" width="27" height="27" rx="5"></rect>
+                    <polyline id="路径" stroke-linecap="round" stroke-linejoin="round" transform="translate(13.7561, 13.9021) rotate(-180) translate(-13.7561, -13.9021)" points="12 10 15.512207 13.9218979 12 17.8041992"></polyline>
+                </g>
+                <g id="编组-5" transform="translate(282.0001, 46) rotate(-180) translate(-282.0001, -46)translate(268.0001, 32)" stroke="#DDDDDD">
+                    <rect id="矩形" fill="#FFFFFF" x="0.5" y="0.5" width="27" height="27" rx="5"></rect>
+                    <polyline id="路径" stroke-linecap="round" stroke-linejoin="round" transform="translate(13.7561, 13.9021) rotate(-180) translate(-13.7561, -13.9021)" points="12 10 15.512207 13.9218979 12 17.8041992"></polyline>
+                </g>
+                <g id="编组-2" transform="translate(114.7442, 32)">
+                    <use id="矩形" stroke="#DDDDDD" mask="url(#mask-8)" stroke-width="2" fill="#FFFFFF" stroke-dasharray="3" xlink:href="#path-7"></use>
+                    <text id="2021" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" fill="#333333">
+                        <tspan x="20.549814" y="18">2021</tspan>
+                    </text>
+                </g>
+                <text id="年份" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#888888">
+                    <tspan x="0" y="15">年份</tspan>
+                </text>
+            </g>
+            <g id="编组-4" transform="translate(142, 152)">
+                <g id="编组" transform="translate(38, 31)">
+                    <use id="矩形" stroke="#6698FF" mask="url(#mask-10)" stroke-width="2" stroke-dasharray="3" xlink:href="#path-9"></use>
+                    <text id="Q1" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" fill="#333333">
+                        <tspan x="17.992" y="19">Q1</tspan>
+                    </text>
+                </g>
+                <g id="编组" transform="translate(95, 31)">
+                    <use id="矩形" stroke="#DDDDDD" mask="url(#mask-12)" stroke-width="2" fill="#FAFAFA" stroke-dasharray="3" xlink:href="#path-11"></use>
+                    <g id="1.Base基础/1.icon图标/1.-action/close" transform="translate(24.0598, 14) rotate(-45) translate(-24.0598, -14)translate(15.3925, 5.3327)" fill="#DDDDDD">
+                        <path d="M9.11726189,2.53858223 L9.11658223,8.21658223 L14.7959415,8.21726189 L14.7959415,9.11726189 L9.11658223,9.11658223 L9.11726189,14.7959415 L8.21726189,14.7959415 L8.21658223,9.11658223 L2.53858223,9.11726189 L2.53858223,8.21726189 L8.21658223,8.21658223 L8.21726189,2.53858223 L9.11726189,2.53858223 Z" id="形状结合" transform="translate(8.6673, 8.6673) rotate(-315) translate(-8.6673, -8.6673)"></path>
+                    </g>
+                </g>
+                <g id="编组" transform="translate(153, 31)">
+                    <use id="矩形" stroke="#DDDDDD" mask="url(#mask-14)" stroke-width="2" fill="#FAFAFA" stroke-dasharray="3" xlink:href="#path-13"></use>
+                    <g id="1.Base基础/1.icon图标/1.-action/close" transform="translate(24.0598, 14) rotate(-45) translate(-24.0598, -14)translate(15.3925, 5.3327)" fill="#DDDDDD">
+                        <path d="M9.11726189,2.53858223 L9.11658223,8.21658223 L14.7959415,8.21726189 L14.7959415,9.11726189 L9.11658223,9.11658223 L9.11726189,14.7959415 L8.21726189,14.7959415 L8.21658223,9.11658223 L2.53858223,9.11726189 L2.53858223,8.21726189 L8.21658223,8.21658223 L8.21726189,2.53858223 L9.11726189,2.53858223 Z" id="形状结合" transform="translate(8.6673, 8.6673) rotate(-315) translate(-8.6673, -8.6673)"></path>
+                    </g>
+                </g>
+                <g id="编组" transform="translate(210, 31)">
+                    <use id="矩形" stroke="#DDDDDD" mask="url(#mask-16)" stroke-width="2" stroke-dasharray="3" xlink:href="#path-15"></use>
+                    <text id="Q4" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" fill="#333333">
+                        <tspan x="14.298" y="19">Q4</tspan>
+                    </text>
+                </g>
+                <g id="编组-5" transform="translate(0.0001, 31)" stroke="#DDDDDD">
+                    <rect id="矩形" fill="#FFFFFF" x="0.5" y="0.5" width="27" height="27" rx="5"></rect>
+                    <polyline id="路径" stroke-linecap="round" stroke-linejoin="round" transform="translate(13.7561, 13.9021) rotate(-180) translate(-13.7561, -13.9021)" points="12 10 15.512207 13.9218979 12 17.8041992"></polyline>
+                </g>
+                <g id="编组-5" transform="translate(282.0001, 45) rotate(-180) translate(-282.0001, -45)translate(268.0001, 31)" stroke="#DDDDDD">
+                    <rect id="矩形" fill="#FFFFFF" x="0.5" y="0.5" width="27" height="27" rx="5"></rect>
+                    <polyline id="路径" stroke-linecap="round" stroke-linejoin="round" transform="translate(13.7561, 13.9021) rotate(-180) translate(-13.7561, -13.9021)" points="12 10 15.512207 13.9218979 12 17.8041992"></polyline>
+                </g>
+                <g id="编组-3" font-family="PingFangSC-Regular, PingFang SC" font-weight="normal">
+                    <text id="季度" font-size="14" fill="#888888">
+                        <tspan x="0" y="15">季度</tspan>
+                    </text>
+                    <text id="2020" font-size="12" fill="#AAAAAA">
+                        <tspan x="38.1" y="15">2020</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="编组-3" transform="translate(142, 242)"></g>
+            <g id="编组-4" transform="translate(142, 242)">
+                <g id="编组" transform="translate(38, 32)">
+                    <path d="M43,0.5 C43.9664983,0.5 44.8414983,0.891750844 45.4748737,1.52512627 C46.1082492,2.15850169 46.5,3.03350169 46.5,4 L46.5,24 C46.5,24.9664983 46.1082492,25.8414983 45.4748737,26.4748737 C44.8414983,27.1082492 43.9664983,27.5 43,27.5 L4,27.5 C3.03350169,27.5 2.15850169,27.1082492 1.52512627,26.4748737 C0.891750844,25.8414983 0.5,24.9664983 0.5,24 L0.5,4 C0.5,3.03350169 0.891750844,2.15850169 1.52512627,1.52512627 C2.15850169,0.891750844 3.03350169,0.5 4,0.5 Z" id="矩形" stroke="#6698FF" fill="#6698FF"></path>
+                    <text id="一月" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" fill="#FFFFFF">
+                        <tspan x="12.5" y="19">一月</tspan>
+                    </text>
+                </g>
+                <g id="编组备份-3" transform="translate(153, 32)">
+                    <path d="M43,0.5 C43.9664983,0.5 44.8414983,0.891750844 45.4748737,1.52512627 C46.1082492,2.15850169 46.5,3.03350169 46.5,4 L46.5,24 C46.5,24.9664983 46.1082492,25.8414983 45.4748737,26.4748737 C44.8414983,27.1082492 43.9664983,27.5 43,27.5 L4,27.5 C3.03350169,27.5 2.15850169,27.1082492 1.52512627,26.4748737 C0.891750844,25.8414983 0.5,24.9664983 0.5,24 L0.5,4 C0.5,3.03350169 0.891750844,2.15850169 1.52512627,1.52512627 C2.15850169,0.891750844 3.03350169,0.5 4,0.5 Z" id="矩形" stroke="#6698FF" fill="#6698FF" opacity="0.5"></path>
+                    <text id="三月" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" fill="#FFFFFF">
+                        <tspan x="12" y="19">三月</tspan>
+                    </text>
+                </g>
+                <g id="编组备份-2" transform="translate(95, 32)">
+                    <path d="M43,0.5 C43.9664983,0.5 44.8414983,0.891750844 45.4748737,1.52512627 C46.1082492,2.15850169 46.5,3.03350169 46.5,4 L46.5,24 C46.5,24.9664983 46.1082492,25.8414983 45.4748737,26.4748737 C44.8414983,27.1082492 43.9664983,27.5 43,27.5 L4,27.5 C3.03350169,27.5 2.15850169,27.1082492 1.52512627,26.4748737 C0.891750844,25.8414983 0.5,24.9664983 0.5,24 L0.5,4 C0.5,3.03350169 0.891750844,2.15850169 1.52512627,1.52512627 C2.15850169,0.891750844 3.03350169,0.5 4,0.5 Z" id="矩形" stroke="#6698FF" fill="#6698FF" opacity="0.8"></path>
+                    <g id="1.Base基础/1.icon图标/1.-action/close" transform="translate(15.375, 5.375)" fill="#FFFFFF">
+                        <path d="M9.11726189,2.53858223 L9.11658223,8.21658223 L14.7959415,8.21726189 L14.7959415,9.11726189 L9.11658223,9.11658223 L9.11726189,14.7959415 L8.21726189,14.7959415 L8.21658223,9.11658223 L2.53858223,9.11726189 L2.53858223,8.21726189 L8.21658223,8.21658223 L8.21726189,2.53858223 L9.11726189,2.53858223 Z" id="形状结合" transform="translate(8.6673, 8.6673) rotate(-315) translate(-8.6673, -8.6673)"></path>
+                    </g>
+                </g>
+                <g id="编组备份-4" transform="translate(210, 32)">
+                    <use id="矩形" stroke="#DDDDDD" mask="url(#mask-18)" stroke-width="2" stroke-dasharray="3" xlink:href="#path-17"></use>
+                    <text id="四月" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" fill="#333333">
+                        <tspan x="11" y="19">四月</tspan>
+                    </text>
+                </g>
+                <g id="编组-5" transform="translate(0.0001, 32)" stroke="#DDDDDD">
+                    <rect id="矩形" fill="#FFFFFF" x="0.5" y="0.5" width="27" height="27" rx="5"></rect>
+                    <polyline id="路径" stroke-linecap="round" stroke-linejoin="round" transform="translate(13.7561, 13.9021) rotate(-180) translate(-13.7561, -13.9021)" points="12 10 15.512207 13.9218979 12 17.8041992"></polyline>
+                </g>
+                <g id="编组-5" transform="translate(282.0001, 46) rotate(-180) translate(-282.0001, -46)translate(268.0001, 32)" stroke="#DDDDDD">
+                    <rect id="矩形" fill="#FFFFFF" x="0.5" y="0.5" width="27" height="27" rx="5"></rect>
+                    <polyline id="路径" stroke-linecap="round" stroke-linejoin="round" transform="translate(13.7561, 13.9021) rotate(-180) translate(-13.7561, -13.9021)" points="12 10 15.512207 13.9218979 12 17.8041992"></polyline>
+                </g>
+                <text id="2020" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" fill="#AAAAAA">
+                    <tspan x="39.100131" y="14">2020</tspan>
+                </text>
+                <text id="月份" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#888888">
+                    <tspan x="0" y="15">月份</tspan>
+                </text>
+            </g>
+        </g>
+    </g>
+</svg>

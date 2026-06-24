@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1560px" height="48px" viewBox="0 0 1560 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>6E79D22C-0FCC-4192-B247-8AD8FECD5215</title>
+    <g id="4.数据展示-Data-Display/5.Pagination-分页-/7.Total（1560）" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="分页">
+            <g id="4.数据展示-Data-Display/8.Table表格/5.空白控件/仅上线" transform="translate(0, -0)">
+                <rect id="白底" fill="#FFFFFF" x="0" y="9.59232693e-14" width="1560" height="48"></rect>
+                <g id="1.Base基础/3.Divider分割线/1.水平分割线" transform="translate(0, 0)" fill="#EEEEEE">
+                    <polygon id="横向分割线" transform="translate(780, 0.5) rotate(-90) translate(-780, -0.5)" points="779.5 -779.5 780.5 -779.5 780.5 780.5 779.5 780.5"></polygon>
+                </g>
+            </g>
+            <text id="第-32~48-条-共-600-条" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal">
+                <tspan x="20" y="29" fill="#888888">第 </tspan>
+                <tspan x="38.662" y="29" fill="#333333">32~48 </tspan>
+                <tspan x="83.924" y="29" fill="#888888">条 共 </tspan>
+                <tspan x="121.248" y="29" fill="#333333">600 </tspan>
+                <tspan x="151.11" y="29" fill="#888888">条</tspan>
+            </text>
+            <g id="4.数据展示-Data-Display/5.Pagination-分页-/场景1备份-2" transform="translate(1079, 8)">
+                <g id="分页场景1" transform="translate(111.4505, 0)">
+                    <path d="M31.921978,0.5 L31.921978,31.5 L4,31.5 C3.03350169,31.5 2.15850169,31.1082492 1.52512627,30.4748737 C0.891750844,29.8414983 0.5,28.9664983 0.5,28 L0.5,4 C0.5,3.03350169 0.891750844,2.15850169 1.52512627,1.52512627 C2.15850169,0.891750844 3.03350169,0.5 4,0.5 L31.921978,0.5 Z" id="矩形" stroke="#EEEEEE"></path>
+                    <g id="1.Base基础/1.icon图标/1.-action/active" transform="translate(16.1953, 15.9976) rotate(-180) translate(-16.1953, -15.9976)translate(8.0741, 7.9951)" fill="#AAAAAA">
+                        <path d="M12.9946275,5 L13.8365857,5.831 L8.08877692,11.503 L8.08312703,11.498 L2.33012703,5.831 L3.17107209,5 L8.08212703,9.847 L12.9946275,5 Z" id="形状结合" transform="translate(8.0834, 8.2515) scale(-1, -1) rotate(-270) translate(-8.0834, -8.2515)"></path>
+                    </g>
+                    <rect id="矩形" stroke="#EEEEEE" x="63.3175824" y="0.5" width="31.421978" height="31"></rect>
+                    <text id="…" fill="#666666" fill-rule="nonzero" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" line-spacing="22">
+                        <tspan x="73.0417582" y="16">…</tspan>
+                    </text>
+                    <rect id="矩形" stroke="#EEEEEE" x="31.9087912" y="0.5" width="31.421978" height="31"></rect>
+                    <text id="1" fill="#666666" fill-rule="nonzero" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" line-spacing="22">
+                        <tspan x="44.6197802" y="20">1</tspan>
+                    </text>
+                    <rect id="矩形复制-2" stroke="#EEEEEE" x="94.7263736" y="0.5" width="31.421978" height="31"></rect>
+                    <text id="46" fill="#666666" fill-rule="nonzero" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" line-spacing="22">
+                        <tspan x="102.443956" y="20">46</tspan>
+                    </text>
+                    <rect id="矩形复制-2" stroke="#EEEEEE" x="126.135165" y="0.5" width="31.421978" height="31"></rect>
+                    <text id="47" fill="#666666" fill-rule="nonzero" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" line-spacing="22">
+                        <tspan x="133.852747" y="20">47</tspan>
+                    </text>
+                    <rect id="矩形复制" stroke="#EEEEEE" x="188.952747" y="0.5" width="31.421978" height="31"></rect>
+                    <text id="49" fill="#666666" fill-rule="nonzero" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" line-spacing="22">
+                        <tspan x="196.67033" y="20">49</tspan>
+                    </text>
+                    <rect id="矩形复制" stroke="#EEEEEE" x="157.543956" y="0.5" width="31.421978" height="31"></rect>
+                    <text id="48" fill="#666666" fill-rule="nonzero" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" line-spacing="22">
+                        <tspan x="165.261538" y="20">48</tspan>
+                    </text>
+                    <path d="M279.692308,0.5 C280.658806,0.5 281.533806,0.891750844 282.167181,1.52512627 C282.800557,2.15850169 283.192308,3.03350169 283.192308,4 L283.192308,28 C283.192308,28.9664983 282.800557,29.8414983 282.167181,30.4748737 C281.533806,31.1082492 280.658806,31.5 279.692308,31.5 L251.77033,31.5 L251.77033,0.5 Z" id="矩形复制-5" stroke="#EEEEEE"></path>
+                    <g id="1.Base基础/1.icon图标/1.-action/active" transform="translate(259.3758, 8)" fill="#CACACA">
+                        <path d="M12.9946275,5 L13.8365857,5.831 L8.08877692,11.503 L8.08312703,11.498 L2.33012703,5.831 L3.17107209,5 L8.08212703,9.847 L12.9946275,5 Z" id="形状结合" transform="translate(8.0834, 8.2515) scale(-1, -1) rotate(-270) translate(-8.0834, -8.2515)"></path>
+                    </g>
+                    <g id="编组" transform="translate(293.8242, 5)" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" line-spacing="22">
+                        <text id="共-20-页">
+                            <tspan x="0" y="15" fill="#AAAAAA">共 </tspan>
+                            <tspan x="18.662" y="15" fill="#666666">20 </tspan>
+                            <tspan x="40.124" y="15" fill="#AAAAAA">页</tspan>
+                        </text>
+                    </g>
+                    <path d="M251.783516,0.5 L251.783516,31.5 L220.361538,31.5 L220.361538,0.5 L251.783516,0.5 Z" id="矩形复制-5" stroke="#6698FF" fill="#6698FF"></path>
+                    <text id="50" fill="#FFFFFF" fill-rule="nonzero" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" line-spacing="22">
+                        <tspan x="228.079121" y="20">50</tspan>
+                    </text>
+                </g>
+                <g id="切换">
+                    <path d="M97.3186813,0.5 C98.2851796,0.5 99.1601796,0.891750844 99.7935551,1.52512627 C100.42693,2.15850169 100.818681,3.03350169 100.818681,4 L100.818681,28 C100.818681,28.9664983 100.42693,29.8414983 99.7935551,30.4748737 C99.1601796,31.1082492 98.2851796,31.5 97.3186813,31.5 L4,31.5 C3.03350169,31.5 2.15850169,31.1082492 1.52512627,30.4748737 C0.891750844,29.8414983 0.5,28.9664983 0.5,28 L0.5,4 C0.5,3.03350169 0.891750844,2.15850169 1.52512627,1.52512627 C2.15850169,0.891750844 3.03350169,0.5 4,0.5 Z" id="矩形" stroke="#EEEEEE"></path>
+                    <text id="50-条/页" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#666666">
+                        <tspan x="10.1318681" y="21">50 条/页</tspan>
+                    </text>
+                    <g id="1.Base基础/1.icon图标/1.-action/active" transform="translate(74.9758, 8)" fill="#AAAAAA">
+                        <path d="M12.9946275,5.49967 L13.8365857,6.33067 L8.08877692,12.00267 L8.08312703,11.99767 L2.33012703,6.33067 L3.17107209,5.49967 L8.08212703,10.34667 L12.9946275,5.49967 Z" id="形状结合"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

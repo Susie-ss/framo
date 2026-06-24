@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="60px" height="60px" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>DA869A21-F450-4C61-BC4A-B88E9BC17B1F</title>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="36" height="36" rx="18"></rect>
+        <filter x="-50.0%" y="-50.0%" width="200.0%" height="200.0%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="0" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="6" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.06 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="6.-其他-Other/2.BackTop-返回顶部-" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(12, 12)">
+        <g id="bg" fill-rule="nonzero">
+            <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+            <use fill="#FFFFFF" xlink:href="#path-1"></use>
+        </g>
+        <path d="M18.5614109,12.1949363 L22.5314109,16.5179363 C22.7314109,16.7348251 22.740201,17.0591708 22.5683163,17.2858924 L22.4954109,17.3659363 C22.2514109,17.5899363 21.8724109,17.5739363 21.6474109,17.3299363 L18.699,14.116 L18.6999109,23.2670029 C18.6999109,23.6347807 18.4775969,23.9399322 18.1884909,23.9923748 L18.0999109,24.0003363 C17.7679109,24.0003363 17.4999109,23.6715585 17.4999109,23.2670029 L17.499,14.149 L14.5382109,17.3154363 C14.337322,17.5305474 14.0147541,17.5639301 13.7755881,17.4099657 L13.6902109,17.3434363 C13.4482109,17.1164363 13.4352109,16.7374363 13.6622109,16.4954363 L17.6350741,12.2469068 C17.6581035,12.2152976 17.6845582,12.1854643 17.7144109,12.1579363 C17.9584109,11.9339363 18.3374109,11.9499363 18.5614109,12.1949363 Z" id="形状结合" fill="#888888"></path>
+    </g>
+</svg>

@@ -1,0 +1,44 @@
+# 环境变量（含密钥）
+.env
+platform-server/.env
+
+# 数据库
+*.sqlite
+*.sqlite-journal
+platform-server/database.sqlite
+
+# 日志
+logs/
+platform-server/logs/
+server.log
+*.log
+
+# 上传缓存
+previewCache/
+
+# 依赖
+node_modules/
+platform-server/node_modules/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 测试文件
+platform-server/test-*.js
+platform-server/tests/
+
+# 构建缓存
+.cache
+dist/
+build/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# 大文件 - PDF 设计文档
+*.pdf
+*.pdf.png

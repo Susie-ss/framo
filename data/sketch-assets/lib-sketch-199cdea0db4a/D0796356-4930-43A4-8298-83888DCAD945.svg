@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="344px" height="104px" viewBox="0 0 344 104" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>D0796356-4930-43A4-8298-83888DCAD945</title>
+    <defs>
+        <path d="M0,4 L0,76 C4.4408921e-16,78.209139 1.790861,80 4,80 L316,80 C318.209139,80 320,78.209139 320,76 L320,4 C320,1.790861 318.209139,-8.8817842e-16 316,0 L4,0 C1.790861,4.4408921e-16 0,1.790861 0,4 Z" id="path-1"></path>
+        <filter x="-5.6%" y="-22.5%" width="111.2%" height="145.0%" filterUnits="objectBoundingBox" id="filter-2">
+            <feMorphology radius="2" operator="erode" in="SourceAlpha" result="shadowSpreadOuter1"></feMorphology>
+            <feOffset dx="0" dy="0" in="shadowSpreadOuter1" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="8" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.25 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="5.-反馈--Feedback/2.Notify-通知/5.失败（带详情）" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(12, 12)">
+        <g id="失败（有详情）">
+            <g id="Depth">
+                <g>
+                    <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                    <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                </g>
+                <path d="M2.666704,1.13686838e-13 C2.666704,1.13686838e-13 3.33332,1.13686838e-13 3.33332,1.13686838e-13 C3.701592,1.13686838e-13 4.000056,0.298452 4.000056,0.666672 C4.000056,0.666672 4.000056,79.333304 4.000056,79.333304 C4.000056,79.701524 3.701592,80.000027 3.33332,80.000027 C1.492424,80.000027 0,78.507563 0,76.666667 C0,76.666667 0,2.666637 0,2.666637 C0,1.193859 1.19396,1.13686838e-13 2.666704,1.13686838e-13 Z" id="矩形-3" fill="#FF7575"></path>
+            </g>
+            <path d="M294.142471,19 L294.142,25.857 L301,25.8575288 L301,27.1424712 L294.142,27.142 L294.142471,34 L292.857529,34 L292.857,27.142 L286,27.1424712 L286,25.8575288 L292.857,25.857 L292.857529,19 L294.142471,19 Z" id="形状结合" fill="#DDDDDD" transform="translate(293.5, 26.5) rotate(-315) translate(-293.5, -26.5)"></path>
+            <text id="获取数据失败！" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" line-spacing="20" fill="#AAAAAA">
+                <tspan x="51" y="58">获取数据失败！</tspan>
+            </text>
+            <text id="[详细]" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" line-spacing="20" fill="#6698FF">
+                <tspan x="148" y="58">[详细]</tspan>
+            </text>
+            <text id="复制失败" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" line-spacing="30" fill="#333333">
+                <tspan x="51" y="27.8876404">复制失败</tspan>
+            </text>
+            <g id="1.Base基础/1.icon图标/1.action/designated" transform="translate(20, 19)" fill="#FF7575">
+                <path d="M9,0 C13.95,0 18,4.05 18,9 C18,13.95 13.95,18 9,18 C4.05,18 0,13.95 0,9 C0,4.05 4.05,0 9,0 Z M11.010939,5.89748682 L9.02182776,7.90448682 L7.06382264,5.92783045 L5.94482106,7.03618981 L7.91282776,9.02348682 L5.92682776,11.0281467 L7.04558441,12.1367532 L9.02082776,10.1424868 L10.9365663,12.0758646 L12.0555679,10.9675053 L10.1288278,9.02348682 L12.1296957,7.00609341 L11.010939,5.89748682 Z" id="形状结合"></path>
+            </g>
+        </g>
+    </g>
+</svg>

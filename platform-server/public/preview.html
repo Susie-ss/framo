@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>项目详情</title>
+    <link rel="stylesheet" href="/css/style.css?v=20260527i" />
+    <link rel="stylesheet" href="/libs/phosphor/duotone/style.css" />
+    <link rel="stylesheet" href="/libs/bi/bootstrap-icons.min.css" />
+    <style>
+        body{display:flex;flex-direction:column;height:100vh;overflow:hidden;margin:0;background:var(--bg)}
+        #viewer-container{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+        .fs-toolbar{display:grid;grid-template-columns:auto 1fr auto;grid-template-areas:"badge name actions" "time time actions";column-gap:10px;row-gap:10px;align-items:flex-start;padding:15px 15px;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0}
+        .fs-toolbar .fs-title{font-size:16px;font-weight:600;line-height:1.3;margin:0;align-self:center}
+        .fs-toolbar .fs-times{font-size:12px;color:var(--text-muted);line-height:1.5}
+        .fs-toolbar .fs-actions{display:flex;gap:6px;flex-shrink:0;align-items:center}
+        /* Share button — like homepage download plugin */
+        .btn-share{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;border:none;background:var(--primary);color:#fff;transition:all .15s}
+        .btn-share:hover{background:var(--primary-dark);transform:translateY(-1px);box-shadow:0 4px 12px rgba(91,94,244,.35)}
+        /* Toast */
+        .toast { position:fixed;top:16px;left:50%;transform:translateX(-50%) translateY(-10px);z-index:10000;padding:10px 20px;border-radius:8px;font-size:13px;color:#fff;opacity:0;transition:all .2s;pointer-events:none;white-space:nowrap; }
+        .toast.show { opacity:1;transform:translateX(-50%) translateY(0); }
+        .toast.success { background:#22C55E; }
+        .toast.error { background:#EF4444; }
+
+        /* ===== Share Modal ===== */
+        .share-modal{background:var(--surface);border-radius:12px;padding:0;width:520px;max-width:94vw;box-shadow:0 8px 32px rgba(0,0,0,.12);transform:scale(.95);transition:transform .2s;max-height:85vh;overflow-y:auto}
+        .modal-overlay.active .share-modal{transform:scale(1)}
+        .share-modal .sm-header{display:flex;align-items:center;justify-content:space-between;padding:20px 24px 16px;border-bottom:1px solid var(--border)}
+        .share-modal .sm-header .sm-title{font-size:16px;font-weight:600}
+        .share-modal .sm-header .sm-close{background:none;border:none;cursor:pointer;color:var(--text-muted);padding:4px;font-size:18px;line-height:1;border-radius:6px;transition:all .15s}
+        .share-modal .sm-header .sm-close:hover{background:var(--bg);color:var(--text)}
+        .share-modal .sm-body{padding:24px}
+        .share-modal .sm-section{margin-bottom:24px}
+        .share-modal .sm-section:last-child{margin-bottom:0}
+        .share-modal .sm-section-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:16px;display:flex;align-items:center;gap:6px}
+        .share-modal .sm-section-title i{font-size:15px;color:var(--primary)}
+        .share-modal .sm-divider{margin:20px 0;border:none;border-top:1px solid var(--border)}
+        /* Invite row */
+        .share-modal .sm-invite-row{display:flex;gap:8px;margin-bottom:12px}
+        .share-modal .sm-invite-row input{flex:1;padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;outline:none;background:var(--bg);transition:border-color .15s}
+        .share-modal .sm-invite-row input:focus{border-color:var(--primary);background:#fff}
+        .share-modal .sm-invite-row .btn-invite{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;border:none;background:var(--primary);color:#fff;transition:all .15s;white-space:nowrap}
+        .share-modal .sm-invite-row .btn-invite:hover{background:var(--primary-dark);transform:translateY(-1px);box-shadow:0 4px 12px rgba(91,94,244,.35)}
+        /* Member list */
+        .share-modal .sm-member-list{max-height:160px;overflow-y:auto;margin-top:4px}
+        .share-modal .sm-member{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:8px;transition:background .15s}
+        .share-modal .sm-member:hover{background:var(--bg)}
+        .share-modal .sm-member + .sm-member{border-top:1px solid var(--border)}
+        .share-modal .sm-member .sm-avatar{width:34px;height:34px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;flex-shrink:0}
+        .share-modal .sm-member .sm-info{flex:1;min-width:0}
+        .share-modal .sm-member .sm-username{font-size:14px;font-weight:500}
+        .share-modal .sm-member .sm-date{font-size:12px;color:var(--text-muted);margin-top:2px}
+        .share-modal .sm-member .btn-remove{background:none;border:1px solid var(--border);color:var(--text-muted);padding:5px 12px;border-radius:6px;font-size:12px;cursor:pointer;transition:all .15s;white-space:nowrap}
+        .share-modal .sm-member .btn-remove:hover{border-color:var(--danger);color:var(--danger);background:#fef2f2}
+        /* Share toggle row */
+        .share-modal .sm-share-toggle{display:flex;align-items:center;justify-content:space-between;padding:12px 0}
+        .share-modal .sm-share-toggle .st-label{font-size:13px;font-weight:500}
+        /* Password row — inline next to label */
+        .share-modal .sm-password-row{display:flex;align-items:center;gap:10px;padding:8px 0}
+        .share-modal .sm-password-row .sp-label{font-size:13px;color:var(--text-secondary);white-space:nowrap;min-width:60px}
+        .share-modal .sm-password-row input[type="text"]{width:84px;padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:13px;text-align:center;outline:none;background:var(--bg);transition:border-color .15s}
+        .share-modal .sm-password-row input[type="text"]:focus{border-color:var(--primary);background:#fff}
+        .share-modal .sm-password-row label{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--text-muted);cursor:pointer;white-space:nowrap}
+        .share-modal .sm-password-row label input[type="checkbox"]{width:14px;height:14px;accent-color:var(--primary);margin:0;cursor:pointer}
+        /* Expiry row */
+        .share-modal .sm-expiry-row{display:flex;align-items:center;gap:10px;padding:6px 0}
+        .share-modal .sm-expiry-row .se-label{font-size:13px;color:var(--text-secondary);white-space:nowrap;min-width:60px}
+        .share-modal .sm-expiry-row input{width:68px;padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:13px;text-align:center;outline:none;background:var(--bg);transition:border-color .15s}
+        .share-modal .sm-expiry-row input:focus{border-color:var(--primary);background:#fff}
+        .share-modal .sm-expiry-row span{font-size:12px;color:var(--text-muted)}
+        /* Generate button — gradient, bold */
+        .sm-generate-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:12px 20px;margin-top:14px;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;background:linear-gradient(135deg, var(--primary), #8B8EFF);color:#fff;transition:all .2s}
+        .sm-generate-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(91,94,244,.4)}
+        .sm-generate-btn:active{transform:translateY(0)}
+        /* Share link result */
+        .sm-link-result{display:none;margin-top:12px}
+        .sm-link-result .sm-link-row{display:flex;gap:8px;align-items:center}
+        .sm-link-result input{flex:1;padding:8px 12px;border:1px solid var(--primary);border-radius:8px;font-size:12px;background:var(--bg);color:var(--primary);outline:none}
+        .sm-link-result .btn-copy{display:inline-flex;align-items:center;gap:4px;padding:8px 14px;border-radius:7px;font-size:13px;font-weight:500;cursor:pointer;border:none;background:var(--primary);color:#fff;transition:all .15s}
+        .sm-link-result .btn-copy:hover{background:var(--primary-dark)}
+
+        /* ===== Split.js Gutter — invisible but wide hit area ===== */
+        .gutter{background:transparent !important;transition:none;position:relative}
+        .gutter::after{content:'';position:absolute;top:0;bottom:0;left:50%;width:1px;background:var(--border);transform:translateX(-50%)}
+        .gutter:hover{background:transparent !important}
+        .gutter:hover::after{background:var(--border)}
+        .gutter.gutter-horizontal{cursor:col-resize;width:8px;}
+        /* Collapse button — overlaps the gutter */
+        .sidebar-collapse-btn{position:absolute;top:50%;right:-4px;transform:translateY(-50%);width:14px;height:38px;background:var(--surface);border:1px solid var(--border);border-right:none;border-radius:5px 0 0 5px;cursor:pointer;color:var(--text-muted);font-size:10px;display:flex;align-items:center;justify-content:center;z-index:10;transition:all .15s;padding:0;line-height:1;box-shadow:-1px 0 2px rgba(0,0,0,.05)}
+        .sidebar-collapse-btn:hover{background:var(--primary-light);color:var(--primary);border-color:var(--primary)}
+    </style>
+</head>
+<body>
+    <div id="viewer-container"><div style="padding:40px;text-align:center;color:var(--text-muted)">加载中...</div></div>
+    <div class="toast" id="toast"></div>
+    <script src="/libs/split.min.js?v=20260527i"></script>
+    <script src="/js/modal.js?v=20260527i"></script>
+    <script src="/js/api.js?v=20260527i"></script>
+    <script src="/js/viewer.js?v=20260527i"></script>
+    <script>
+    // ============ Utilities ============
+    function showToast(message, type) {
+        type = type || 'success';
+        var toast = document.getElementById('toast');
+        if (!toast) return;
+        toast.textContent = message;
+        toast.className = 'toast ' + type;
+        setTimeout(function() { toast.classList.add('show'); }, 10);
+        setTimeout(function() { toast.classList.remove('show'); }, 3000);
+    }
+    function formatDate(ts) {
+        if (!ts && ts !== 0) return '-';
+        var d = new Date(ts * 1000);
+        if (isNaN(d.getTime())) return '-';
+        return d.toLocaleDateString('zh-CN', { year:'numeric', month:'2-digit', day:'2-digit' });
+    }
+
+    var currentProject = null;
+    var params=new URLSearchParams(location.search);
+    var projectId=params.get('project')||'';
+    var initPage=params.get('page')||'';
+
+    async function initFullscreen(){
+        if(!projectId){document.getElementById('viewer-container').innerHTML='<div style="padding:40px;text-align:center;color:var(--text-muted)">缺少项目ID</div>';return;}
+
+        var projectData=null;
+        try{
+            var r=await api.get('/api/projects/'+projectId);
+            if(r.success)projectData=r.data;
+        }catch(e){}
+
+        var version=(projectData&&projectData.version_num)||0;
+        var name=projectData?projectData.name:'项目';
+        var updatedAt=projectData&&projectData.updated_at?formatDateFull(projectData.updated_at):'-';
+        var createdAt=projectData&&projectData.created_at?formatDateFull(projectData.created_at):'-';
+        var isOwner=projectData&&projectData.permission==='owner';
+        if (projectData) currentProject = projectData;
+
+        var toolbarHTML=''+
+          '<div class="fs-toolbar">'+
+            '<span class="version-badge" style="grid-area:badge">V'+version+'</span>'+
+            '<div class="fs-title" style="grid-area:name">'+name+'</div>'+
+            '<div class="fs-times" style="grid-area:time">'+
+              '更新于 '+updatedAt+' · 创建于 '+createdAt+
+            '</div>'+
+            '<div class="fs-actions" style="grid-area:actions">'+
+              (isOwner?'<button class="btn-share" onclick="showShareModal(\''+projectId+'\')" title="分享与成员"><svg class="iconpark iconpark-lg"><use href="/libs/iconpark/sprite.svg#people"/></svg></button>':'')+
+            '</div>'+
+          '</div>';
+
+        document.getElementById('viewer-container').innerHTML=toolbarHTML+
+          '<div id="viewer-inner" style="flex:1;display:flex;flex-direction:column;overflow:hidden;min-height:0"></div>';
+
+        renderViewer({
+            container:document.getElementById('viewer-inner'),
+            projectId:projectId,initPage:initPage,
+            mode:'fullscreen'
+        });
+    }
+
+    function formatDateFull(ts){
+        if(!ts)return'-';
+        var d=new Date(ts*1000);if(isNaN(d.getTime()))return'-';
+        return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
+    }
+
+    // ============ Share & Members Modal ============
+    function random4Code() {
+        var chars = 'abcdefghjkmnpqrstuvwxyz23456789';
+        var code = '';
+        for (var i = 0; i < 4; i++) code += chars[Math.floor(Math.random() * chars.length)];
+        return code;
+    }
+
+    window.showShareModal = async function(projectId) {
+        var oldModal = document.getElementById('share-modal');
+        if (oldModal) oldModal.remove();
+
+        // Refresh project data to get latest share state
+        try {
+            var r = await api.get('/api/projects/' + projectId);
+            if (r.success) currentProject = r.data;
+        } catch(e) {}
+
+        var hasShare = !!(currentProject && currentProject.share_token);
+        var hasPassword = !!(currentProject && currentProject.share_password);
+        var shareUrl = hasShare ? (location.origin + '/share/' + currentProject.share_token) : '';
+        var shareUrlWithPwd = hasShare && hasPassword ? (shareUrl + '?pwd=' + currentProject.share_password) : shareUrl;
+
+        var modal = document.createElement('div');
+        modal.id = 'share-modal';
+        modal.className = 'modal-overlay active';
+        modal.innerHTML = '<div class="share-modal" onclick="event.stopPropagation()">' +
+            '<div class="sm-header">' +
+                '<div class="sm-title">协作</div>' +
+                '<button class="sm-close" onclick="document.getElementById(\'share-modal\').remove()"><svg class="iconpark iconpark-lg"><use href="/libs/iconpark/sprite.svg#close"/></svg></button>' +
+            '</div>' +
+            '<div class="sm-body">' +
+                // ===== Members Section =====
+                '<div class="sm-section">' +
+                    '<div class="sm-section-title"><svg class="iconpark"><use href="/libs/iconpark/sprite.svg#people"/></svg> 成员管理</div>' +
+                    '<div class="sm-invite-row">' +
+                        '<input type="text" id="invite-username" placeholder="输入用户名邀请协作" onkeydown="if(event.key===\'Enter\')inviteMember(\'' + projectId + '\')">' +
+                        '<button class="btn-invite" onclick="inviteMember(\'' + projectId + '\')"><svg class="iconpark"><use href="/libs/iconpark/sprite.svg#people-plus"/></svg> 邀请</button>' +
+                    '</div>' +
+                    '<div class="sm-member-list" id="member-list">' +
+                        '<div style="padding:12px;text-align:center;color:var(--text-muted);font-size:13px">加载中...</div>' +
+                    '</div>' +
+                '</div>' +
+                '<hr class="sm-divider">' +
+                // ===== Share Section =====
+                '<div class="sm-section">' +
+                    '<div class="sm-section-title"><svg class="iconpark"><use href="/libs/iconpark/sprite.svg#share"/></svg> 分享设置</div>' +
+                    '<div class="sm-share-toggle">' +
+                        '<span class="st-label">开启分享</span>' +
+                        '<label class="switch"><input type="checkbox" id="share-toggle" onchange="onShareToggle(\'' + projectId + '\', this.checked)" ' + (hasShare ? 'checked' : '') + '><span class="switch-slider"></span></label>' +
+                    '</div>' +
+                    '<div id="share-options" style="display:' + (hasShare ? 'block' : 'none') + '">' +
+                        '<div class="sm-password-row">' +
+                            '<span class="sp-label">密码访问</span>' +
+                            '<input type="text" id="share-password" readonly value="' + (hasPassword ? currentProject.share_password : random4Code()) + '" style="display:' + (hasPassword ? 'inline-block' : 'none') + '">' +
+                            '<label><input type="checkbox" id="no-password" onchange="togglePassword()" ' + (!hasPassword ? 'checked' : '') + '> 无需密码</label>' +
+                        '</div>' +
+                        '<div class="sm-expiry-row">' +
+                            '<span class="se-label">有效期</span>' +
+                            '<input type="number" id="share-expiry" value="' + (currentProject.share_expiry_days || 7) + '" min="1" max="365" onchange="var v=parseInt(this.value)||7;this.value=Math.max(1,Math.min(365,v))">' +
+                            '<span>天</span>' +
+                        '</div>' +
+                        '<button class="sm-generate-btn" onclick="generateShareLink(\'' + projectId + '\')"><svg class="iconpark"><use href="/libs/iconpark/sprite.svg#share"/></svg> 生成分享链接</button>' +
+                        // Show existing link when reopening
+                        '<div class="sm-link-result" id="link-result" style="display:' + (hasShare ? 'block' : 'none') + '">' +
+                            '<div class="sm-link-row">' +
+                                '<input type="text" id="link-result-input" readonly value="' + shareUrlWithPwd.replace(/"/g, '&quot;') + '">' +
+                                '<button class="btn-copy" onclick="copyShareLink()"><svg class="iconpark"><use href="/libs/iconpark/sprite.svg#copy"/></svg> 复制</button>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>' +
+            '</div>' +
+        '</div>';
+        document.body.appendChild(modal);
+        modal.addEventListener('click', function(e) { if (e.target === modal) modal.remove(); });
+
+        loadMembers(projectId);
+    };
+
+    function togglePassword() {
+        var cb = document.getElementById('no-password');
+        var pw = document.getElementById('share-password');
+        if (!cb || !pw) return;
+        if (cb.checked) {
+            pw.style.display = 'none';
+        } else {
+            pw.style.display = 'inline-block';
+            pw.value = random4Code();
+        }
+    }
+    window.togglePassword = togglePassword;
+
+    async function loadMembers(projectId) {
+        var list = document.getElementById('member-list');
+        if (!list) return;
+        try {
+            var result = await api.get('/api/projects/' + projectId + '/members');
+            if (result.success) {
+                list.innerHTML = result.data.length === 0
+                    ? '<div style="padding:16px;text-align:center;color:var(--text-muted);font-size:13px">暂无成员</div>'
+                    : result.data.map(function(m) { return (
+                        '<div class="sm-member">' +
+                            '<div class="sm-avatar">' + (m.username ? m.username[0] : '?') + '</div>' +
+                            '<div class="sm-info">' +
+                                '<div class="sm-username">' + m.username + '</div>' +
+                                '<div class="sm-date">加入于 ' + formatDate(m.invited_at) + '</div>' +
+                            '</div>' +
+                            '<button class="btn-remove" onclick="removeMember(\'' + projectId + '\',\'' + m.user_id + '\',\'' + (m.username || '').replace(/'/g, "\\'") + '\')"><svg class="iconpark"><use href="/libs/iconpark/sprite.svg#people-minus"/></svg> 移除</button>' +
+                        '</div>');
+                    }).join('');
+            }
+        } catch(e) {
+            list.innerHTML = '<div style="padding:16px;text-align:center;color:var(--text-muted);font-size:13px">加载失败</div>';
+        }
+    }
+
+    window.inviteMember = async function(projectId) {
+        var username = document.getElementById('invite-username')?.value?.trim();
+        if (!username) { showToast('请输入用户名', 'error'); return; }
+        try {
+            var result = await api.post('/api/projects/' + projectId + '/members', { username: username });
+            if (result.success) {
+                showToast('邀请成功', 'success');
+                document.getElementById('invite-username').value = '';
+                loadMembers(projectId);
+            } else {
+                showToast(result.error || '邀请失败', 'error');
+            }
+        } catch(e) { showToast('网络错误', 'error'); }
+    };
+
+    window.removeMember = async function(projectId, userId, username) {
+        if (!confirm('确定要移除「' + username + '」吗？')) return;
+        try {
+            var r = await api.del('/api/projects/' + projectId + '/members/' + userId);
+            if (r.success) {
+                showToast('已移除', 'success');
+                loadMembers(projectId);
+            } else {
+                showToast(r.error || '操作失败', 'error');
+            }
+        } catch(e) { showToast('网络错误', 'error'); }
+    };
+
+    async function onShareToggle(projectId, enabled) {
+        // Hide/show options immediately for responsive UI
+        var opts = document.getElementById('share-options');
+        var linkRes = document.getElementById('link-result');
+        if (!enabled) {
+            if (opts) opts.style.display = 'none';
+            if (linkRes) linkRes.style.display = 'none';
+        }
+        try {
+            var body = { share_permission: enabled ? 1 : 0 };
+            if (enabled) {
+                var noPwd = document.getElementById('no-password')?.checked;
+                body.share_password = noPwd ? null : (document.getElementById('share-password')?.value || null);
+                body.share_expiry_days = parseInt(document.getElementById('share-expiry')?.value) || 7;
+            }
+            var r = await api.put('/api/projects/' + projectId + '/share-permission', body);
+            if (r.success) {
+                showToast(enabled ? '已开启分享' : '已关闭分享', 'success');
+                var u = await api.get('/api/projects/' + projectId);
+                if (u.success) { currentProject = u.data; }
+                if (enabled && opts) opts.style.display = 'block';
+            }
+        } catch(e) { showToast('网络错误', 'error'); }
+    }
+    window.onShareToggle = onShareToggle;
+
+    async function generateShareLink(projectId) {
+        try {
+            var noPassword = document.getElementById('no-password')?.checked;
+            var password = noPassword ? null : (document.getElementById('share-password')?.value || '');
+            var expiry = parseInt(document.getElementById('share-expiry')?.value) || 7;
+            await api.put('/api/projects/' + projectId + '/share-permission', {
+                share_permission: 1,
+                share_password: password,
+                share_expiry_days: expiry
+            });
+            var u = await api.get('/api/projects/' + projectId);
+            if (u.success) currentProject = u.data;
+
+            if (currentProject.share_token) {
+                var link = location.origin + '/share/' + currentProject.share_token;
+                if (password) link += '?pwd=' + password;
+                var resultDiv = document.getElementById('link-result');
+                var inputEl = document.getElementById('link-result-input');
+                if (resultDiv && inputEl) {
+                    inputEl.value = link;
+                    resultDiv.style.display = 'block';
+                }
+                showToast('链接已生成', 'success');
+            }
+        } catch(e) { showToast('生成失败', 'error'); }
+    }
+    window.generateShareLink = generateShareLink;
+
+    function copyShareLink() {
+        var inp = document.getElementById('link-result-input');
+        if (!inp?.value) return;
+        navigator.clipboard.writeText(inp.value).then(function() { showToast('已复制', 'success'); }).catch(function() { showToast('复制失败', 'error'); });
+    }
+    window.copyShareLink = copyShareLink;
+
+    initFullscreen();
+    </script>
+</body>
+</html>

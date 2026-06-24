@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="902px" height="100px" viewBox="0 0 902 100" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>9EBC0510-A60A-4D6B-9BBD-A0FC8D608961</title>
+    <g id="4.数据展示-Data-Display/7.Statistic-数据统计-" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="编组">
+            <rect id="矩形" fill="#FFC442" opacity="0.05" x="0" y="0" width="217.5" height="100" rx="3"></rect>
+            <path d="M3,0 L3,0 L3,0 L3,100 C1.34314575,100 0,98.6568542 0,97 L0,3 C0,1.34314575 1.34314575,0 3,0 Z" id="矩形" fill="#FFC442"></path>
+            <text id="用例数" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" fill="#888888">
+                <tspan x="45" y="72">用例数</tspan>
+            </text>
+            <text id="154" font-family=".AppleSystemUIFont" font-size="32" font-weight="normal" fill="#FFC442">
+                <tspan x="39" y="52">154</tspan>
+            </text>
+            <rect id="矩形" fill="#56ABFB" opacity="0.05" x="228" y="0" width="217.5" height="100" rx="3"></rect>
+            <path d="M231,0 L231,0 L231,0 L231,100 C229.343146,100 228,98.6568542 228,97 L228,3 C228,1.34314575 229.343146,0 231,0 Z" id="矩形" fill="#56ABFB"></path>
+            <text id="用例覆盖率" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" fill="#888888">
+                <tspan x="272" y="72">用例覆盖率</tspan>
+            </text>
+            <text id="65" font-family=".AppleSystemUIFont" font-size="32" font-weight="normal" fill="#56ABFB">
+                <tspan x="269" y="52">65</tspan>
+            </text>
+            <text id="%" font-family=".AppleSystemUIFont" font-size="20" font-weight="normal" fill="#56ABFB">
+                <tspan x="309" y="52">%</tspan>
+            </text>
+            <rect id="矩形" fill="#66C060" opacity="0.05" x="456" y="0" width="217.5" height="100" rx="3"></rect>
+            <path d="M459,0 L459,0 L459,0 L459,100 C457.343146,100 456,98.6568542 456,97 L456,3 C456,1.34314575 457.343146,0 459,0 Z" id="矩形" fill="#73D897"></path>
+            <text id="用例通过率" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" fill="#888888">
+                <tspan x="500" y="72">用例通过率</tspan>
+            </text>
+            <text id="80" font-family=".AppleSystemUIFont" font-size="32" font-weight="normal" fill="#73D897">
+                <tspan x="499" y="52">80</tspan>
+            </text>
+            <text id="%" font-family=".AppleSystemUIFont" font-size="20" font-weight="normal" fill="#73D897">
+                <tspan x="539" y="52">%</tspan>
+            </text>
+            <rect id="矩形" fill="#FA5A55" opacity="0.05" x="684" y="0" width="217.5" height="100" rx="3"></rect>
+            <path d="M687,0 L687,0 L687,0 L687,100 C685.343146,100 684,98.6568542 684,97 L684,3 C684,1.34314575 685.343146,0 687,0 Z" id="矩形" fill="#FA5A55"></path>
+            <text id="缺陷数" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" fill="#888888">
+                <tspan x="728" y="72">缺陷数</tspan>
+            </text>
+            <text id="154" font-family=".AppleSystemUIFont" font-size="32" font-weight="normal" fill="#FF7575">
+                <tspan x="725" y="52">154</tspan>
+            </text>
+        </g>
+    </g>
+</svg>

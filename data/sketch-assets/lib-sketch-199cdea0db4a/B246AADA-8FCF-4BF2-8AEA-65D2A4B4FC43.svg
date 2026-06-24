@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="80px" height="22px" viewBox="0 0 80 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>B246AADA-8FCF-4BF2-8AEA-65D2A4B4FC43</title>
+    <g id="4.数据展示-Data-Display/4.Label-标签/4.特殊/1.icon+文字/icon-16" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(0, -1)">
+        <text id="项目名称" fill="#333333" fill-rule="nonzero" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" line-spacing="22">
+            <tspan x="24" y="16">项目名称</tspan>
+        </text>
+        <g id="1.icon图标/8.rd/kanban-square-fill" transform="translate(0, 4)" fill="#6698FF">
+            <path d="M6.02035037,4.4408921e-16 C6.68282444,4.4408921e-16 7.31821309,0.262942945 7.78695959,0.731076063 L9.10501676,2.04740849 L13.5,2.04740849 C14.8807119,2.04740849 16,3.16669662 16,4.54740849 L16,13.5 C16,14.8807119 14.8807119,16 13.5,16 L2.5,16 C1.11928813,16 0,14.8807119 0,13.5 L0,2.5 C0,1.11928813 1.11928813,1.77635684e-15 2.5,1.77635684e-15 L6.02035037,4.4408921e-16 Z M7.00376732,6.5 L4.00376732,6.5 L4.00376732,11.5 L7.00376732,11.5 L7.00376732,6.5 Z M12,6.5 L9,6.5 L9,10.0298887 L12,10.0298887 L12,6.5 Z" id="形状结合"></path>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="272px" height="292px" viewBox="0 0 272 292" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>234FA72B-65DD-44A2-91C5-A7083E3CF895</title>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="240" height="260" rx="2"></rect>
+        <filter x="-10.0%" y="-9.2%" width="120.0%" height="118.5%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="0" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="8" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.08 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="3.Data-Input-数据输入/1.Select-选择/4.常规下拉" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(16, 16)">
+        <g id="矩形">
+            <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+            <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+        </g>
+        <g id="3.Data-Input-数据输入/1.Select-选择/7.下拉窗内容/1.纯文字/1.默认" transform="translate(0, 10)">
+            <rect id="矩形" fill="#FFFFFF" x="0" y="0" width="240" height="40"></rect>
+            <text id="选项一" fill="#333333" fill-rule="nonzero" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" line-spacing="22">
+                <tspan x="20" y="24">选项一</tspan>
+            </text>
+        </g>
+        <g id="3.Data-Input-数据输入/1.Select-选择/7.下拉窗内容/1.纯文字/1.默认备份" transform="translate(0, 50)">
+            <rect id="矩形" fill="#FFFFFF" x="0" y="0" width="240" height="40"></rect>
+            <text id="选项一" fill="#333333" fill-rule="nonzero" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" line-spacing="22">
+                <tspan x="20" y="24">选项二</tspan>
+            </text>
+        </g>
+        <g id="3.Data-Input-数据输入/1.Select-选择/7.下拉窗内容/1.纯文字/1.默认备份-2" transform="translate(0, 90)" fill="#6698FF">
+            <rect id="矩形" opacity="0.1" x="0" y="0" width="240" height="40"></rect>
+            <text id="选项一" fill-rule="nonzero" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" line-spacing="22">
+                <tspan x="20" y="24">选项三</tspan>
+            </text>
+        </g>
+        <g id="3.Data-Input-数据输入/1.Select-选择/7.下拉窗内容/1.纯文字/1.默认备份-3" transform="translate(0, 130)">
+            <rect id="矩形" fill="#FFFFFF" x="0" y="0" width="240" height="40"></rect>
+            <text id="选项一" fill="#333333" fill-rule="nonzero" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" line-spacing="22">
+                <tspan x="20" y="24">选项四</tspan>
+            </text>
+        </g>
+        <g id="3.Data-Input-数据输入/1.Select-选择/7.下拉窗内容/1.纯文字/1.默认备份-4" transform="translate(0, 170)">
+            <rect id="矩形" fill="#FFFFFF" x="0" y="0" width="240" height="40"></rect>
+            <text id="选项一" fill="#333333" fill-rule="nonzero" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" line-spacing="22">
+                <tspan x="20" y="24">选项五</tspan>
+            </text>
+        </g>
+        <g id="3.Data-Input-数据输入/1.Select-选择/7.下拉窗内容/1.纯文字/1.默认备份-5" transform="translate(0, 210)">
+            <rect id="矩形" fill="#FFFFFF" x="0" y="0" width="240" height="40"></rect>
+            <text id="选项一" fill="#333333" fill-rule="nonzero" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" line-spacing="22">
+                <tspan x="20" y="24">选项六</tspan>
+            </text>
+        </g>
+        <rect id="边框" stroke="#EEEEEE" x="0.5" y="0.5" width="239" height="259" rx="2"></rect>
+    </g>
+</svg>

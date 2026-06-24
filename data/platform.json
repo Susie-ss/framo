@@ -1,0 +1,57 @@
+{
+  "projects": [
+    {
+      "id": "proj-design-ai",
+      "name": "企业设计中台",
+      "description": "绑定 Enterprise Console 组件库，推进 AI 页面生成与原型预览。",
+      "status": "In Progress",
+      "pages": 12,
+      "color": "#5B5EF4",
+      "tagIds": [
+        "tag-design"
+      ],
+      "updatedAt": "2026-06-24T08:30:00.000Z"
+    },
+    {
+      "id": "proj-axure-hosting",
+      "name": "Axure 托管改造",
+      "description": "优先打通 HTML 托管、分享、评论与版本展示。",
+      "status": "Planning",
+      "pages": 4,
+      "color": "#06B6D4",
+      "tagIds": [
+        "tag-prototype"
+      ],
+      "updatedAt": "2026-06-23T11:20:00.000Z"
+    },
+    {
+      "id": "proj-spec-parsing",
+      "name": "规范解析实验",
+      "description": "对接 PDF / OCR / LLM，输出结构化 Design Token。",
+      "status": "Research",
+      "pages": 7,
+      "color": "#A855F7",
+      "tagIds": [
+        "tag-ai"
+      ],
+      "updatedAt": "2026-06-22T04:10:00.000Z"
+    }
+  ],
+  "productLines": [
+    {
+      "id": "tag-design",
+      "name": "设计中台",
+      "color": "#5B5EF4"
+    },
+    {
+      "id": "tag-prototype",
+      "name": "原型协作",
+      "color": "#06B6D4"
+    },
+    {
+      "id": "tag-ai",
+      "name": "AI 实验",
+      "color": "#A855F7"
+    }
+  ]
+}
