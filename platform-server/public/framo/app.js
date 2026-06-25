@@ -273,30 +273,34 @@ function tagModal() {
 }
 
 function pluginModal() {
-  const releaseBase = "https://github.com/Susie-ss/framo/releases/latest/download";
+  const pluginPackageUrl = "/downloads/Flowa-Axure-Plugin-1.0.0.zip";
+  const releasePageUrl = "https://github.com/Susie-ss/framo/releases";
   openModal({
     title: "下载 Flowa 插件",
     subtitle: "一键同步 Axure 原型到设计协作平台",
-    confirmText: "打开 Release 下载页",
+    confirmText: "⇩ 下载插件包",
     body: `
-      <div class="plugin-hero"><span class="plugin-mark">F</span><div><strong>Flowa Axure Plugin 1.0.0</strong><p>正式 Electron 安装包 · 支持 Windows 与 macOS 双架构</p></div></div>
+      <div class="plugin-hero"><span class="plugin-mark">F</span><div><strong>Flowa Axure Plugin 1.0.0</strong><p>通用插件包 · 内含源码、依赖清单和 Windows/macOS 打包脚本</p></div></div>
       <div class="plugin-steps">
-        <div class="plugin-step"><b>1</b><div><strong>按系统下载安装包</strong><small>Windows 使用 .exe，macOS 使用对应 Intel / Apple Silicon 的 .dmg</small></div></div>
-        <div class="plugin-step"><b>2</b><div><strong>安装并启动</strong><small>双击安装包，首次使用前配置 Flowa 服务地址</small></div></div>
+        <div class="plugin-step"><b>1</b><div><strong>下载通用插件包</strong><small>下载后解压，按安装说明运行或自行打包为系统安装包</small></div></div>
+        <div class="plugin-step"><b>2</b><div><strong>安装并启动</strong><small>首次使用前配置 Flowa 服务地址</small></div></div>
         <div class="plugin-step"><b>3</b><div><strong>打开 Axure 预览</strong><small>插件自动检测本地预览并整理页面结构进行发布</small></div></div>
       </div>
       <div class="plugin-features"><span>↻ 版本自动覆盖</span><span>♧ 团队共享预览</span><span>↗ 一键生成链接</span><span>▱ 多端在线预览</span></div>
       <div class="plugin-features">
-        <a class="ghost-btn" href="${releaseBase}/Flowa-Axure-Plugin-1.0.0-win-x64-setup.exe">Windows 安装包</a>
-        <a class="ghost-btn" href="${releaseBase}/Flowa-Axure-Plugin-1.0.0-mac-arm64.dmg">macOS Apple 芯片</a>
-        <a class="ghost-btn" href="${releaseBase}/Flowa-Axure-Plugin-1.0.0-mac-x64.dmg">macOS Intel</a>
-        <a class="ghost-btn" href="https://github.com/Susie-ss/framo/releases/latest">全部版本</a>
+        <a class="ghost-btn" href="${pluginPackageUrl}" download="Flowa-Axure-Plugin-1.0.0.zip">下载通用插件包</a>
+        <a class="ghost-btn" href="${releasePageUrl}" target="_blank" rel="noopener">查看 Release 页面</a>
       </div>
     `,
     onConfirm: () => {
-      window.open("https://github.com/Susie-ss/framo/releases/latest", "_blank", "noopener");
+      const link = document.createElement("a");
+      link.href = pluginPackageUrl;
+      link.download = "Flowa-Axure-Plugin-1.0.0.zip";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
       closeModal();
-      showToast("已打开插件下载页");
+      showToast("插件包下载已开始");
     }
   });
 }
