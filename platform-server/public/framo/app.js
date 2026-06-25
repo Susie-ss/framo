@@ -501,6 +501,7 @@ function navigateTo(target) {
   const panels = Array.from(document.querySelectorAll(".panel"));
   links.forEach((item) => item.classList.toggle("active", item.dataset.section === target));
   panels.forEach((panel) => panel.classList.toggle("active", panel.id === target));
+  document.documentElement.removeAttribute("data-initial-section");
   document.querySelector(".sidebar").classList.remove("mobile-open");
   if (target === "projects") renderProjectsBrowser();
 }
@@ -539,6 +540,13 @@ function initPlatformChrome() {
 }
 
 async function bootstrap() {
+  const requestedSection = new URLSearchParams(window.location.search).get("section");
+  const embeddedSection = requestedSection === "libraries" || requestedSection === "generate" ? requestedSection : "";
+  if (embeddedSection) {
+    document.body.classList.add("framo-embedded");
+    navigateTo(embeddedSection);
+  }
+
   const [metrics, projects, libraries, prototypes, tags] = await Promise.all([
     request("/api/framo/metrics"),
     Promise.resolve([]),
@@ -570,12 +578,11 @@ async function bootstrap() {
   initPlatformChrome();
 
   document.querySelector("#generate-btn").addEventListener("click", generatePage);
-  await generatePage();
-
-  const requestedSection = new URLSearchParams(window.location.search).get("section");
-  if (requestedSection === "libraries" || requestedSection === "generate") {
-    document.body.classList.add("framo-embedded");
-    navigateTo(requestedSection);
+  if (embeddedSection) {
+    navigateTo(embeddedSection);
+  }
+  if (!embeddedSection || embeddedSection === "generate") {
+    await generatePage();
   }
 }
 
