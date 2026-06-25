@@ -4,7 +4,21 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Flowa · Design AI Platform</title>
+    <script>
+      (function () {
+        var section = new URLSearchParams(window.location.search).get("section");
+        if (section === "libraries" || section === "generate") {
+          document.documentElement.setAttribute("data-initial-section", section);
+        }
+      })();
+    </script>
     <link rel="stylesheet" href="./styles.css" />
+    <style>
+      html[data-initial-section="libraries"] #dashboard,
+      html[data-initial-section="generate"] #dashboard { display: none !important; }
+      html[data-initial-section="libraries"] #libraries,
+      html[data-initial-section="generate"] #generate { display: grid !important; }
+    </style>
   </head>
   <body>
     <header class="topbar">

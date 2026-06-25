@@ -18,12 +18,12 @@ const DATA_DIR = (() => {
     if (!isElectron) return __dirname;
     const home = require('os').homedir();
     if (process.platform === 'darwin') {
-        return path.join(home, 'Library', 'Application Support', 'AxureSyncService');
+        return path.join(home, 'Library', 'Application Support', 'Flowa Axure Plugin');
     } else if (process.platform === 'win32') {
-        return path.join(process.env.APPDATA || path.join(home, 'AppData', 'Roaming'), 'AxureSyncService');
+        return path.join(process.env.APPDATA || path.join(home, 'AppData', 'Roaming'), 'Flowa Axure Plugin');
     }
     // Linux
-    return path.join(home, '.config', 'AxureSyncService');
+    return path.join(home, '.config', 'Flowa Axure Plugin');
 })();
 const PREVIEW_DIR = path.join(DATA_DIR, 'preview');
 const MANIFEST_FILE = path.join(DATA_DIR, 'manifest.json');

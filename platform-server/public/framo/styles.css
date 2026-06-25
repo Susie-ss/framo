@@ -838,7 +838,8 @@ body { padding: 0; overflow: hidden; }
 .plugin-step small { color: var(--muted); }
 .plugin-features { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 14px; }
 .plugin-features span { padding: 9px 10px; border-radius: 8px; background: #f6f7fb; color: #4b5563; font-size: 11px; }
-.modal-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 20px; }
+.plugin-features a { justify-content: center; text-decoration: none; font-size: 11px; }
+.modal-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; margin-top: 20px; }
 .toast { position: fixed; z-index: 600; left: 50%; bottom: 30px; padding: 10px 16px; border-radius: 8px; color: #fff; background: #1f2937; box-shadow: 0 8px 24px rgba(17,24,39,.18); opacity: 0; transform: translate(-50%,14px); pointer-events: none; transition: .2s ease; }
 .toast.show { opacity: 1; transform: translate(-50%,0); }
 .toast.error { background: #ef4444; }

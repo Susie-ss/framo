@@ -1,7 +1,7 @@
 @echo off
-title Axure Plugin Build (Windows)
+title Flowa Axure Plugin Build (Windows)
 echo.
-echo [Axure Sync Plugin - Build Windows Installer]
+echo [Flowa Axure Plugin - Build Windows Installer]
 echo.
 
 cd /d "%~dp0"
@@ -50,8 +50,8 @@ echo Output: dist\win\
 dir "dist\win\*.exe" 2>nul
 dir "dist\win\*.zip" 2>nul
 echo.
-echo   AxureSyncService Setup 1.0.0.exe  - Installer (double-click to install)
+echo   Flowa Axure Plugin Setup 1.0.0.exe  - Installer (double-click to install)
 echo   win-unpacked\                      - Portable (copy anywhere to run)
-echo   AxureSyncService-1.0.0-win.zip     - Portable zip archive
+echo   Flowa Axure Plugin-1.0.0-win.zip   - Portable zip archive
 echo.
 pause
