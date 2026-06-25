@@ -85,7 +85,7 @@ function renderLibraryPage() {
   restoreHeaderDefault();
   mainContent.innerHTML =
     '<div class="framo-module-host">' +
-      '<iframe class="framo-module-frame" title="Flowa 组件库" src="/framo/index.html?section=libraries"></iframe>' +
+      '<iframe class="framo-module-frame" title="Flowa 组件库" src="/framo/index.html?section=libraries&v=' + Date.now() + '"></iframe>' +
     '</div>';
 }
 

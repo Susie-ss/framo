@@ -3,7 +3,7 @@
 set -e
 
 echo ""
-echo "[Axure Sync Plugin - Build macOS Release]"
+echo "[Flowa Axure Plugin - Build macOS Release]"
 echo ""
 
 cd "$(dirname "$0")"

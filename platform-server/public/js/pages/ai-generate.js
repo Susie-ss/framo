@@ -12,7 +12,7 @@ function renderAIGeneratePage() {
   if (typeof restoreHeaderDefault === 'function') restoreHeaderDefault();
   mainContent.innerHTML =
     '<div class="framo-module-host">' +
-      '<iframe class="framo-module-frame" title="Flowa AI 生成" src="/framo/index.html?section=generate"></iframe>' +
+      '<iframe class="framo-module-frame" title="Flowa AI 生成" src="/framo/index.html?section=generate&v=' + Date.now() + '"></iframe>' +
     '</div>';
 }
 

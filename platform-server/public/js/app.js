@@ -419,6 +419,7 @@ window.showEditNicknameModal = showEditNicknameModal;
 function showDownloadPluginModal() {
   let modal = document.getElementById('plugin-modal');
   if (modal) modal.remove();
+  const releaseBase = 'https://github.com/Susie-ss/framo/releases/latest/download';
 
   modal = document.createElement('div');
   modal.id = 'plugin-modal';
@@ -433,7 +434,7 @@ function showDownloadPluginModal() {
     '</div>' +
     '<div class="plugin-modal-steps">' +
       '<div style="font-size:13px;font-weight:600;margin-bottom:16px">安装步骤</div>' +
-      '<div class="plugin-step"><div class="plugin-step-num">1</div><div><div class="plugin-step-title">下载插件</div><div class="plugin-step-desc">点击下方「立即下载」按钮获取插件安装包</div></div></div>' +
+      '<div class="plugin-step"><div class="plugin-step-num">1</div><div><div class="plugin-step-title">下载插件</div><div class="plugin-step-desc">按系统选择正式安装包：Windows 使用 .exe，macOS 使用对应芯片的 .dmg</div></div></div>' +
       '<div class="plugin-step"><div class="plugin-step-num">2</div><div><div class="plugin-step-title">安装插件</div><div class="plugin-step-desc">双击安装包，按提示完成安装（需关闭 Axure 软件）</div></div></div>' +
       '<div class="plugin-step"><div class="plugin-step-num">3</div><div><div class="plugin-step-title">打开预览发布</div><div class="plugin-step-desc">在 Axure 中打开文档，点击预览，插件自动检测并上传</div></div></div>' +
     '</div>' +
@@ -447,7 +448,10 @@ function showDownloadPluginModal() {
       '</div>' +
     '</div>' +
     '<div class="modal-actions">' +
-      '<a class="btn btn-primary" href="/downloads/Flowa-Axure-Plugin-1.0.0.zip" download="Flowa-Axure-Plugin-1.0.0.zip" onclick="showToast(\'插件下载已开始\',\'success\');document.getElementById(\'plugin-modal\').remove()"><svg class="icon-color icon-sm"><use href="/libs/iconpark/icons.svg#ico-download"/></svg> 立即下载</a>' +
+      '<a class="btn btn-primary" href="' + releaseBase + '/Flowa-Axure-Plugin-1.0.0-win-x64-setup.exe" onclick="showToast(\'Windows 安装包下载已开始\',\'success\')"><svg class="icon-color icon-sm"><use href="/libs/iconpark/icons.svg#ico-download"/></svg> Windows</a>' +
+      '<a class="btn btn-secondary" href="' + releaseBase + '/Flowa-Axure-Plugin-1.0.0-mac-arm64.dmg" onclick="showToast(\'macOS Apple 芯片安装包下载已开始\',\'success\')">macOS Apple 芯片</a>' +
+      '<a class="btn btn-secondary" href="' + releaseBase + '/Flowa-Axure-Plugin-1.0.0-mac-x64.dmg" onclick="showToast(\'macOS Intel 安装包下载已开始\',\'success\')">macOS Intel</a>' +
+      '<a class="btn btn-secondary" href="https://github.com/Susie-ss/framo/releases/latest" target="_blank" rel="noopener">全部版本</a>' +
     '</div>' +
   '</div>';
   document.body.appendChild(modal);

@@ -9,11 +9,11 @@ let mainWindow;
 function getDataDir() {
   const home = os.homedir();
   if (process.platform === 'darwin') {
-    return path.join(home, 'Library', 'Application Support', 'AxureSyncService');
+    return path.join(home, 'Library', 'Application Support', 'Flowa Axure Plugin');
   } else if (process.platform === 'win32') {
-    return path.join(process.env.APPDATA || path.join(home, 'AppData', 'Roaming'), 'AxureSyncService');
+    return path.join(process.env.APPDATA || path.join(home, 'AppData', 'Roaming'), 'Flowa Axure Plugin');
   }
-  return path.join(home, '.config', 'AxureSyncService');
+  return path.join(home, '.config', 'Flowa Axure Plugin');
 }
 
 function getPort() {
@@ -49,7 +49,7 @@ function createWindow() {
     minimizable: true,
     fullscreenable: false,
     autoHideMenuBar: true,
-    title: 'AxureSyncService',
+    title: 'Flowa Axure Plugin',
     icon: path.join(__dirname, 'app-icon.png'),
     webPreferences: {
       nodeIntegration: false,

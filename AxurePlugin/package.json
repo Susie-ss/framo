@@ -1,8 +1,8 @@
 {
-  "name": "axure-sync-service",
-  "productName": "AxureSyncService",
+  "name": "flowa-axure-plugin",
+  "productName": "Flowa Axure Plugin",
   "version": "1.0.0",
-  "description": "AxureSyncService",
+  "description": "Flowa Axure Plugin",
   "main": "electron-main.js",
   "scripts": {
     "start": "node main.js",
@@ -10,8 +10,8 @@
     "build": "electron-builder"
   },
   "build": {
-    "appId": "com.protoplatform.axure-sync",
-    "productName": "AxureSyncService",
+    "appId": "com.flowa.axure-plugin",
+    "productName": "Flowa Axure Plugin",
     "directories": {
       "output": "dist"
     },
@@ -47,7 +47,7 @@
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
-      "shortcutName": "AxureSyncService"
+      "shortcutName": "Flowa Axure Plugin"
     }
   },
   "dependencies": {

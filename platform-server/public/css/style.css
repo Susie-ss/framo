@@ -1276,6 +1276,7 @@ button {
 
 .modal-actions {
   display: flex;
+  flex-wrap: wrap;
   justify-content: flex-end;
   gap: 10px;
   margin-top: 20px;
