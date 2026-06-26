@@ -124,46 +124,18 @@
           <div id="projects-browser" class="project-browser"></div>
         </section>
 
-        <section id="libraries" class="panel">
-          <div class="section-head">
+        <section id="libraries" class="panel library-panel">
+          <div class="section-head library-overview-head">
             <div>
-              <p class="eyebrow">Component Libraries</p>
-              <h2>组件库与 Token 管理</h2>
+              <h2>组件库</h2>
+              <p>管理你的设计系统和组件资产</p>
             </div>
-            <button id="pick-sketch-btn" class="primary-btn">上传 Sketch 文件</button>
+            <button id="pick-sketch-btn" class="primary-btn compact"><span class="btn-dot"></span> 新建组件库</button>
             <input id="sketch-input" type="file" accept=".sketch,application/zip" hidden />
           </div>
 
-          <article id="sketch-dropzone" class="upload-zone" tabindex="0" role="button" aria-label="上传 Sketch 文件">
-            <div class="upload-icon">S</div>
-            <div>
-              <h3>拖拽 .sketch 文件到这里</h3>
-              <p>真实解析 Sketch 文档中的 Symbol、图标、字体、共享样式与颜色 Token，单文件最大 200MB。</p>
-            </div>
-            <span id="upload-status" class="status-pill">等待上传</span>
-          </article>
-
-          <div class="grid two">
-            <article class="card">
-              <div class="card-head">
-                <div>
-                  <p class="eyebrow">Libraries</p>
-                  <h3>组件库列表</h3>
-                </div>
-              </div>
-              <div id="library-list" class="stack"></div>
-            </article>
-
-            <article class="card">
-              <div class="card-head">
-                <div>
-                  <p class="eyebrow">Normalized Tokens</p>
-                  <h3>当前 Token 输出</h3>
-                </div>
-              </div>
-              <pre id="token-preview" class="code-block"></pre>
-            </article>
-          </div>
+          <div id="library-list" class="library-grid"></div>
+          <pre id="token-preview" class="code-block token-preview-hidden"></pre>
 
           <article id="asset-inspector" class="card asset-inspector empty">
             <div class="card-head">
