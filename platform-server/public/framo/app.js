@@ -8,8 +8,9 @@ const state = {
   libraries: [],
   prototypes: [],
   selectedLibraryId: "",
-  selectedAssetType: "components",
+  selectedAssetType: "icons",
   assetQuery: "",
+  libraryView: "overview",
   pendingSketchFile: null,
   generated: null
 };
@@ -315,6 +316,9 @@ function pluginModal() {
 }
 
 function renderLibraries() {
+  document.querySelector("#library-overview-view")?.toggleAttribute("hidden", state.libraryView !== "overview");
+  document.querySelector("#asset-inspector")?.toggleAttribute("hidden", state.libraryView !== "detail");
+
   const libraryList = document.querySelector("#library-list");
   libraryList.innerHTML = state.libraries
     .map(
@@ -356,6 +360,10 @@ function renderLibraries() {
     card.addEventListener("click", () => {
       state.selectedLibraryId = card.dataset.libraryId;
       document.querySelector("#library-select").value = state.selectedLibraryId;
+      state.libraryView = "detail";
+      state.selectedAssetType = "icons";
+      state.assetQuery = "";
+      document.querySelector("#asset-search").value = "";
       renderLibraries();
       renderAssetInspector();
     });
@@ -369,30 +377,59 @@ function renderAssetInspector() {
   const root = document.querySelector("#asset-inspector");
   const grid = document.querySelector("#asset-grid");
   const assets = library?.assets;
+  const typeLabels = {
+    components: ["组件库", "个组件"],
+    icons: ["图标库", "个图标"],
+    fonts: ["字体", "个字体"],
+    fontSizes: ["字号", "个字号"],
+    colors: ["颜色", "个颜色"],
+    styles: ["共享样式", "个共享样式"],
+    tokens: ["Token", "项 Token"]
+  };
   root.classList.toggle("empty", !assets);
   document.querySelector("#asset-title").textContent = library ? library.name : "选择一个 Sketch 组件库查看识别结果";
+  document.querySelector("#asset-subtitle").textContent = library
+    ? `组件库 ID: ${escapeHtml(library.id)} — 完整的设计系统定义，包含图标、字体、组件和字号规范`
+    : "完整的设计系统定义，包含图标、字体、组件和字号规范";
   document.querySelector("#asset-stats").innerHTML = library?.stats
-    ? Object.entries(library.stats).filter(([key]) => !["componentVariants"].includes(key)).map(([key, value]) => `<span><strong>${escapeHtml(value)}</strong>${escapeHtml({ pages: "页面", layers: "图层", colors: "颜色", fonts: "字体族", fontSizes: "字号", icons: "可用图标", components: "组件族" }[key] || key)}</span>`).join("")
+    ? [
+        ["components", "组件"],
+        ["icons", "图标"],
+        ["fonts", "字体"],
+        ["colors", "颜色"],
+        ["styles", "共享样式"]
+      ].map(([key, label]) => `<span><strong>${escapeHtml(library.stats[key] || 0)}</strong>${label}</span>`).join("")
     : "";
 
   if (!assets) {
+    document.querySelector("#asset-panel-title").textContent = "资产详情";
+    document.querySelector("#asset-panel-count").textContent = "0 项";
     grid.innerHTML = '<div class="asset-empty">该组件库不是从 Sketch 导入。上传 .sketch 文件后可查看完整识别结果。</div>';
     return;
   }
 
   const type = state.selectedAssetType;
+  document.querySelectorAll(".asset-tab").forEach((tab) => tab.classList.toggle("active", tab.dataset.asset === type));
   let items = assets[type] || [];
   if (type === "styles") items = [...(assets.textStyles || []).map((item) => ({ ...item, kind: "文字" })), ...(assets.layerStyles || []).map((item) => ({ ...item, kind: "图层" }))];
+  if (type === "tokens") items = Object.entries(normalizeTokens(library.tokens)).map(([name, value]) => ({ name, value }));
   const query = state.assetQuery.trim().toLowerCase();
   if (query) items = items.filter((item) => [item.name, item.fullName, item.family, item.value, item.size, ...(item.usages || []), ...(item.samples || [])].filter(Boolean).join(" ").toLowerCase().includes(query));
+  const [panelTitle, countLabel] = typeLabels[type] || ["资产", "项"];
+  document.querySelector("#asset-panel-title").textContent = panelTitle;
+  document.querySelector("#asset-panel-count").textContent = `${items.length} ${countLabel}`;
+  const search = document.querySelector("#asset-search");
+  search.placeholder = `搜索${panelTitle.replace("库", "")}...`;
+  document.querySelector("#asset-filter-row").hidden = type !== "icons";
   if (!items.length) {
-    grid.innerHTML = `<div class="asset-empty">这个文件中没有识别到${escapeHtml({ components: "组件", icons: "图标", fonts: "字体", fontSizes: "字号", colors: "颜色", styles: "共享样式" }[type])}。</div>`;
+    grid.innerHTML = `<div class="asset-empty">这个文件中没有识别到${escapeHtml({ components: "组件", icons: "图标", fonts: "字体", fontSizes: "字号", colors: "颜色", styles: "共享样式", tokens: "Token" }[type])}。</div>`;
     return;
   }
 
   const visibleItems = items.slice(0, 240);
   grid.innerHTML = visibleItems.map((item) => {
-    if (type === "colors") return `<article class="asset-item color-item"><span class="color-swatch" style="background:${escapeHtml(item.value)}"></span><div><strong>${escapeHtml(item.value)}</strong><small>${escapeHtml(item.usages?.[0] || "全局颜色")}</small></div></article>`;
+    if (type === "tokens") return `<article class="asset-item token-item"><span class="token-preview-chip">${escapeHtml(String(item.value)).slice(0, 8)}</span><strong>${escapeHtml(item.name)}</strong><small>${escapeHtml(item.value)}</small></article>`;
+    if (type === "colors") return `<article class="asset-item color-item"><span class="color-swatch" style="background:${escapeHtml(item.value)}"></span><strong>${escapeHtml(item.value)}</strong><small>${escapeHtml(item.usages?.[0] || "全局颜色")}</small></article>`;
     if (type === "fonts") return `<article class="asset-item font-item"><span style="font-family:${escapeHtml(item.family)}">${escapeHtml(String(item.sample || "Aa 字体预览").slice(0, 18))}</span><strong>${escapeHtml(item.family)}</strong><small>字重 ${escapeHtml(item.weights?.join(" / ") || "400")} · ${escapeHtml(item.sizes?.length || 0)} 个字号</small></article>`;
     if (type === "fontSizes") return `<article class="asset-item type-scale-item"><span style="font-size:${Math.min(item.size, 40)}px">Aa 字体</span><strong>${escapeHtml(item.size)} px</strong><small>使用 ${escapeHtml(item.count)} 次 · ${escapeHtml(item.samples?.[0] || "")}</small></article>`;
     if (type === "icons") {
@@ -448,6 +485,7 @@ function renderGeneratedResult() {
 function renderUploadProgress(file, activeIndex = 0, errorMessage = "") {
   const root = document.querySelector("#upload-progress");
   if (!root) return;
+  document.querySelector("#library-upload-zone")?.setAttribute("hidden", "");
   const steps = ["读取文件结构", "解析图层信息", "提取颜色变量", "识别字体规范", "提取图标资源", "解析组件结构", "生成组件库", "完成"];
   root.innerHTML = `
     <div class="upload-file-row">
@@ -532,6 +570,9 @@ async function uploadSketch(file) {
     if (!response.ok) throw new Error(payload.error || `上传失败：${response.status}`);
     state.libraries.unshift(payload.library);
     state.selectedLibraryId = payload.library.id;
+    state.libraryView = "detail";
+    state.selectedAssetType = "icons";
+    state.assetQuery = "";
     renderUploadProgress(file, 7);
     renderLibraries();
     initLibrarySelect();
@@ -564,12 +605,22 @@ function initSketchUpload() {
   document.querySelectorAll(".asset-tab").forEach((tab) => tab.addEventListener("click", () => {
     document.querySelectorAll(".asset-tab").forEach((item) => item.classList.toggle("active", item === tab));
     state.selectedAssetType = tab.dataset.asset;
+    state.assetQuery = "";
+    document.querySelector("#asset-search").value = "";
     renderAssetInspector();
   }));
   document.querySelector("#asset-search").addEventListener("input", (event) => {
     state.assetQuery = event.target.value;
     renderAssetInspector();
   });
+  document.querySelector("#library-back-btn").addEventListener("click", () => {
+    state.libraryView = "overview";
+    state.assetQuery = "";
+    renderLibraries();
+  });
+  document.querySelectorAll("[data-icon-filter]").forEach((button) => button.addEventListener("click", () => {
+    document.querySelectorAll("[data-icon-filter]").forEach((item) => item.classList.toggle("active", item === button));
+  }));
 }
 
 async function generatePage() {
@@ -673,6 +724,7 @@ async function bootstrap() {
     || libraries.find((library) => (library.components || []).length > 0)
     || libraries[0];
   state.selectedLibraryId = preferredLibrary?.id || "";
+  state.libraryView = "overview";
 
   renderMetrics();
   renderProjects();

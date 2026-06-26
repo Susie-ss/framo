@@ -125,54 +125,58 @@
         </section>
 
         <section id="libraries" class="panel library-panel">
-          <div class="section-head library-overview-head">
-            <div>
-              <h2>组件库</h2>
-              <p>管理你的设计系统和组件资产</p>
+          <div id="library-overview-view" class="library-overview-view">
+            <div class="section-head library-overview-head">
+              <div>
+                <h2>组件库</h2>
+                <p>管理你的设计系统和组件资产</p>
+              </div>
+              <button id="pick-sketch-btn" class="primary-btn compact"><span class="btn-dot"></span> 新建组件库</button>
+              <input id="sketch-input" type="file" accept=".sketch,.psd,.rp,application/zip" hidden />
             </div>
-            <button id="pick-sketch-btn" class="primary-btn compact"><span class="btn-dot"></span> 新建组件库</button>
-            <input id="sketch-input" type="file" accept=".sketch,application/zip" hidden />
+
+            <div id="library-list" class="library-grid"></div>
+            <pre id="token-preview" class="code-block token-preview-hidden"></pre>
           </div>
 
-          <div id="library-list" class="library-grid"></div>
-          <pre id="token-preview" class="code-block token-preview-hidden"></pre>
-
-          <article id="asset-inspector" class="card asset-inspector empty">
-            <div class="card-head">
-              <div>
-                <p class="eyebrow">Sketch Asset Inspector</p>
+          <article id="asset-inspector" class="asset-inspector library-detail-view empty" hidden>
+            <div class="asset-detail-hero">
+              <button id="library-back-btn" class="detail-back-btn">← 返回</button>
+              <div class="asset-detail-title">
                 <h3 id="asset-title">选择一个 Sketch 组件库查看识别结果</h3>
+                <p id="asset-subtitle">完整的设计系统定义，包含图标、字体、组件和字号规范</p>
               </div>
               <div id="asset-stats" class="asset-stats"></div>
             </div>
+            <div class="asset-detail-actions">
+              <button class="detail-action-btn">✎ 重命名</button>
+              <button class="detail-action-btn danger-text">▢ 删除</button>
+            </div>
             <div class="asset-tabs" role="tablist">
-              <button class="asset-tab active" data-asset="components">组件</button>
-              <button class="asset-tab" data-asset="icons">图标</button>
-              <button class="asset-tab" data-asset="fonts">字体</button>
-              <button class="asset-tab" data-asset="fontSizes">字号</button>
-              <button class="asset-tab" data-asset="colors">颜色</button>
-              <button class="asset-tab" data-asset="styles">共享样式</button>
-              <input id="asset-search" class="asset-search" type="search" placeholder="搜索当前资产…" aria-label="搜索当前资产" />
+              <button class="asset-tab active" data-asset="icons">▦ 图标</button>
+              <button class="asset-tab" data-asset="fonts">T 字体</button>
+              <button class="asset-tab" data-asset="fontSizes">☰ 字号</button>
+              <button class="asset-tab" data-asset="components">▣ 组件</button>
+              <button class="asset-tab" data-asset="colors">◉ 颜色</button>
+              <button class="asset-tab" data-asset="styles">▥ 共享样式</button>
+              <button class="asset-tab" data-asset="tokens">▦ Token</button>
             </div>
-            <div id="asset-grid" class="asset-grid">
-              <div class="asset-empty">上传 Sketch 文件后，识别出的设计资产会在这里出现。</div>
-            </div>
-          </article>
-
-          <article class="card flow-card">
-            <div class="card-head">
-              <div>
-                <p class="eyebrow">AI Parsing Flow</p>
-                <h3>规范解析流程</h3>
+            <div class="asset-content-card">
+              <div class="asset-content-head">
+                <div>
+                  <h4 id="asset-panel-title">图标库</h4>
+                  <span id="asset-panel-count">0 个图标</span>
+                </div>
+                <input id="asset-search" class="asset-search" type="search" placeholder="搜索图标..." aria-label="搜索当前资产" />
               </div>
-            </div>
-            <div class="flow">
-              <div>上传文件</div>
-              <div>PDF / OCR 解析</div>
-              <div>LLM Prompt 分析</div>
-              <div>结构化 JSON</div>
-              <div>Token 标准化</div>
-              <div>入库</div>
+              <div id="asset-filter-row" class="asset-filter-row">
+                <button class="active" data-icon-filter="all">全部</button>
+                <button data-icon-filter="line">线性</button>
+                <button data-icon-filter="fill">面性</button>
+              </div>
+              <div id="asset-grid" class="asset-grid">
+                <div class="asset-empty">上传 Sketch 文件后，识别出的设计资产会在这里出现。</div>
+              </div>
             </div>
           </article>
         </section>
