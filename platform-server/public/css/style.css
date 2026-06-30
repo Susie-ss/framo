@@ -785,6 +785,314 @@ button {
   margin-bottom: 24px;
 }
 
+/* ===== Flowa Auth Redesign ===== */
+.flowa-auth-layout {
+  display: grid;
+  grid-template-columns: minmax(520px, 1.05fr) minmax(480px, .95fr);
+  min-height: 100vh;
+  width: 100%;
+  background:
+    radial-gradient(circle at 72% 18%, rgba(91,94,244,.12), transparent 28%),
+    linear-gradient(135deg, #F7F8FC 0%, #EEF2F8 100%);
+}
+
+.flowa-auth-banner {
+  align-items: flex-start;
+  padding: 72px clamp(48px, 6vw, 96px);
+  background:
+    radial-gradient(circle at 12% 16%, rgba(255,255,255,.16), transparent 20%),
+    radial-gradient(circle at 88% 86%, rgba(255,255,255,.12), transparent 18%),
+    linear-gradient(135deg, #14162F 0%, #302E8F 48%, #645CF6 100%);
+}
+
+.flowa-auth-banner::before {
+  width: 720px;
+  height: 720px;
+  right: -260px;
+  top: -120px;
+  background: rgba(255,255,255,.07);
+}
+
+.flowa-auth-banner::after {
+  width: 420px;
+  height: 420px;
+  left: -160px;
+  bottom: -140px;
+  background: rgba(255,255,255,.06);
+}
+
+.flowa-auth-brand {
+  align-items: flex-start;
+  max-width: 620px;
+  width: 100%;
+}
+
+.auth-product-tag,
+.auth-card-kicker {
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.auth-product-tag {
+  color: rgba(255,255,255,.68);
+  margin-bottom: 28px;
+}
+
+.flowa-auth-brand .auth-banner-logo {
+  width: 70px;
+  height: 70px;
+  border-radius: 22px;
+  margin-bottom: 28px;
+  background: rgba(255,255,255,.92);
+  box-shadow: 0 24px 60px rgba(0,0,0,.25);
+}
+
+.flowa-auth-brand .auth-banner-logo img {
+  width: 70px;
+  height: 70px;
+  border-radius: 22px;
+  object-fit: cover;
+}
+
+.flowa-auth-brand h1 {
+  max-width: 560px;
+  font-size: clamp(34px, 4.5vw, 58px);
+  line-height: 1.12;
+  letter-spacing: -.04em;
+  margin: 0 0 20px;
+  color: #fff;
+}
+
+.flowa-auth-brand .auth-banner-desc {
+  max-width: 560px;
+  text-align: left;
+  font-size: 17px;
+  line-height: 1.9;
+  color: rgba(255,255,255,.78);
+  opacity: 1;
+}
+
+.auth-pipeline {
+  display: grid;
+  gap: 12px;
+  width: min(540px, 100%);
+  margin-top: 34px;
+}
+
+.auth-pipeline-step {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 18px;
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 18px;
+  background: rgba(255,255,255,.08);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.14);
+  backdrop-filter: blur(14px);
+}
+
+.auth-pipeline-step b {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  color: #fff;
+  background: linear-gradient(135deg, rgba(255,255,255,.24), rgba(255,255,255,.08));
+  font-size: 13px;
+}
+
+.auth-pipeline-step span {
+  display: grid;
+  gap: 3px;
+}
+
+.auth-pipeline-step strong {
+  color: #fff;
+  font-size: 15px;
+}
+
+.auth-pipeline-step em {
+  color: rgba(255,255,255,.66);
+  font-style: normal;
+  font-size: 13px;
+}
+
+.auth-proof-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  width: min(540px, 100%);
+  margin-top: 22px;
+}
+
+.auth-proof-grid div {
+  padding: 16px;
+  border-radius: 18px;
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.13);
+}
+
+.auth-proof-grid strong,
+.auth-proof-grid span {
+  display: block;
+}
+
+.auth-proof-grid strong {
+  color: #fff;
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.auth-proof-grid span {
+  color: rgba(255,255,255,.62);
+  font-size: 12px;
+}
+
+.flowa-auth-form {
+  background: transparent;
+  padding: 48px;
+}
+
+.flowa-auth-card {
+  max-width: 468px;
+  padding: 42px;
+  border-radius: 30px;
+  border: 1px solid rgba(225,229,238,.9);
+  box-shadow: 0 26px 80px rgba(18,25,38,.12);
+}
+
+.flowa-auth-card .auth-card-kicker {
+  color: var(--primary);
+  margin-bottom: 16px;
+}
+
+.flowa-auth-card h2 {
+  font-size: 28px;
+  letter-spacing: -.03em;
+  margin-bottom: 8px;
+}
+
+.flowa-auth-card .auth-subtitle {
+  font-size: 14px;
+  line-height: 1.8;
+  margin-bottom: 0;
+}
+
+.auth-context-panel {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 22px 0 28px;
+  padding: 10px;
+  border-radius: 18px;
+  background: #F6F7FB;
+  border: 1px solid #EAEDF5;
+}
+
+.auth-context-panel span {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 72px;
+  border-radius: 14px;
+  color: #606A80;
+  font-size: 12px;
+  text-align: center;
+  background: #fff;
+}
+
+.auth-context-panel i {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #5B5EF4, #FF9F0A);
+  box-shadow: 0 0 0 5px rgba(91,94,244,.1);
+}
+
+.flowa-auth-card .form-row {
+  margin-bottom: 18px;
+}
+
+.flowa-auth-card .form-row label {
+  display: block;
+  color: #384052;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.flowa-auth-card .input-wrap {
+  height: 56px;
+  border-radius: 16px;
+  background: #F9FAFD;
+  border: 1px solid #E4E8F1;
+  transition: border-color .2s, box-shadow .2s, background .2s;
+}
+
+.flowa-auth-card .input-wrap:focus-within {
+  background: #fff;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(91,94,244,.12);
+}
+
+.flowa-auth-card .input-wrap input,
+.flowa-auth-card .form-row > input {
+  height: 100%;
+  border: 0;
+  background: transparent;
+  font-size: 14px;
+}
+
+.flowa-auth-card .auth-btn {
+  height: 56px;
+  border-radius: 16px;
+  margin-top: 8px;
+  font-size: 15px;
+  background: linear-gradient(135deg, #5B5EF4 0%, #7C3AED 100%);
+  box-shadow: 0 16px 32px rgba(91,94,244,.28);
+}
+
+.flowa-auth-card .auth-footer-link {
+  margin-top: 24px;
+}
+
+@media (max-width: 980px) {
+  .flowa-auth-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .flowa-auth-banner {
+    min-height: auto;
+    padding: 48px 28px;
+  }
+
+  .flowa-auth-form {
+    padding: 32px 20px 48px;
+  }
+
+  .flowa-auth-card {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .auth-proof-grid,
+  .auth-context-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .flowa-auth-card {
+    padding: 30px 22px;
+    border-radius: 24px;
+  }
+}
+
 /* ===== Project Detail Layout ===== */
 .project-detail-layout {
   display: flex;
@@ -1361,6 +1669,28 @@ button {
 
 .input-wrap:focus-within .input-icon {
   stroke: var(--primary);
+}
+
+.flowa-auth-card .input-wrap input[type="text"],
+.flowa-auth-card .input-wrap input[type="password"] {
+  height: 100%;
+  padding: 0 16px 0 44px;
+  border: 0;
+  border-radius: 16px;
+  background: transparent;
+  font-size: 14px;
+  box-shadow: none;
+}
+
+.flowa-auth-card .input-wrap input[type="text"]:focus,
+.flowa-auth-card .input-wrap input[type="password"]:focus {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.flowa-auth-card .input-icon {
+  left: 16px;
 }
 
 /* ===== Toast ===== */
