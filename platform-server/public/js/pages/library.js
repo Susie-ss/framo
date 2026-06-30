@@ -1992,8 +1992,7 @@ window.startLibraryParse = function() {
   }
 
   if (ext === '.sketch') {
-    // ===== 客户端 JSZip 解析（使用 Framo 正确逻辑）=====
-    var stageTimer = 0;
+    // ===== 使用 Framo 后端真实解析（恢复修改 UI 前的可用解析能力）=====
     parseStages.forEach(function(stage, i) {
       var delay = (i + 1) * 600;
       setTimeout(function() {
@@ -2001,14 +2000,13 @@ window.startLibraryParse = function() {
         if (i === parseStages.length - 1) {
           setTimeout(function() {
             updateParseStage(i);
-            parseSketchFile(file).then(function(result) {
+            importSketchWithFramoAPI(file).then(function(result) {
               window.libParseResult = result;
               showParseDoneResult(result);
             }).catch(function(err) {
-              console.error('Sketch parse error:', err);
-              window.libParseResult = simulateParseResult(file.name);
-              showParseDoneResult(window.libParseResult);
-              showToast('文件解析部分失败，已使用估算数据', 'warning');
+              console.error('Framo sketch parse error:', err);
+              showToast(err.message || 'Sketch 解析失败，请检查文件格式', 'error');
+              resetLibraryParseToUpload();
             });
           }, 200);
         }
@@ -2029,6 +2027,83 @@ window.startLibraryParse = function() {
     });
   }
 };
+
+function importSketchWithFramoAPI(file) {
+  var form = new FormData();
+  form.append('file', file);
+  return fetch('/api/framo/sketch/import', { method: 'POST', body: form }).then(function(res) {
+    return res.json().catch(function() { return {}; }).then(function(payload) {
+      if (!res.ok || !payload.ok || !payload.library) {
+        throw new Error(payload.error || ('Sketch 解析失败：' + res.status));
+      }
+      return normalizeFramoLibraryForMainUI(payload.library, file);
+    });
+  });
+}
+
+function normalizeFramoLibraryForMainUI(library, file) {
+  var assets = library.assets || {};
+  var colors = assets.colors || library.colors || [];
+  var icons = (assets.icons || []).map(function(icon) {
+    var fullName = icon.fullName || icon.name || '';
+    var cleanName = getReadableIconName(icon.name || fullName);
+    var meta = getReadableIconMeta({
+      name: cleanName,
+      fullName: fullName,
+      category: icon.category,
+      type: icon.type
+    });
+    return Object.assign({}, icon, {
+      name: cleanName,
+      fullName: fullName,
+      label: icon.label || meta.category,
+      category: icon.category || meta.category,
+      type: icon.type || (/fill|solid|面/i.test(fullName) ? 'solid' : 'line')
+    });
+  });
+  var fonts = assets.fonts || [];
+  var components = assets.components || [];
+  var sizes = assets.fontSizes || assets.sizes || [];
+  var stats = library.stats || {};
+
+  return {
+    name: library.name || file.name.replace(/\.sketch$/i, ''),
+    sourceType: library.sourceType || 'sketch',
+    sourceLibraryId: library.id,
+    importedAt: library.importedAt,
+    previewResult: library.previewResult,
+    icons: icons,
+    fonts: fonts,
+    components: components,
+    sizes: sizes,
+    colors: colors,
+    textStyles: assets.textStyles || [],
+    layerStyles: assets.layerStyles || [],
+    tokens: library.tokens || {},
+    stats: {
+      pages: stats.pages || 0,
+      layers: stats.layers || 0,
+      colors: stats.colors || colors.length,
+      fonts: stats.fonts || fonts.length,
+      fontSizes: stats.fontSizes || sizes.length,
+      icons: stats.icons || icons.length,
+      components: stats.components || components.length,
+      componentVariants: stats.componentVariants || 0,
+      textStyles: (assets.textStyles || []).length,
+      layerStyles: (assets.layerStyles || []).length
+    }
+  };
+}
+
+function resetLibraryParseToUpload() {
+  var stepUpload = document.getElementById('lib-step-upload');
+  var stepParsing = document.getElementById('lib-step-parsing');
+  var fill = document.getElementById('lib-progress-fill');
+  if (stepParsing) stepParsing.style.display = 'none';
+  if (stepUpload) stepUpload.style.display = '';
+  if (fill) fill.style.width = '0%';
+  initParseStagesUI();
+}
 
 function updateParseStage(stageIndex) {
   // 更新进度条
@@ -2127,6 +2202,10 @@ window.confirmCreateLibrary = function() {
     componentCount: components.length,
     colorCount: colors.length,
     createdAt: new Date().toISOString().split('T')[0],
+    sourceType: result.sourceType || 'sketch',
+    sourceLibraryId: result.sourceLibraryId || null,
+    importedAt: result.importedAt || new Date().toISOString(),
+    previewResult: result.previewResult || null,
     // 颜色：支持 Framo 格式 {value, usages, count, chroma, luminance} 和纯 hex 字符串
     colors: colors.slice(),
     source: window.libSelectedFile ? window.libSelectedFile.name : null,
