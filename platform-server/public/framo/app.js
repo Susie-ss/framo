@@ -8,8 +8,10 @@ const state = {
   libraries: [],
   prototypes: [],
   selectedLibraryId: "",
-  selectedAssetType: "components",
+  selectedAssetType: "icons",
   assetQuery: "",
+  libraryView: "overview",
+  pendingSketchFile: null,
   generated: null
 };
 
@@ -224,12 +226,14 @@ function showToast(message, type = "success") {
 
 function closeModal() {
   const modal = document.querySelector("#app-modal");
+  document.querySelector("#app-modal .app-modal")?.classList.remove("upload-modal");
   modal.classList.remove("active");
   modal.setAttribute("aria-hidden", "true");
 }
 
 function openModal({ title, subtitle, body, confirmText = "创建", onConfirm }) {
   const modal = document.querySelector("#app-modal");
+  document.querySelector("#app-modal .app-modal")?.classList.remove("upload-modal");
   document.querySelector("#modal-title").textContent = title;
   document.querySelector("#modal-subtitle").textContent = subtitle;
   document.querySelector("#modal-body").innerHTML = body;
@@ -273,57 +277,80 @@ function tagModal() {
 }
 
 function pluginModal() {
-  const pluginPackageUrl = "/downloads/Flowa-Axure-Plugin-1.0.0.zip";
-  const releasePageUrl = "https://github.com/Susie-ss/framo/releases";
+  const downloadBase = "https://github.com/Susie-ss/framo/releases/latest/download/";
+  const downloads = {
+    windows: `${downloadBase}Flowa-Axure-Plugin-1.0.0-win-x64-setup.exe`,
+    macArm: `${downloadBase}Flowa-Axure-Plugin-1.0.0-mac-arm64.dmg`,
+    macX64: `${downloadBase}Flowa-Axure-Plugin-1.0.0-mac-x64.dmg`,
+    full: `${downloadBase}Flowa-Axure-Plugin-1.0.0-installers.zip`
+  };
   openModal({
     title: "下载 Flowa 插件",
     subtitle: "一键同步 Axure 原型到设计协作平台",
-    confirmText: "⇩ 下载插件包",
+    confirmText: "⇩ 下载 Windows",
     body: `
-      <div class="plugin-hero"><span class="plugin-mark">F</span><div><strong>Flowa Axure Plugin 1.0.0</strong><p>通用插件包 · 内含源码、依赖清单和 Windows/macOS 打包脚本</p></div></div>
+      <div class="plugin-hero"><span class="plugin-mark">F</span><div><strong>Flowa Axure Plugin 1.0.0</strong><p>正式安装包 · 支持 Windows 与 macOS 双架构</p></div></div>
       <div class="plugin-steps">
-        <div class="plugin-step"><b>1</b><div><strong>下载通用插件包</strong><small>下载后解压，按安装说明运行或自行打包为系统安装包</small></div></div>
-        <div class="plugin-step"><b>2</b><div><strong>安装并启动</strong><small>首次使用前配置 Flowa 服务地址</small></div></div>
+        <div class="plugin-step"><b>1</b><div><strong>下载正式安装包</strong><small>Windows 使用 .exe，macOS 按芯片选择 Apple Silicon 或 Intel 的 .dmg</small></div></div>
+        <div class="plugin-step"><b>2</b><div><strong>安装并启动</strong><small>首次使用前配置 Flowa 服务地址；macOS 首次打开可能需要在系统设置中允许</small></div></div>
         <div class="plugin-step"><b>3</b><div><strong>打开 Axure 预览</strong><small>插件自动检测本地预览并整理页面结构进行发布</small></div></div>
       </div>
       <div class="plugin-features"><span>↻ 版本自动覆盖</span><span>♧ 团队共享预览</span><span>↗ 一键生成链接</span><span>▱ 多端在线预览</span></div>
       <div class="plugin-features">
-        <a class="ghost-btn" href="${pluginPackageUrl}" download="Flowa-Axure-Plugin-1.0.0.zip">下载通用插件包</a>
-        <a class="ghost-btn" href="${releasePageUrl}" target="_blank" rel="noopener">查看 Release 页面</a>
+        <a class="ghost-btn" href="${downloads.windows}">Windows 安装包</a>
+        <a class="ghost-btn" href="${downloads.macArm}">macOS Apple 芯片</a>
+        <a class="ghost-btn" href="${downloads.macX64}">macOS Intel</a>
+        <a class="ghost-btn" href="${downloads.full}">完整插件包</a>
       </div>
     `,
     onConfirm: () => {
       const link = document.createElement("a");
-      link.href = pluginPackageUrl;
-      link.download = "Flowa-Axure-Plugin-1.0.0.zip";
+      link.href = downloads.windows;
       document.body.appendChild(link);
       link.click();
       link.remove();
       closeModal();
-      showToast("插件包下载已开始");
+      showToast("Windows 安装包下载已开始");
     }
   });
 }
 
 function renderLibraries() {
+  document.querySelector("#library-overview-view")?.toggleAttribute("hidden", state.libraryView !== "overview");
+  document.querySelector("#asset-inspector")?.toggleAttribute("hidden", state.libraryView !== "detail");
+
   const libraryList = document.querySelector("#library-list");
   libraryList.innerHTML = state.libraries
     .map(
-      (library) => `
-      <article class="list-card library-card ${library.id === state.selectedLibraryId ? "selected" : ""}" data-library-id="${escapeHtml(library.id)}">
-        <h4>${escapeHtml(library.name)}</h4>
-        <p>版本 ${escapeHtml(library.version)} · 来源 ${escapeHtml(library.sourceType)}</p>
-        <div class="tag-row">
-          ${(library.components || []).slice(0, 6).map((component) => `<span class="tag">${escapeHtml(component)}</span>`).join("")}
-          ${(library.components || []).length > 6 ? `<span class="tag">+${(library.components || []).length - 6} 个组件族</span>` : ""}
-        </div>
-      </article>
-    `
+      (library, index) => {
+        const components = library.components || [];
+        const colors = library.assets?.colors || library.colors || [];
+        const componentCount = library.stats?.components || components.length || library.componentCount || 0;
+        const colorCount = library.stats?.colors || colors.length || library.colorCount || 0;
+        const palette = (colors.length ? colors : ["#5B5EF4", "#22C55E", "#F59E0B", "#EF4444", "#8B5CF6"]).slice(0, 5);
+        const description = library.description || (library.sourceType === "sketch"
+          ? `从 Sketch 解析生成，包含 ${componentCount} 组件族`
+          : ["包含按钮、表单、表格等基础组件", "适用于移动端 App 的组件设计", "落地页、活动页常用组件"][index % 3]);
+        return `
+          <article class="library-card ${library.id === state.selectedLibraryId ? "selected" : ""}" data-library-id="${escapeHtml(library.id)}">
+            <div class="library-palette">
+              ${palette.map((color) => `<span style="background:${escapeHtml(color.value || color)}"></span>`).join("")}
+            </div>
+            <h4>${escapeHtml(library.name)}</h4>
+            <p>${escapeHtml(description)}</p>
+            <div class="library-meta">
+              <span>${escapeHtml(componentCount)} 组件</span>
+              <span>${escapeHtml(colorCount)} 色值</span>
+            </div>
+          </article>
+        `;
+      }
     )
     .join("");
 
   const current = state.libraries.find((item) => item.id === state.selectedLibraryId) || state.libraries[0];
-  document.querySelector("#token-preview").textContent = JSON.stringify(
+  const tokenPreview = document.querySelector("#token-preview");
+  if (tokenPreview) tokenPreview.textContent = JSON.stringify(
     normalizeTokens(current?.tokens),
     null,
   2
@@ -333,6 +360,10 @@ function renderLibraries() {
     card.addEventListener("click", () => {
       state.selectedLibraryId = card.dataset.libraryId;
       document.querySelector("#library-select").value = state.selectedLibraryId;
+      state.libraryView = "detail";
+      state.selectedAssetType = "icons";
+      state.assetQuery = "";
+      document.querySelector("#asset-search").value = "";
       renderLibraries();
       renderAssetInspector();
     });
@@ -346,30 +377,59 @@ function renderAssetInspector() {
   const root = document.querySelector("#asset-inspector");
   const grid = document.querySelector("#asset-grid");
   const assets = library?.assets;
+  const typeLabels = {
+    components: ["组件库", "个组件"],
+    icons: ["图标库", "个图标"],
+    fonts: ["字体", "个字体"],
+    fontSizes: ["字号", "个字号"],
+    colors: ["颜色", "个颜色"],
+    styles: ["共享样式", "个共享样式"],
+    tokens: ["Token", "项 Token"]
+  };
   root.classList.toggle("empty", !assets);
-  document.querySelector("#asset-title").textContent = assets ? `${library.name} · 识别资产` : "选择一个 Sketch 组件库查看识别结果";
+  document.querySelector("#asset-title").textContent = library ? library.name : "选择一个 Sketch 组件库查看识别结果";
+  document.querySelector("#asset-subtitle").textContent = library
+    ? `组件库 ID: ${escapeHtml(library.id)} — 完整的设计系统定义，包含图标、字体、组件和字号规范`
+    : "完整的设计系统定义，包含图标、字体、组件和字号规范";
   document.querySelector("#asset-stats").innerHTML = library?.stats
-    ? Object.entries(library.stats).filter(([key]) => !["componentVariants"].includes(key)).map(([key, value]) => `<span><strong>${escapeHtml(value)}</strong>${escapeHtml({ pages: "页面", layers: "图层", colors: "颜色", fonts: "字体族", fontSizes: "字号", icons: "可用图标", components: "组件族" }[key] || key)}</span>`).join("")
+    ? [
+        ["components", "组件"],
+        ["icons", "图标"],
+        ["fonts", "字体"],
+        ["colors", "颜色"],
+        ["styles", "共享样式"]
+      ].map(([key, label]) => `<span><strong>${escapeHtml(library.stats[key] || 0)}</strong>${label}</span>`).join("")
     : "";
 
   if (!assets) {
+    document.querySelector("#asset-panel-title").textContent = "资产详情";
+    document.querySelector("#asset-panel-count").textContent = "0 项";
     grid.innerHTML = '<div class="asset-empty">该组件库不是从 Sketch 导入。上传 .sketch 文件后可查看完整识别结果。</div>';
     return;
   }
 
   const type = state.selectedAssetType;
+  document.querySelectorAll(".asset-tab").forEach((tab) => tab.classList.toggle("active", tab.dataset.asset === type));
   let items = assets[type] || [];
   if (type === "styles") items = [...(assets.textStyles || []).map((item) => ({ ...item, kind: "文字" })), ...(assets.layerStyles || []).map((item) => ({ ...item, kind: "图层" }))];
+  if (type === "tokens") items = Object.entries(normalizeTokens(library.tokens)).map(([name, value]) => ({ name, value }));
   const query = state.assetQuery.trim().toLowerCase();
   if (query) items = items.filter((item) => [item.name, item.fullName, item.family, item.value, item.size, ...(item.usages || []), ...(item.samples || [])].filter(Boolean).join(" ").toLowerCase().includes(query));
+  const [panelTitle, countLabel] = typeLabels[type] || ["资产", "项"];
+  document.querySelector("#asset-panel-title").textContent = panelTitle;
+  document.querySelector("#asset-panel-count").textContent = `${items.length} ${countLabel}`;
+  const search = document.querySelector("#asset-search");
+  search.placeholder = `搜索${panelTitle.replace("库", "")}...`;
+  document.querySelector("#asset-filter-row").hidden = type !== "icons";
   if (!items.length) {
-    grid.innerHTML = `<div class="asset-empty">这个文件中没有识别到${escapeHtml({ components: "组件", icons: "图标", fonts: "字体", fontSizes: "字号", colors: "颜色", styles: "共享样式" }[type])}。</div>`;
+    grid.innerHTML = `<div class="asset-empty">这个文件中没有识别到${escapeHtml({ components: "组件", icons: "图标", fonts: "字体", fontSizes: "字号", colors: "颜色", styles: "共享样式", tokens: "Token" }[type])}。</div>`;
     return;
   }
 
   const visibleItems = items.slice(0, 240);
   grid.innerHTML = visibleItems.map((item) => {
-    if (type === "colors") return `<article class="asset-item color-item"><span class="color-swatch" style="background:${escapeHtml(item.value)}"></span><div><strong>${escapeHtml(item.value)}</strong><small>${escapeHtml(item.usages?.[0] || "全局颜色")}</small></div></article>`;
+    if (type === "tokens") return `<article class="asset-item token-item"><span class="token-preview-chip">${escapeHtml(String(item.value)).slice(0, 8)}</span><strong>${escapeHtml(item.name)}</strong><small>${escapeHtml(item.value)}</small></article>`;
+    if (type === "colors") return `<article class="asset-item color-item"><span class="color-swatch" style="background:${escapeHtml(item.value)}"></span><strong>${escapeHtml(item.value)}</strong><small>${escapeHtml(item.usages?.[0] || "全局颜色")}</small></article>`;
     if (type === "fonts") return `<article class="asset-item font-item"><span style="font-family:${escapeHtml(item.family)}">${escapeHtml(String(item.sample || "Aa 字体预览").slice(0, 18))}</span><strong>${escapeHtml(item.family)}</strong><small>字重 ${escapeHtml(item.weights?.join(" / ") || "400")} · ${escapeHtml(item.sizes?.length || 0)} 个字号</small></article>`;
     if (type === "fontSizes") return `<article class="asset-item type-scale-item"><span style="font-size:${Math.min(item.size, 40)}px">Aa 字体</span><strong>${escapeHtml(item.size)} px</strong><small>使用 ${escapeHtml(item.count)} 次 · ${escapeHtml(item.samples?.[0] || "")}</small></article>`;
     if (type === "icons") {
@@ -422,49 +482,145 @@ function renderGeneratedResult() {
   `).join("");
 }
 
+function renderUploadProgress(file, activeIndex = 0, errorMessage = "") {
+  const root = document.querySelector("#upload-progress");
+  if (!root) return;
+  document.querySelector("#library-upload-zone")?.setAttribute("hidden", "");
+  const steps = ["读取文件结构", "解析图层信息", "提取颜色变量", "识别字体规范", "提取图标资源", "解析组件结构", "生成组件库", "完成"];
+  root.innerHTML = `
+    <div class="upload-file-row">
+      <span class="file-icon">▱</span>
+      <strong>${escapeHtml(file?.name || "设计文件")}</strong>
+    </div>
+    <div class="progress-track"><i style="width:${Math.max(12, Math.min(100, (activeIndex + 1) / steps.length * 100))}%"></i></div>
+    <div class="parse-steps">
+      ${steps.map((step, index) => `
+        <div class="parse-step ${index < activeIndex ? "done" : ""} ${index === activeIndex ? "active" : ""} ${errorMessage && index === activeIndex ? "error" : ""}">
+          <span>${index < activeIndex ? "✓" : index === activeIndex ? "" : ""}</span>
+          <b>${escapeHtml(errorMessage && index === activeIndex ? errorMessage : step + (index < steps.length - 1 ? "..." : ""))}</b>
+        </div>
+      `).join("")}
+    </div>
+  `;
+}
+
+function bindLibraryUploadModal() {
+  const zone = document.querySelector("#library-upload-zone");
+  if (!zone) return;
+  const input = document.querySelector("#sketch-input");
+  const chooseFile = () => input.click();
+  const setFile = (file) => {
+    state.pendingSketchFile = file;
+    renderUploadProgress(file, 0);
+  };
+  zone.addEventListener("click", chooseFile);
+  zone.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") chooseFile(); });
+  for (const eventName of ["dragenter", "dragover"]) zone.addEventListener(eventName, (event) => { event.preventDefault(); zone.classList.add("dragging"); });
+  for (const eventName of ["dragleave", "drop"]) zone.addEventListener(eventName, (event) => { event.preventDefault(); zone.classList.remove("dragging"); });
+  zone.addEventListener("drop", (event) => setFile(event.dataTransfer.files[0]));
+}
+
+function libraryUploadModal() {
+  state.pendingSketchFile = null;
+  openModal({
+    title: "新建组件库",
+    subtitle: "",
+    confirmText: "开始解析",
+    body: `
+      <div id="library-upload-zone" class="library-upload-zone" tabindex="0" role="button" aria-label="上传设计文件">
+        <div class="upload-cloud">↥</div>
+        <strong>拖拽或点击上传设计文件</strong>
+        <small>支持 Sketch (.sketch)、Photoshop (.psd)、Axure (.rp) 格式</small>
+      </div>
+      <div id="upload-progress"></div>
+    `,
+    onConfirm: async () => {
+      if (!state.pendingSketchFile) {
+        document.querySelector("#sketch-input").click();
+        showToast("请选择要解析的设计文件");
+        return;
+      }
+      await uploadSketch(state.pendingSketchFile);
+    }
+  });
+  document.querySelector("#app-modal .app-modal")?.classList.add("upload-modal");
+  bindLibraryUploadModal();
+}
+
 async function uploadSketch(file) {
   if (!file) return;
   const status = document.querySelector("#upload-status");
-  status.textContent = "正在解析…";
-  status.className = "status-pill loading";
+  if (status) {
+    status.textContent = "正在解析…";
+    status.className = "status-pill loading";
+  }
+  renderUploadProgress(file, 1);
   const form = new FormData();
   form.append("file", file);
+  let progressTimer = null;
   try {
+    progressTimer = setInterval(() => {
+      const active = document.querySelectorAll("#upload-progress .parse-step.done").length + 1;
+      if (active < 7) renderUploadProgress(file, active);
+    }, 650);
     const response = await fetch("/api/framo/sketch/import", { method: "POST", body: form });
+    clearInterval(progressTimer);
+    progressTimer = null;
     const payload = await response.json();
     if (!response.ok) throw new Error(payload.error || `上传失败：${response.status}`);
     state.libraries.unshift(payload.library);
     state.selectedLibraryId = payload.library.id;
+    state.libraryView = "detail";
+    state.selectedAssetType = "icons";
+    state.assetQuery = "";
+    renderUploadProgress(file, 7);
     renderLibraries();
     initLibrarySelect();
-    status.textContent = `已识别 ${payload.library.stats.components} 个组件`;
-    status.className = "status-pill success";
+    if (status) {
+      status.textContent = `已识别 ${payload.library.stats.components} 个组件`;
+      status.className = "status-pill success";
+    }
+    setTimeout(() => closeModal(), 550);
+    showToast(`组件库「${payload.library.name}」解析完成`);
   } catch (error) {
-    status.textContent = error.message;
-    status.className = "status-pill error";
+    if (progressTimer) clearInterval(progressTimer);
+    renderUploadProgress(file, 2, error.message);
+    if (status) {
+      status.textContent = error.message;
+      status.className = "status-pill error";
+    }
   }
 }
 
 function initSketchUpload() {
   const input = document.querySelector("#sketch-input");
-  const zone = document.querySelector("#sketch-dropzone");
-  const pick = () => input.click();
-  document.querySelector("#pick-sketch-btn").addEventListener("click", pick);
-  zone.addEventListener("click", pick);
-  zone.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") pick(); });
-  input.addEventListener("change", () => uploadSketch(input.files[0]));
-  for (const eventName of ["dragenter", "dragover"]) zone.addEventListener(eventName, (event) => { event.preventDefault(); zone.classList.add("dragging"); });
-  for (const eventName of ["dragleave", "drop"]) zone.addEventListener(eventName, (event) => { event.preventDefault(); zone.classList.remove("dragging"); });
-  zone.addEventListener("drop", (event) => uploadSketch(event.dataTransfer.files[0]));
+  document.querySelector("#pick-sketch-btn").addEventListener("click", libraryUploadModal);
+  input.addEventListener("change", () => {
+    const file = input.files[0];
+    if (!file) return;
+    state.pendingSketchFile = file;
+    if (document.querySelector("#library-upload-zone")) renderUploadProgress(file, 0);
+    else uploadSketch(file);
+  });
   document.querySelectorAll(".asset-tab").forEach((tab) => tab.addEventListener("click", () => {
     document.querySelectorAll(".asset-tab").forEach((item) => item.classList.toggle("active", item === tab));
     state.selectedAssetType = tab.dataset.asset;
+    state.assetQuery = "";
+    document.querySelector("#asset-search").value = "";
     renderAssetInspector();
   }));
   document.querySelector("#asset-search").addEventListener("input", (event) => {
     state.assetQuery = event.target.value;
     renderAssetInspector();
   });
+  document.querySelector("#library-back-btn").addEventListener("click", () => {
+    state.libraryView = "overview";
+    state.assetQuery = "";
+    renderLibraries();
+  });
+  document.querySelectorAll("[data-icon-filter]").forEach((button) => button.addEventListener("click", () => {
+    document.querySelectorAll("[data-icon-filter]").forEach((item) => item.classList.toggle("active", item === button));
+  }));
 }
 
 async function generatePage() {
@@ -568,6 +724,7 @@ async function bootstrap() {
     || libraries.find((library) => (library.components || []).length > 0)
     || libraries[0];
   state.selectedLibraryId = preferredLibrary?.id || "";
+  state.libraryView = "overview";
 
   renderMetrics();
   renderProjects();

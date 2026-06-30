@@ -83,10 +83,7 @@ function renderLibraryPage() {
   if (!mainContent) return;
 
   restoreHeaderDefault();
-  mainContent.innerHTML =
-    '<div class="framo-module-host">' +
-      '<iframe class="framo-module-frame" title="Flowa 组件库" src="/framo/index.html?section=libraries&v=' + Date.now() + '"></iframe>' +
-    '</div>';
+  mainContent.innerHTML = renderLibraryHTML();
 }
 
 function updateHeaderForLibrary() {
@@ -107,7 +104,16 @@ function restoreHeaderDefault() {
 
 function renderLibraryHTML() {
   var cardsHTML = designSystems.map(function(ds) {
-    return '<div class="ds-card" data-id="' + ds.id + '" onclick="openDSDetail(\'' + ds.id + '\')">' +
+    var iconCount = ds.icons ? ds.icons.length : 0;
+    var fontCount = ds.fonts ? ds.fonts.length : 0;
+    var compCount = ds.componentCount || (ds.components ? ds.components.length : 0);
+    var colorCount = ds.colorCount || (ds.colors ? ds.colors.length : 0);
+    var sourceText = ds.source ? '来源: ' + ds.source : '';
+    var descText = ds.source
+      ? ('从 ' + ds.source + ' 解析生成的组件库，包含 ' + iconCount + ' 图标、' + fontCount + ' 字体、' + compCount + ' 组件')
+      : ds.description;
+
+    return '<div class="ds-card library-asset-card" data-id="' + ds.id + '" onclick="openDSDetail(\'' + ds.id + '\')">' +
       '<div class="ds-card-actions" onclick="event.stopPropagation()">' +
         '<button class="ds-action-btn ds-rename-btn" title="重命名" onclick="renameDesignSystem(\'' + ds.id + '\')">' +
           '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>' +
@@ -117,19 +123,22 @@ function renderLibraryHTML() {
         '</button>' +
       '</div>' +
       '<div class="ds-colors">' + ds.colors.map(function(c) {
-        return '<span class="color-dot" style="background:' + c + '"></span>';
+        var hex = (typeof c === 'string') ? c : (c.value || '#CBD5E1');
+        return '<span class="color-dot" style="background:' + hex + '"></span>';
       }).join('') + '</div>' +
       '<h3 class="ds-name">' + escapeHTML(ds.name) + '</h3>' +
-      '<p class="ds-desc">' + escapeHTML(ds.description) + '</p>' +
-      (ds.source ? '<p class="ds-source">来源: ' + escapeHTML(ds.source) + '</p>' : '') +
+      '<p class="ds-desc">' + escapeHTML(descText) + '</p>' +
+      (sourceText ? '<p class="ds-source">' + escapeHTML(sourceText) + '</p>' : '') +
       '<div class="ds-meta">' +
-        '<span>' + (ds.componentCount || (ds.components ? ds.components.length : 0)) + ' 组件</span>' +
-        '<span>' + (ds.colorCount || (ds.colors ? ds.colors.length : 0)) + ' 色值</span>' +
+        '<span>' + compCount + ' 组件</span>' +
+        '<span>' + iconCount + ' 图标</span>' +
+        '<span>' + fontCount + ' 字体</span>' +
+        '<span>' + colorCount + ' 色值</span>' +
       '</div>' +
     '</div>';
   }).join('');
 
-  return '<div class="library">' +
+  return '<div class="library library-card-page">' +
     '<div class="library-header">' +
       '<div>' +
         '<h2>组件库</h2>' +
@@ -294,34 +303,34 @@ function showNewLibraryModal() {
   overlay.id = 'new-library-modal';
 
   overlay.innerHTML =
-    '<div class="modal" style="width:560px" onclick="event.stopPropagation()">' +
-      '<div class="modal-header">' +
-        '<div><div style="font-size:15px;font-weight:600">新建组件库</div></div>' +
+    '<div class="modal library-create-modal" onclick="event.stopPropagation()">' +
+      '<div class="modal-header library-create-header">' +
+        '<div><div class="library-create-title">新建组件库</div></div>' +
         '<button class="modal-close-btn" onclick="document.getElementById(\'new-library-modal\').remove()">' +
           '<svg class="iconpark iconpark-lg"><use href="/libs/iconpark/sprite.svg#close"/></svg>' +
         '</button>' +
       '</div>' +
 
       // Step 1: Upload
-      '<div id="lib-step-upload" style="padding:0 24px 20px">' +
+      '<div id="lib-step-upload" class="library-modal-step">' +
         '<div id="lib-upload-zone" class="upload-zone" ondragover="handleLibDragOver(event)" ondragleave="handleLibDragLeave(event)" ondrop="handleLibDrop(event)" onclick="document.getElementById(\'lib-file-input\').click()">' +
-          '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom:8px"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17,8 12,3 7,8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>' +
+          '<svg class="upload-zone-icon" width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17,8 12,3 7,8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>' +
           '<p class="upload-hint">拖拽或点击上传设计文件</p>' +
           '<p class="upload-formats">支持 Sketch (.sketch)、Photoshop (.psd)、Axure (.rp) 格式</p>' +
         '</div>' +
         '<input type="file" id="lib-file-input" accept=".sketch,.psd,.rp" style="display:none" onchange="handleLibFileSelect(event)" />' +
-        '<div id="lib-name-group" class="form-row" style="margin-top:16px;display:none">' +
+        '<div id="lib-name-group" class="form-row library-name-group" style="display:none">' +
           '<label>组件库名称</label>' +
-          '<input type="text" id="lib-name-input" placeholder="输入组件库名称" style="width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:13px;outline:none;box-sizing:border-box" />' +
+          '<input type="text" id="lib-name-input" placeholder="输入组件库名称" />' +
         '</div>' +
-        '<div class="modal-actions" style="margin-top:16px">' +
+        '<div class="modal-actions library-modal-actions">' +
           '<button class="btn btn-ghost" onclick="document.getElementById(\'new-library-modal\').remove()">取消</button>' +
           '<button class="btn btn-primary" id="lib-start-parse-btn" disabled onclick="startLibraryParse()">开始解析</button>' +
         '</div>' +
       '</div>' +
 
       // Step 2: Parsing (hidden initially)
-      '<div id="lib-step-parsing" style="padding:0 24px 20px;display:none">' +
+      '<div id="lib-step-parsing" class="library-modal-step" style="display:none">' +
         '<div class="parse-progress-section">' +
           '<div class="parse-file-name" id="lib-parse-filename"></div>' +
           '<div class="parse-progress-bar"><div class="parse-progress-fill" id="lib-progress-fill" style="width:0%"></div></div>' +
@@ -330,7 +339,7 @@ function showNewLibraryModal() {
       '</div>' +
 
       // Step 3: Done / Result (hidden initially)
-      '<div id="lib-step-done" style="padding:0 24px 20px;display:none">' +
+      '<div id="lib-step-done" class="library-modal-step" style="display:none">' +
         '<div class="parse-success">' +
           '<div class="parse-success-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg></div>' +
           '<h4>解析完成</h4>' +
@@ -338,7 +347,7 @@ function showNewLibraryModal() {
         '</div>' +
         '<div class="parse-result-stats" id="lib-parse-stats"></div>' +
         '<div class="parse-result-colors" id="lib-parse-colors" style="display:none"></div>' +
-        '<div class="modal-actions" style="margin-top:16px">' +
+        '<div class="modal-actions library-modal-actions">' +
           '<button class="btn btn-ghost" onclick="document.getElementById(\'new-library-modal\').remove()">取消</button>' +
           '<button class="btn btn-primary" id="lib-confirm-create-btn" onclick="confirmCreateLibrary()">确认创建</button>' +
         '</div>' +

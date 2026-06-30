@@ -419,8 +419,13 @@ window.showEditNicknameModal = showEditNicknameModal;
 function showDownloadPluginModal() {
   let modal = document.getElementById('plugin-modal');
   if (modal) modal.remove();
-  const pluginPackageUrl = '/downloads/Flowa-Axure-Plugin-1.0.0.zip';
-  const releasePageUrl = 'https://github.com/Susie-ss/framo/releases';
+  const downloadBase = 'https://github.com/Susie-ss/framo/releases/latest/download/';
+  const downloads = {
+    windows: downloadBase + 'Flowa-Axure-Plugin-1.0.0-win-x64-setup.exe',
+    macArm: downloadBase + 'Flowa-Axure-Plugin-1.0.0-mac-arm64.dmg',
+    macX64: downloadBase + 'Flowa-Axure-Plugin-1.0.0-mac-x64.dmg',
+    full: downloadBase + 'Flowa-Axure-Plugin-1.0.0-installers.zip'
+  };
 
   modal = document.createElement('div');
   modal.id = 'plugin-modal';
@@ -435,8 +440,8 @@ function showDownloadPluginModal() {
     '</div>' +
     '<div class="plugin-modal-steps">' +
       '<div style="font-size:13px;font-weight:600;margin-bottom:16px">安装步骤</div>' +
-      '<div class="plugin-step"><div class="plugin-step-num">1</div><div><div class="plugin-step-title">下载通用插件包</div><div class="plugin-step-desc">当前提供稳定可下载的插件包，内含源码、依赖清单和 Windows/macOS 打包脚本</div></div></div>' +
-      '<div class="plugin-step"><div class="plugin-step-num">2</div><div><div class="plugin-step-title">安装插件</div><div class="plugin-step-desc">下载后解压，按安装说明运行；正式安装包上传 Release 后可分系统下载</div></div></div>' +
+      '<div class="plugin-step"><div class="plugin-step-num">1</div><div><div class="plugin-step-title">下载正式安装包</div><div class="plugin-step-desc">Windows 使用 .exe，macOS 按芯片选择 Apple Silicon 或 Intel 的 .dmg</div></div></div>' +
+      '<div class="plugin-step"><div class="plugin-step-num">2</div><div><div class="plugin-step-title">安装插件</div><div class="plugin-step-desc">双击安装包完成安装；macOS 首次打开可能需要在系统设置中允许</div></div></div>' +
       '<div class="plugin-step"><div class="plugin-step-num">3</div><div><div class="plugin-step-title">打开预览发布</div><div class="plugin-step-desc">在 Axure 中打开文档，点击预览，插件自动检测并上传</div></div></div>' +
     '</div>' +
     '<div style="margin-bottom:20px">' +
@@ -449,8 +454,10 @@ function showDownloadPluginModal() {
       '</div>' +
     '</div>' +
     '<div class="modal-actions">' +
-      '<a class="btn btn-primary" href="' + pluginPackageUrl + '" download="Flowa-Axure-Plugin-1.0.0.zip" onclick="showToast(\'插件包下载已开始\',\'success\');document.getElementById(\'plugin-modal\').remove()"><svg class="icon-color icon-sm"><use href="/libs/iconpark/icons.svg#ico-download"/></svg> 下载通用插件包</a>' +
-      '<a class="btn btn-secondary" href="' + releasePageUrl + '" target="_blank" rel="noopener">查看 Release 页面</a>' +
+      '<a class="btn btn-primary" href="' + downloads.windows + '" onclick="showToast(\'Windows 安装包下载已开始\',\'success\');document.getElementById(\'plugin-modal\').remove()"><svg class="icon-color icon-sm"><use href="/libs/iconpark/icons.svg#ico-download"/></svg> Windows</a>' +
+      '<a class="btn btn-secondary" href="' + downloads.macArm + '" onclick="showToast(\'macOS Apple 芯片安装包下载已开始\',\'success\')">macOS Apple 芯片</a>' +
+      '<a class="btn btn-secondary" href="' + downloads.macX64 + '" onclick="showToast(\'macOS Intel 安装包下载已开始\',\'success\')">macOS Intel</a>' +
+      '<a class="btn btn-secondary" href="' + downloads.full + '" onclick="showToast(\'完整插件包下载已开始\',\'success\')">完整插件包</a>' +
     '</div>' +
   '</div>';
   document.body.appendChild(modal);

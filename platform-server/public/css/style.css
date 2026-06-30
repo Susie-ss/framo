@@ -785,6 +785,314 @@ button {
   margin-bottom: 24px;
 }
 
+/* ===== Flowa Auth Redesign ===== */
+.flowa-auth-layout {
+  display: grid;
+  grid-template-columns: minmax(520px, 1.05fr) minmax(480px, .95fr);
+  min-height: 100vh;
+  width: 100%;
+  background:
+    radial-gradient(circle at 72% 18%, rgba(91,94,244,.12), transparent 28%),
+    linear-gradient(135deg, #F7F8FC 0%, #EEF2F8 100%);
+}
+
+.flowa-auth-banner {
+  align-items: flex-start;
+  padding: 72px clamp(48px, 6vw, 96px);
+  background:
+    radial-gradient(circle at 12% 16%, rgba(255,255,255,.16), transparent 20%),
+    radial-gradient(circle at 88% 86%, rgba(255,255,255,.12), transparent 18%),
+    linear-gradient(135deg, #14162F 0%, #302E8F 48%, #645CF6 100%);
+}
+
+.flowa-auth-banner::before {
+  width: 720px;
+  height: 720px;
+  right: -260px;
+  top: -120px;
+  background: rgba(255,255,255,.07);
+}
+
+.flowa-auth-banner::after {
+  width: 420px;
+  height: 420px;
+  left: -160px;
+  bottom: -140px;
+  background: rgba(255,255,255,.06);
+}
+
+.flowa-auth-brand {
+  align-items: flex-start;
+  max-width: 620px;
+  width: 100%;
+}
+
+.auth-product-tag,
+.auth-card-kicker {
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.auth-product-tag {
+  color: rgba(255,255,255,.68);
+  margin-bottom: 28px;
+}
+
+.flowa-auth-brand .auth-banner-logo {
+  width: 70px;
+  height: 70px;
+  border-radius: 22px;
+  margin-bottom: 28px;
+  background: rgba(255,255,255,.92);
+  box-shadow: 0 24px 60px rgba(0,0,0,.25);
+}
+
+.flowa-auth-brand .auth-banner-logo img {
+  width: 70px;
+  height: 70px;
+  border-radius: 22px;
+  object-fit: cover;
+}
+
+.flowa-auth-brand h1 {
+  max-width: 560px;
+  font-size: clamp(34px, 4.5vw, 58px);
+  line-height: 1.12;
+  letter-spacing: -.04em;
+  margin: 0 0 20px;
+  color: #fff;
+}
+
+.flowa-auth-brand .auth-banner-desc {
+  max-width: 560px;
+  text-align: left;
+  font-size: 17px;
+  line-height: 1.9;
+  color: rgba(255,255,255,.78);
+  opacity: 1;
+}
+
+.auth-pipeline {
+  display: grid;
+  gap: 12px;
+  width: min(540px, 100%);
+  margin-top: 34px;
+}
+
+.auth-pipeline-step {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 18px;
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 18px;
+  background: rgba(255,255,255,.08);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.14);
+  backdrop-filter: blur(14px);
+}
+
+.auth-pipeline-step b {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  color: #fff;
+  background: linear-gradient(135deg, rgba(255,255,255,.24), rgba(255,255,255,.08));
+  font-size: 13px;
+}
+
+.auth-pipeline-step span {
+  display: grid;
+  gap: 3px;
+}
+
+.auth-pipeline-step strong {
+  color: #fff;
+  font-size: 15px;
+}
+
+.auth-pipeline-step em {
+  color: rgba(255,255,255,.66);
+  font-style: normal;
+  font-size: 13px;
+}
+
+.auth-proof-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  width: min(540px, 100%);
+  margin-top: 22px;
+}
+
+.auth-proof-grid div {
+  padding: 16px;
+  border-radius: 18px;
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.13);
+}
+
+.auth-proof-grid strong,
+.auth-proof-grid span {
+  display: block;
+}
+
+.auth-proof-grid strong {
+  color: #fff;
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.auth-proof-grid span {
+  color: rgba(255,255,255,.62);
+  font-size: 12px;
+}
+
+.flowa-auth-form {
+  background: transparent;
+  padding: 48px;
+}
+
+.flowa-auth-card {
+  max-width: 468px;
+  padding: 42px;
+  border-radius: 30px;
+  border: 1px solid rgba(225,229,238,.9);
+  box-shadow: 0 26px 80px rgba(18,25,38,.12);
+}
+
+.flowa-auth-card .auth-card-kicker {
+  color: var(--primary);
+  margin-bottom: 16px;
+}
+
+.flowa-auth-card h2 {
+  font-size: 28px;
+  letter-spacing: -.03em;
+  margin-bottom: 8px;
+}
+
+.flowa-auth-card .auth-subtitle {
+  font-size: 14px;
+  line-height: 1.8;
+  margin-bottom: 0;
+}
+
+.auth-context-panel {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 22px 0 28px;
+  padding: 10px;
+  border-radius: 18px;
+  background: #F6F7FB;
+  border: 1px solid #EAEDF5;
+}
+
+.auth-context-panel span {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 72px;
+  border-radius: 14px;
+  color: #606A80;
+  font-size: 12px;
+  text-align: center;
+  background: #fff;
+}
+
+.auth-context-panel i {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #5B5EF4, #FF9F0A);
+  box-shadow: 0 0 0 5px rgba(91,94,244,.1);
+}
+
+.flowa-auth-card .form-row {
+  margin-bottom: 18px;
+}
+
+.flowa-auth-card .form-row label {
+  display: block;
+  color: #384052;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.flowa-auth-card .input-wrap {
+  height: 56px;
+  border-radius: 16px;
+  background: #F9FAFD;
+  border: 1px solid #E4E8F1;
+  transition: border-color .2s, box-shadow .2s, background .2s;
+}
+
+.flowa-auth-card .input-wrap:focus-within {
+  background: #fff;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(91,94,244,.12);
+}
+
+.flowa-auth-card .input-wrap input,
+.flowa-auth-card .form-row > input {
+  height: 100%;
+  border: 0;
+  background: transparent;
+  font-size: 14px;
+}
+
+.flowa-auth-card .auth-btn {
+  height: 56px;
+  border-radius: 16px;
+  margin-top: 8px;
+  font-size: 15px;
+  background: linear-gradient(135deg, #5B5EF4 0%, #7C3AED 100%);
+  box-shadow: 0 16px 32px rgba(91,94,244,.28);
+}
+
+.flowa-auth-card .auth-footer-link {
+  margin-top: 24px;
+}
+
+@media (max-width: 980px) {
+  .flowa-auth-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .flowa-auth-banner {
+    min-height: auto;
+    padding: 48px 28px;
+  }
+
+  .flowa-auth-form {
+    padding: 32px 20px 48px;
+  }
+
+  .flowa-auth-card {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .auth-proof-grid,
+  .auth-context-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .flowa-auth-card {
+    padding: 30px 22px;
+    border-radius: 24px;
+  }
+}
+
 /* ===== Project Detail Layout ===== */
 .project-detail-layout {
   display: flex;
@@ -1361,6 +1669,28 @@ button {
 
 .input-wrap:focus-within .input-icon {
   stroke: var(--primary);
+}
+
+.flowa-auth-card .input-wrap input[type="text"],
+.flowa-auth-card .input-wrap input[type="password"] {
+  height: 100%;
+  padding: 0 16px 0 44px;
+  border: 0;
+  border-radius: 16px;
+  background: transparent;
+  font-size: 14px;
+  box-shadow: none;
+}
+
+.flowa-auth-card .input-wrap input[type="text"]:focus,
+.flowa-auth-card .input-wrap input[type="password"]:focus {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.flowa-auth-card .input-icon {
+  left: 16px;
 }
 
 /* ===== Toast ===== */
@@ -3099,11 +3429,520 @@ button {
   border: 2px solid var(--surface); box-shadow: var(--shadow);
 }
 
+/* ===== Component Library Reference Layout ===== */
+.library-card-page {
+  max-width: none;
+  width: 100%;
+  padding: 8px 8px 56px;
+}
+
+.library-card-page .library-header {
+  align-items: flex-start;
+  margin-bottom: 36px;
+}
+
+.library-card-page .library-header h2 {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -.03em;
+  margin-bottom: 10px;
+}
+
+.library-card-page .library-desc {
+  font-size: 15px;
+  color: #98A2B3;
+  font-weight: 600;
+}
+
+.library-card-page .library-new-btn {
+  height: 44px;
+  padding: 0 24px;
+  border-radius: 12px;
+  font-size: 15px;
+  box-shadow: 0 12px 28px rgba(91,94,244,.22);
+}
+
+.library-card-page .design-systems-grid {
+  grid-template-columns: repeat(3, minmax(280px, 1fr));
+  gap: 28px;
+}
+
+.library-asset-card {
+  min-height: 220px;
+  padding: 36px 40px 30px;
+  border-radius: 18px;
+  border: 1px solid rgba(228,232,241,.9);
+  box-shadow: 0 14px 42px rgba(18,25,38,.06);
+  background: #fff;
+}
+
+.library-asset-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(91,94,244,.55);
+  box-shadow: 0 18px 54px rgba(18,25,38,.1);
+}
+
+.library-asset-card .ds-card-actions {
+  top: 30px;
+  right: 30px;
+  opacity: 0;
+}
+
+.library-asset-card:hover .ds-card-actions {
+  opacity: 1;
+}
+
+.library-asset-card .ds-action-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: #fff;
+  border: 1px solid #EEF1F6;
+  box-shadow: 0 8px 18px rgba(18,25,38,.06);
+}
+
+.library-asset-card .ds-colors {
+  gap: 12px;
+  margin-bottom: 32px;
+  padding-right: 108px;
+}
+
+.library-asset-card .color-dot {
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  box-shadow: 0 12px 26px rgba(18,25,38,.08);
+}
+
+.library-asset-card .ds-name {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -.02em;
+  margin-bottom: 18px;
+}
+
+.library-asset-card .ds-desc {
+  color: #667085;
+  font-size: 16px;
+  line-height: 1.65;
+  min-height: 52px;
+  max-width: 520px;
+}
+
+.library-asset-card .ds-source {
+  color: var(--primary);
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 22px;
+}
+
+.library-asset-card .ds-meta {
+  gap: 20px;
+  flex-wrap: wrap;
+  color: #98A2B3;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.library-create-modal {
+  width: min(1120px, calc(100vw - 64px));
+  max-width: none;
+  border-radius: 24px;
+  box-shadow: 0 30px 90px rgba(18,25,38,.28);
+}
+
+.library-create-header {
+  padding: 52px 48px 22px;
+  border-bottom: 0;
+}
+
+.library-create-title {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -.03em;
+}
+
+.library-create-header .modal-close-btn {
+  width: 44px;
+  height: 44px;
+  color: #98A2B3;
+}
+
+.library-modal-step {
+  padding: 0 80px 64px;
+}
+
+.library-create-modal .upload-zone {
+  min-height: 330px;
+  padding: 48px 36px;
+  border: 3px dashed rgba(91,94,244,.45);
+  border-radius: 20px;
+  background: #FCFCFF;
+  color: #7B83D9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.library-create-modal .upload-zone:hover,
+.library-create-modal .upload-zone.drag-over {
+  border-color: var(--primary);
+  background: rgba(91,94,244,.04);
+}
+
+.library-create-modal .upload-zone.has-file {
+  min-height: 210px;
+  align-items: stretch;
+  border: 3px solid var(--primary);
+  background: #FBFBFF;
+}
+
+.upload-zone-icon {
+  margin-bottom: 40px;
+}
+
+.library-create-modal .upload-hint {
+  font-size: 24px;
+  font-weight: 700;
+  color: #667085;
+  margin: 0 0 16px;
+}
+
+.library-create-modal .upload-formats {
+  font-size: 16px;
+  color: #98A2B3;
+  margin: 0;
+}
+
+.library-create-modal .upload-file-info {
+  min-height: 126px;
+  padding: 0 20px;
+  gap: 26px;
+}
+
+.library-create-modal .upload-file-info > svg {
+  width: 34px;
+  height: 34px;
+  color: #98A2B3;
+}
+
+.library-create-modal .upload-file-name {
+  font-size: 23px;
+  font-weight: 700;
+  color: #1D2433;
+  margin-bottom: 16px;
+}
+
+.library-create-modal .upload-file-size {
+  font-size: 17px;
+  color: #98A2B3;
+}
+
+.library-create-modal .upload-remove {
+  width: 38px;
+  height: 38px;
+  color: #98A2B3;
+}
+
+.library-name-group {
+  margin-top: 36px;
+}
+
+.library-name-group label {
+  display: block;
+  font-size: 20px;
+  font-weight: 700;
+  color: #667085;
+  margin-bottom: 14px;
+}
+
+.library-name-group input {
+  width: 100%;
+  height: 72px;
+  padding: 0 24px;
+  border: 1px solid #E4E8F1;
+  border-radius: 14px;
+  background: #F7F8FB;
+  color: #1D2433;
+  font-size: 22px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.library-name-group input:focus {
+  border-color: var(--primary);
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(91,94,244,.1);
+}
+
+.library-modal-actions {
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 32px;
+  padding: 0;
+}
+
+.library-modal-actions .btn {
+  min-width: 118px;
+  height: 56px;
+  border-radius: 14px;
+  font-size: 18px;
+  justify-content: center;
+}
+
+.library-create-modal .parse-progress-section {
+  padding: 0 8px;
+}
+
+.library-create-modal .parse-file-name {
+  font-size: 23px;
+  font-weight: 700;
+  color: #1D2433;
+  margin: 0 0 36px;
+  gap: 18px;
+}
+
+.library-create-modal .parse-file-name svg {
+  width: 32px;
+  height: 32px;
+}
+
+.library-create-modal .parse-progress-bar {
+  height: 7px;
+  border-radius: 999px;
+  background: #F0F3F8;
+  margin-bottom: 36px;
+}
+
+.library-create-modal .parse-progress-fill {
+  border-radius: 999px;
+  background: var(--primary);
+}
+
+.library-create-modal .parse-stages {
+  gap: 18px;
+}
+
+.library-create-modal .parse-stage-item {
+  gap: 18px;
+  font-size: 22px;
+  color: #98A2B3;
+}
+
+.library-create-modal .parse-stage-item.done {
+  color: #22C55E;
+}
+
+.library-create-modal .parse-stage-item.active {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.library-create-modal .parse-stage-dot {
+  width: 28px;
+  height: 28px;
+}
+
+.library-create-modal .parse-stage-dot .dot {
+  width: 14px;
+  height: 14px;
+  background: #E5E9F1;
+}
+
+.library-create-modal .parse-spinner {
+  width: 24px;
+  height: 24px;
+  border-width: 3px;
+}
+
+.library-create-modal .parse-success {
+  margin: 0 0 40px;
+}
+
+.library-create-modal .parse-success-icon {
+  width: 96px;
+  height: 96px;
+  margin-bottom: 28px;
+  background: rgba(34,197,94,.1);
+}
+
+.library-create-modal .parse-success h4 {
+  font-size: 30px;
+  font-weight: 800;
+  margin-bottom: 14px;
+}
+
+.library-create-modal .parse-success p {
+  font-size: 22px !important;
+  font-weight: 700;
+  color: #98A2B3 !important;
+}
+
+.library-create-modal .parse-result-stats {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin: 0 0 34px;
+}
+
+.library-create-modal .parse-stat {
+  padding: 30px 20px 26px;
+  border-radius: 14px;
+  background: #F5F7FB;
+}
+
+.library-create-modal .parse-stat-value {
+  font-size: 36px;
+  font-weight: 800;
+}
+
+.library-create-modal .parse-stat-label {
+  font-size: 18px;
+  font-weight: 700;
+  margin-top: 14px;
+}
+
+.library-create-modal .parse-result-colors {
+  margin-top: 0;
+  gap: 18px;
+}
+
+.library-create-modal .parse-result-label {
+  font-size: 22px;
+  font-weight: 700;
+  color: #667085;
+}
+
+.library-create-modal .parse-color-dots {
+  gap: 14px;
+}
+
+.library-create-modal .parse-color-dot {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  border: 4px solid #fff;
+  box-shadow: 0 12px 28px rgba(18,25,38,.12);
+}
+
+.ds-detail {
+  max-width: none;
+  padding: 0 8px 48px;
+}
+
+.ds-detail .ds-header {
+  align-items: flex-start;
+  margin-bottom: 36px;
+}
+
+.ds-detail .ds-header-left {
+  gap: 24px;
+}
+
+.ds-detail .ds-back-btn {
+  min-width: 124px;
+  height: 54px;
+  border-radius: 12px;
+  font-size: 17px !important;
+  color: #667085;
+}
+
+.ds-detail .ds-header-left h2 {
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -.03em;
+  margin-bottom: 14px;
+}
+
+.ds-detail .ds-header-left .text-muted {
+  font-size: 20px;
+  color: #1D2433;
+  line-height: 1.55;
+}
+
+.ds-detail .ds-stats {
+  gap: 36px;
+  padding-top: 10px;
+}
+
+.ds-detail .ds-stats span {
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  color: #1D2433;
+  font-size: 18px;
+}
+
+.ds-detail .ds-header-actions {
+  margin-bottom: -2px;
+}
+
+.ds-detail .ds-header-actions .btn {
+  min-width: 124px;
+  height: 54px;
+  border-radius: 12px;
+  font-size: 17px;
+}
+
+.ds-detail .ds-tabs {
+  border-radius: 16px;
+  padding: 6px;
+  margin-bottom: 34px;
+  box-shadow: 0 14px 36px rgba(18,25,38,.06);
+}
+
+.ds-detail .ds-tab {
+  height: 60px;
+  border-radius: 12px;
+  font-size: 18px;
+}
+
+.ds-detail .ds-section {
+  border-radius: 16px;
+  box-shadow: 0 14px 42px rgba(18,25,38,.05);
+}
+
+@media (max-width: 1180px) {
+  .library-card-page .design-systems-grid {
+    grid-template-columns: repeat(2, minmax(260px, 1fr));
+  }
+
+  .library-create-modal {
+    width: min(920px, calc(100vw - 40px));
+  }
+
+  .library-modal-step {
+    padding: 0 48px 48px;
+  }
+}
+
+@media (max-width: 720px) {
+  .library-card-page .design-systems-grid,
+  .library-create-modal .parse-result-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .library-create-modal {
+    width: calc(100vw - 24px);
+  }
+
+  .library-create-header,
+  .library-modal-step {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .ds-detail .ds-header,
+  .ds-detail .ds-header-left {
+    flex-direction: column;
+  }
+}
+
 /* ========================================
    Design System Detail Page - 4 Tabs
    ======================================== */
 .ds-detail {
-  max-width: 1400px;
+  max-width: none;
   width: 100%;
 }
 
