@@ -1650,6 +1650,26 @@ function parseSketchFile(file) {
               return String(value || '').replace(/^\s*\d+[.、]\s*/, '').replace(/\s+/g, ' ').trim();
             }
 
+            function iconDisplayName(rawName) {
+              var parts = String(rawName || '').split(/[\/／]/).map(cleanSegment).filter(Boolean);
+              var generic = /^(base基础|icon图标|icon|ico|action|normal|tips|navigation|application|file|rd|chart|default|编组|group)$/i;
+              for (var pn = parts.length - 1; pn >= 0; pn--) {
+                var part = parts[pn].replace(/备份\s*\d*$/i, '').trim();
+                if (!part || /^\d+$/.test(part) || generic.test(part)) continue;
+                return part;
+              }
+              return cleanSegment(parts[parts.length - 1] || rawName || 'icon');
+            }
+
+            function iconCategory(rawName) {
+              var parts = String(rawName || '').split(/[\/／]/).map(cleanSegment).filter(Boolean);
+              if (parts.length >= 2) {
+                var cat = parts[parts.length - 2].replace(/备份\s*\d*$/i, '').trim();
+                if (cat && !/^(icon图标|icon|ico)$/i.test(cat)) return cat;
+              }
+              return '图标';
+            }
+
             function componentScore(item) {
               var score = 0;
               if (/(^|\/)default$/i.test(item.name)) score += 30;
@@ -1776,9 +1796,14 @@ function parseSketchFile(file) {
                 // 图标候选
                 var iconLike = /icon|ico|图标/i.test(layer.name || '') && (['shapeGroup', 'group', 'symbolMaster'].indexOf(layer._class) >= 0);
                 if (iconLike && iconCandidates.length < 10000) {
+                  var iconName = iconDisplayName(layer.name);
                   iconCandidates.push({
                     id: layer.do_objectID,
-                    name: layer.name,
+                    name: iconName,
+                    fullName: layer.name,
+                    label: iconName,
+                    category: iconCategory(layer.name),
+                    type: /fill|solid|面/i.test(layer.name || '') ? 'solid' : 'line',
                     width: Math.round((layer.frame && layer.frame.width) || 24),
                     height: Math.round((layer.frame && layer.frame.height) || 24),
                     color: rgbColor(deepFill(layer) || { red: 0.2, green: 0.2, blue: 0.2, alpha: 1 }),
@@ -1804,12 +1829,14 @@ function parseSketchFile(file) {
             // ===== 图标过滤（Framo 标准）=====
             var iconNames = {};
             var icons = iconCandidates.filter(function(item) {
-              return item.paths.length > 0 && item.priority >= 120 && !/备份|角色头像|avatar/i.test(item.name);
+              return item.paths.length > 0 && item.priority >= 120 && !/备份|角色头像|avatar/i.test(item.fullName || item.name);
             }).sort(function(a, b) { return b.priority - a.priority; }).filter(function(item) {
-              var shortName = item.name.split('/').pop().trim().toLowerCase();
+              var shortName = iconDisplayName(item.name || item.fullName).toLowerCase();
               if (!shortName || /^\d+$/.test(shortName)) return false;
               if (iconNames[shortName]) return false;
               iconNames[shortName] = true;
+              item.name = iconDisplayName(item.name || item.fullName);
+              item.label = item.label || item.name;
               return true;
             }).slice(0, 3000);
 
@@ -2381,9 +2408,9 @@ function renderDetailHTML(ds) {
   // 使用当前 DS 的图标数据（fallback 到默认池）
   var dsIcons = getDSIcons();
   var filteredIcons = dsIcons.filter(function(icon) {
-    var matchSearch = !dsIconSearch ||
-      icon.name.toLowerCase().indexOf(dsIconSearch.toLowerCase()) !== -1 ||
-      icon.label.indexOf(dsIconSearch) !== -1;
+    var meta = getReadableIconMeta(icon);
+    var haystack = [meta.name, meta.category, meta.title, icon.label || ''].join(' ').toLowerCase();
+    var matchSearch = !dsIconSearch || haystack.indexOf(dsIconSearch.toLowerCase()) !== -1;
     var matchFilter = dsIconFilter === 'all' || icon.type === dsIconFilter;
     return matchSearch && matchFilter;
   });
@@ -2464,6 +2491,31 @@ function renderDetailHTML(ds) {
   '</div>';
 }
 
+function getReadableIconName(rawName) {
+  var clean = function(v) {
+    return String(v || '').replace(/^\s*\d+[.、]\s*/, '').replace(/备份\s*\d*$/i, '').replace(/\s+/g, ' ').trim();
+  };
+  var parts = String(rawName || '').split(/[\/／]/).map(clean).filter(Boolean);
+  var generic = /^(base基础|icon图标|icon|ico|action|normal|tips|navigation|application|file|rd|chart|default|编组|group)$/i;
+  for (var i = parts.length - 1; i >= 0; i--) {
+    if (!parts[i] || /^\d+$/.test(parts[i]) || generic.test(parts[i])) continue;
+    return parts[i];
+  }
+  return clean(parts[parts.length - 1] || rawName || 'icon');
+}
+
+function getReadableIconMeta(icon) {
+  var full = icon.fullName || icon.name || '';
+  var name = getReadableIconName(icon.name || full);
+  var category = icon.category || '';
+  if (!category && full) {
+    var parts = full.split(/[\/／]/).map(getReadableIconName).filter(Boolean);
+    category = parts.length > 1 ? parts[parts.length - 2] : '';
+  }
+  if (!category || category === name) category = icon.type === 'solid' ? '面性' : '线性';
+  return { name: name, category: category, title: full || name };
+}
+
 function renderIconsTab(icons) {
   if (!icons || icons.length === 0) {
     return '<section class="ds-section">' +
@@ -2479,6 +2531,7 @@ function renderIconsTab(icons) {
   }
 
   var cardsHTML = icons.map(function(icon) {
+    var iconMeta = getReadableIconMeta(icon);
     // ===== 优先使用 Framo 格式（paths[] 真实 bezier 路径） =====
     var svg = '';
     if (icon.paths && icon.paths.length > 0) {
@@ -2492,15 +2545,15 @@ function renderIconsTab(icons) {
       svg = icon.svg || iconSVGMap[icon.name] || '';
     }
     // 截断过长的名称
-    var displayName = icon.name;
+    var displayName = iconMeta.name;
     if (displayName.length > 20) displayName = displayName.slice(0, 18) + '…';
-    var displayLabel = icon.label;
+    var displayLabel = icon.label && icon.label !== icon.name ? getReadableIconName(icon.label) : iconMeta.category;
     if (displayLabel && displayLabel.length > 25) displayLabel = displayLabel.slice(0, 23) + '…';
     return '<div class="icon-card">' +
       '<div class="icon-preview">' + svg + '</div>' +
       '<div class="icon-info">' +
-        '<span class="icon-name" title="' + escapeHTML(icon.name) + '">' + escapeHTML(displayName) + '</span>' +
-        (displayLabel && displayLabel !== icon.name ? '<span class="icon-label" title="' + escapeHTML(icon.label) + '">' + escapeHTML(displayLabel) + '</span>' : '') +
+        '<span class="icon-name" title="' + escapeHTML(iconMeta.title) + '">' + escapeHTML(displayName) + '</span>' +
+        (displayLabel && displayLabel !== displayName ? '<span class="icon-label" title="' + escapeHTML(displayLabel) + '">' + escapeHTML(displayLabel) + '</span>' : '') +
       '</div>' +
     '</div>';
   }).join('');
@@ -2852,7 +2905,8 @@ function bindDetailEvents() {
         if (currentDSTab === 'icons') {
           var icons = getDSIcons();
           var filtered = icons.filter(function(ic) {
-            var ms = !dsIconSearch || ic.name.toLowerCase().indexOf(dsIconSearch.toLowerCase()) !== -1 || ic.label.indexOf(dsIconSearch) !== -1;
+            var meta = getReadableIconMeta(ic);
+            var ms = !dsIconSearch || [meta.name, meta.category, meta.title, ic.label || ''].join(' ').toLowerCase().indexOf(dsIconSearch.toLowerCase()) !== -1;
             var mf = dsIconFilter === 'all' || ic.type === dsIconFilter;
             return ms && mf;
           });
@@ -2903,7 +2957,8 @@ function bindDetailEvents() {
 function refreshIconsTab() {
   var icons = getDSIcons();  // ★ 用当前 DS 的图标
   var filtered = icons.filter(function(ic) {
-    var ms = !dsIconSearch || ic.name.toLowerCase().indexOf(dsIconSearch.toLowerCase()) !== -1 || ic.label.indexOf(dsIconSearch) !== -1;
+    var meta = getReadableIconMeta(ic);
+    var ms = !dsIconSearch || [meta.name, meta.category, meta.title, ic.label || ''].join(' ').toLowerCase().indexOf(dsIconSearch.toLowerCase()) !== -1;
     var mf = dsIconFilter === 'all' || ic.type === dsIconFilter;
     return ms && mf;
   });

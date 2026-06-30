@@ -4616,3 +4616,333 @@ button {
   overflow: auto;
   background: #f7f8fa;
 }
+
+/* ===== Balanced component library sizing ===== */
+.library-card-page {
+  padding: 0 0 40px;
+}
+
+.library-card-page .library-header {
+  margin-bottom: 22px;
+}
+
+.library-card-page .library-header h2 {
+  font-size: 22px;
+  margin-bottom: 6px;
+}
+
+.library-card-page .library-desc {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.library-card-page .library-new-btn {
+  height: 40px;
+  padding: 0 18px;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+.library-card-page .design-systems-grid {
+  gap: 18px;
+}
+
+.library-asset-card {
+  min-height: 176px;
+  padding: 26px 28px 24px;
+  border-radius: 14px;
+}
+
+.library-asset-card .ds-card-actions {
+  top: 22px;
+  right: 22px;
+}
+
+.library-asset-card .ds-action-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+}
+
+.library-asset-card .ds-colors {
+  gap: 9px;
+  margin-bottom: 22px;
+  padding-right: 88px;
+}
+
+.library-asset-card .color-dot {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+}
+
+.library-asset-card .ds-name {
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+.library-asset-card .ds-desc {
+  font-size: 14px;
+  line-height: 1.55;
+  min-height: 44px;
+  margin-bottom: 14px;
+}
+
+.library-asset-card .ds-source,
+.library-asset-card .ds-meta {
+  font-size: 12px;
+}
+
+.library-asset-card .ds-meta {
+  gap: 14px;
+}
+
+.library-create-modal {
+  width: min(760px, calc(100vw - 48px));
+  border-radius: 18px;
+}
+
+.library-create-header {
+  padding: 30px 36px 16px;
+}
+
+.library-create-title {
+  font-size: 20px;
+}
+
+.library-create-header .modal-close-btn {
+  width: 36px;
+  height: 36px;
+}
+
+.library-modal-step {
+  padding: 0 48px 36px;
+}
+
+.library-create-modal .upload-zone {
+  min-height: 220px;
+  padding: 34px 28px;
+  border-width: 2px;
+  border-radius: 16px;
+}
+
+.library-create-modal .upload-zone.has-file {
+  min-height: 150px;
+  border-width: 2px;
+}
+
+.upload-zone-icon {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 22px;
+}
+
+.library-create-modal .upload-hint {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.library-create-modal .upload-formats {
+  font-size: 13px;
+}
+
+.library-create-modal .upload-file-info {
+  min-height: 96px;
+  padding: 0 8px;
+  gap: 18px;
+}
+
+.library-create-modal .upload-file-info > svg {
+  width: 26px;
+  height: 26px;
+}
+
+.library-create-modal .upload-file-name {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.library-create-modal .upload-file-size {
+  font-size: 14px;
+}
+
+.library-name-group {
+  margin-top: 24px;
+}
+
+.library-name-group label {
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+
+.library-name-group input {
+  height: 48px;
+  padding: 0 16px;
+  border-radius: 10px;
+  font-size: 15px;
+}
+
+.library-modal-actions {
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.library-modal-actions .btn {
+  min-width: 94px;
+  height: 42px;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+.library-create-modal .parse-file-name {
+  font-size: 18px;
+  margin-bottom: 24px;
+  gap: 12px;
+}
+
+.library-create-modal .parse-file-name svg {
+  width: 24px;
+  height: 24px;
+}
+
+.library-create-modal .parse-progress-bar {
+  height: 5px;
+  margin-bottom: 24px;
+}
+
+.library-create-modal .parse-stages {
+  gap: 12px;
+}
+
+.library-create-modal .parse-stage-item {
+  gap: 12px;
+  font-size: 16px;
+}
+
+.library-create-modal .parse-stage-dot {
+  width: 22px;
+  height: 22px;
+}
+
+.library-create-modal .parse-spinner {
+  width: 18px;
+  height: 18px;
+}
+
+.library-create-modal .parse-success {
+  margin-bottom: 26px;
+}
+
+.library-create-modal .parse-success-icon {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 18px;
+}
+
+.library-create-modal .parse-success h4 {
+  font-size: 22px;
+  margin-bottom: 8px;
+}
+
+.library-create-modal .parse-success p {
+  font-size: 15px !important;
+}
+
+.library-create-modal .parse-result-stats {
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.library-create-modal .parse-stat {
+  padding: 20px 14px 18px;
+  border-radius: 12px;
+}
+
+.library-create-modal .parse-stat-value {
+  font-size: 28px;
+}
+
+.library-create-modal .parse-stat-label {
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+.library-create-modal .parse-result-label {
+  font-size: 15px;
+}
+
+.library-create-modal .parse-color-dots {
+  gap: 10px;
+}
+
+.library-create-modal .parse-color-dot {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+}
+
+.ds-detail {
+  padding: 0 0 40px;
+}
+
+.ds-detail .ds-header {
+  margin-bottom: 24px;
+}
+
+.ds-detail .ds-header-left {
+  gap: 16px;
+}
+
+.ds-detail .ds-back-btn,
+.ds-detail .ds-header-actions .btn {
+  min-width: 92px;
+  height: 40px;
+  border-radius: 10px;
+  font-size: 14px !important;
+}
+
+.ds-detail .ds-header-left h2 {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+.ds-detail .ds-header-left .text-muted {
+  font-size: 15px;
+}
+
+.ds-detail .ds-stats {
+  gap: 22px;
+  padding-top: 6px;
+}
+
+.ds-detail .ds-stats span {
+  font-size: 14px;
+}
+
+.ds-detail .ds-tabs {
+  border-radius: 14px;
+  margin-bottom: 24px;
+}
+
+.ds-detail .ds-tab {
+  height: 48px;
+  border-radius: 10px;
+  font-size: 15px;
+}
+
+.icons-grid {
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 12px;
+}
+
+.icon-card {
+  min-height: 104px;
+}
+
+.icon-name {
+  max-width: 110px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
