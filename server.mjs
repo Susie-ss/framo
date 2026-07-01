@@ -236,8 +236,21 @@ function isUsableIconCandidate(item) {
 function sanitizeLibraryForClient(library) {
   if (!library || library.sourceType !== "sketch" || !library.assets) return library;
   const assets = { ...library.assets };
+  const attachPreviewUrl = (item) => {
+    if (!item || !item.id || item.previewUrl) return item;
+    const fileName = `${item.id}.svg`;
+    if (existsSync(join(ASSET_ROOT, library.id, fileName))) {
+      return {
+        ...item,
+        previewUrl: `/data/sketch-assets/${library.id}/${fileName}`,
+        previewEngine: item.previewEngine || "prebuilt-svg"
+      };
+    }
+    return item;
+  };
   const seenIcons = new Set();
   assets.icons = (assets.icons || [])
+    .map(attachPreviewUrl)
     .map((item) => ({ ...item, priority: item.priority ?? iconPriority(item.name) }))
     .filter(isUsableIconCandidate)
     .sort((a, b) => b.priority - a.priority)
@@ -249,14 +262,16 @@ function sanitizeLibraryForClient(library) {
     })
     .slice(0, 240);
 
-  assets.components = (assets.components || []).filter((component) => {
-    const fullName = String(component.fullName || component.name || "");
-    const segments = fullName.split("/").map(cleanSegment).filter(Boolean);
-    if (/Base基础\/1\.icon图标/i.test(fullName)) return false;
-    if (/^icon图标$/i.test(segments[0] || "")) return false;
-    if (/^normal$/i.test(segments[1] || "") && segments.length <= 2) return false;
-    return true;
-  });
+  assets.components = (assets.components || [])
+    .map(attachPreviewUrl)
+    .filter((component) => {
+      const fullName = String(component.fullName || component.name || "");
+      const segments = fullName.split("/").map(cleanSegment).filter(Boolean);
+      if (/Base基础\/1\.icon图标/i.test(fullName)) return false;
+      if (/^icon图标$/i.test(segments[0] || "")) return false;
+      if (/^normal$/i.test(segments[1] || "") && segments.length <= 2) return false;
+      return true;
+    });
 
   return {
     ...library,
