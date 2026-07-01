@@ -4654,9 +4654,12 @@ button {
 }
 .comp-preview.sketch-preview img {
   display: block;
-  max-width: 92%;
-  max-height: 84px;
+  max-width: 96%;
+  max-height: 112px;
   object-fit: contain;
+  filter: drop-shadow(0 10px 18px rgba(15, 23, 42, .08));
+  background: rgba(255, 255, 255, .72);
+  border-radius: 6px;
 }
 
 /* 共享样式 tab */

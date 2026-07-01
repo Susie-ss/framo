@@ -2818,7 +2818,7 @@ function renderComponentsTab() {
         : fallbackPreview;
       return '<div class="component-card">' +
         '<div class="comp-header"><h4>' + escapeHTML(displayName) + '</h4><span class="comp-category">' + escapeHTML(cat) + '</span></div>' +
-        '<div class="comp-preview sketch-preview" style="height:96px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,' + escapeHTML(previewColor) + '12,' + escapeHTML(previewColor) + '08);border:1px solid ' + escapeHTML(previewColor) + '22;border-radius:8px;overflow:hidden">' +
+        '<div class="comp-preview sketch-preview" style="height:128px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,' + escapeHTML(previewColor) + '10,#ffffff);border:1px solid ' + escapeHTML(previewColor) + '22;border-radius:8px;overflow:hidden">' +
           previewHTML +
         '</div>' +
         '<div style="padding:8px 12px;font-size:12px;color:var(--text-muted);display:flex;gap:8px;justify-content:space-between">' +

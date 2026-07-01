@@ -220,9 +220,11 @@ function isUsableIconCandidate(item) {
   const segments = fullName.split("/").map(cleanSegment).filter(Boolean);
   const shortName = cleanSegment(segments.at(-1) || fullName);
   if (!shortName || /^\d+$/.test(shortName)) return false;
+  if (isInternalSketchLayerName(shortName)) return false;
   if (!item.paths?.length) return false;
   if (item.priority < 120) return false;
-  if (!/(^|\/)1\.icon图标\/(0\.\s*导航|1\.\s*action|2\.normal|3\.tips|5\.navigation)(\/|$)/i.test(fullName) && !/Base基础\/1\.icon图标\/(0\.\s*导航|1\.\s*action|2\.normal|3\.tips|5\.navigation)(\/|$)/i.test(fullName)) return false;
+  if (!/(^|\/)(?:1\.)?icon图标\/(?:0\.\s*导航|1\.\s*action|2\.normal|3\.tips|5\.navigation|导航|action|normal|tips|navigation)(\/|$)/i.test(fullName)
+    && !/Base基础\/(?:1\.)?icon图标\/(?:0\.\s*导航|1\.\s*action|2\.normal|3\.tips|5\.navigation|导航|action|normal|tips|navigation)(\/|$)/i.test(fullName)) return false;
   if (/(11\.editor|12\.文件类型|0\.应用|9\.application|13\.角色头像|13\.勋章|editor|UML|图形|文件类型|应用|application|勋章|Clipped|测试管理|管理后台|Access|Testhub|角色头像|avatar|备份|mask|蒙版|bg|background)/i.test(fullName)) return false;
   if (/^(zip|rar|txt|ppt|php|doc|pdf|mp3|mp4|html|css|js|java|ipa|apk|exe|csv|xls|xsd|vss|swf|ttf|bak|bat|code|key|fla|文件|图片|文档|链接)$/i.test(shortName)) return false;
   const width = Number(item.width) || 0;
@@ -289,6 +291,25 @@ function fontFamily(name = "System") {
 
 function cleanSegment(value = "") {
   return value.replace(/^\s*\d+[.、]\s*/, "").replace(/\s+/g, " ").trim();
+}
+
+function isInternalSketchLayerName(value = "") {
+  return /^(group|编组|shape|path|fill\s*\d*|stroke\s*\d*|rectangle|rect|oval|layer|line|shape path|shape group|规范|网格|grid|形状结合|合并形状|路径(?:\s*\d*)?|矩形(?:备份)?(?:\s*\d*)?|椭圆形|圆形|多边形|直线(?:\s*\d*)?|蒙版|mask|clipped)$/i.test(cleanSegment(value));
+}
+
+function normalizeIconCandidateName(fullPath = "", fallbackName = "") {
+  const segments = String(fullPath || fallbackName || "").split("/").map((item) => String(item || "").replace(/\s+/g, " ").trim()).filter(Boolean);
+  const iconIndex = segments.findIndex((segment) => /icon图标$/i.test(segment) || /^icon$/i.test(segment));
+  if (iconIndex >= 0 && segments.length > iconIndex + 2) {
+    const prefix = segments.slice(Math.max(0, iconIndex - 1), iconIndex + 2);
+    const tail = segments.slice(iconIndex + 2).filter((segment) => {
+      const clean = cleanSegment(segment);
+      return clean && !/^\d+$/.test(clean) && !isInternalSketchLayerName(clean);
+    });
+    const iconName = cleanSegment(tail.at(-1) || fallbackName);
+    return [...prefix, iconName].filter(Boolean).join("/");
+  }
+  return fallbackName || fullPath;
 }
 
 function componentScore(item) {
@@ -375,8 +396,10 @@ function parseSketchDocument(document, pages) {
   const textStyles = [];
   const layerStyles = [];
 
-  const registerReusableAsset = (layer) => {
+  const registerReusableAsset = (layer, trail = []) => {
     if (!layer) return;
+    const fullPath = [...trail, layer.name].filter(Boolean).join("/");
+    const layerName = cleanSegment(layer.name || "");
     if (layer._class === "symbolMaster") {
       components.push({
         id: layer.do_objectID,
@@ -389,9 +412,25 @@ function parseSketchDocument(document, pages) {
       });
     }
 
-    const iconLike = /icon|ico|图标/i.test(layer.name || "") && ["shapeGroup", "group", "symbolMaster"].includes(layer._class);
+    const inIconLibrary = /(^|\/)(1\.)?Base基础\/1\.icon图标\//i.test(fullPath)
+      || /(^|\/)1\.icon图标\//i.test(fullPath);
+    const namedIconLayer = !isInternalSketchLayerName(layerName);
+    const iconLike = (inIconLibrary || /icon|ico|图标/i.test(layer.name || ""))
+      && namedIconLayer
+      && ["shapeGroup", "group", "symbolMaster", "symbolInstance"].includes(layer._class);
     if (iconLike && iconCandidates.length < 10000) {
-      iconCandidates.push({ id: layer.do_objectID, name: layer.name, width: Math.round(layer.frame?.width || 24), height: Math.round(layer.frame?.height || 24), color: rgba(deepFill(layer) || { red: .2, green: .2, blue: .2, alpha: 1 }), paths: iconPaths(layer), priority: iconPriority(layer.name) });
+      const rawCandidateName = inIconLibrary ? fullPath.replace(/^.*?(?=1\.Base基础\/1\.icon图标\/|Base基础\/1\.icon图标\/|1\.icon图标\/)/i, "") : (layer.name || fullPath);
+      const candidateName = inIconLibrary ? normalizeIconCandidateName(rawCandidateName, layer.name) : rawCandidateName;
+      const sourceBoost = inIconLibrary && !/数据输入|反馈|表格|弹窗|按钮|导航菜单|搜索|筛选|配置|渠道|工单|排期|设置|详情|列表|表单/i.test(fullPath) ? 400 : 0;
+      iconCandidates.push({
+        id: layer.do_objectID,
+        name: candidateName,
+        width: Math.round(layer.frame?.width || 24),
+        height: Math.round(layer.frame?.height || 24),
+        color: rgba(deepFill(layer) || { red: .2, green: .2, blue: .2, alpha: 1 }),
+        paths: iconPaths(layer),
+        priority: iconPriority(candidateName) + sourceBoost
+      });
     }
   };
 
@@ -424,7 +463,7 @@ function parseSketchDocument(document, pages) {
       }
       registerColor(text?.MSAttributedStringColorAttribute, usage);
 
-      registerReusableAsset(layer);
+      registerReusableAsset(layer, trail);
     });
   }
 
@@ -435,7 +474,7 @@ function parseSketchDocument(document, pages) {
     ...(document.layerSymbols?.objects || []).map((item) => item?.symbolMaster || item).filter(Boolean)
   ];
   for (const symbol of documentSymbols) {
-    registerReusableAsset(symbol);
+    registerReusableAsset(symbol, ["Symbol"]);
     walkLayers(symbol.layers, registerReusableAsset, [symbol.name || "Symbol"]);
   }
 
