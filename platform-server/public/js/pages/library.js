@@ -1,50 +1,18 @@
 // pages/library.js - 组件库（设计系统）页面
 
-// ===== localStorage 持久化 =====
+// ===== 组件库数据源 =====
 var LS_KEY = 'framo_design_systems';
 
 function loadDesignSystems() {
-  try {
-    var raw = localStorage.getItem(LS_KEY);
-    if (raw) {
-      var parsed = JSON.parse(raw);
-      if (Array.isArray(parsed) && parsed.length > 0) {
-        // ===== 兼容性迁移：旧版 DS 数据可能没有 fonts/components/sizes 字段 =====
-        var migrated = false;
-        for (var k = 0; k < parsed.length; k++) {
-          var ds = parsed[k];
-          if (!ds.icons || !ds.icons.length) {
-            ds.icons = generateIconSet(ds.name || 'default', 20 + (seedHash(ds.name || 'default') % 20));
-            migrated = true;
-          }
-          if (!ds.fonts || !ds.fonts.length) {
-            ds.fonts = generateFontSet(ds.name || 'default', 2 + (seedHash((ds.name || 'default') + 'f') % 3));
-            migrated = true;
-          }
-          if (!ds.components || !ds.components.length) {
-            ds.components = generateComponentSet(ds.name || 'default', 12 + (seedHash((ds.name || 'default') + 'c') % 14));
-            migrated = true;
-          }
-          if (!ds.sizes || !ds.sizes.length) {
-            ds.sizes = generateSizeSet(ds.name || 'default', 6 + (seedHash((ds.name || 'default') + 's') % 5));
-            migrated = true;
-          }
-        }
-        if (migrated) saveDesignSystems(parsed);
-        return parsed;
-      }
-    }
-  } catch (e) { /* ignore */ }
-  // 首次加载：返回默认 Mock 数据并保存（每个 DS 携带完整的图标/字体/组件/字号数据）
-  var defaultDS = [
+  // 不再读取 localStorage。旧 UI 期间产生过错误解析数据，继续读取会污染真实解析结果。
+  try { localStorage.removeItem(LS_KEY); } catch (e) { /* ignore */ }
+  return [
     enrichWithDetailData({ id:'1', name:'企业后台设计系统', description:'包含按钮、表单、表格等基础组件', componentCount:48, colorCount:12, createdAt:'2024-01-15', colors:['#5B5EF4','#22C55E','#F59E0B','#EF4444','#8B5CF6'] }, 1),
     { id:'2', name:'移动端组件库', description:'适用于移动端 App 的组件设计', componentCount:32, colorCount:8, createdAt:'2024-02-20', colors:['#3B82F6','#10B981','#F59E0B','#EC4899'], source:null,
       icons: generateIconSet('mobile', 28), fonts: generateFontSet('mobile', 3), components: generateComponentSet('mobile', 14), sizes: generateSizeSet('mobile', 9) },
     { id:'3', name:'营销页面组件', description:'落地页、活动页常用组件', componentCount:24, colorCount:6, createdAt:'2024-03-10', colors:['#8B5CF6','#06B6D4','#F97316','#14B8A6'], source:null,
       icons: generateIconSet('marketing', 22), fonts: generateFontSet('marketing', 3), components: generateComponentSet('marketing', 12), sizes: generateSizeSet('marketing', 7) }
   ];
-  saveDesignSystems(defaultDS);
-  return defaultDS;
 }
 
 // 为企业后台设计系统生成完整数据（使用默认 mock 数据）
@@ -58,7 +26,7 @@ function enrichWithDetailData(ds, seed) {
 }
 
 function saveDesignSystems(list) {
-  try { localStorage.setItem(LS_KEY, JSON.stringify(list)); } catch (e) { /* ignore */ }
+  // 服务端 Framo 解析结果是唯一可信来源；保留空函数兼容重命名/删除旧调用。
 }
 
 var designSystems; // 初始化延迟到模板数据定义之后
@@ -75,7 +43,7 @@ var parseStages = [
   { label: '完成', progress: 100 }
 ];
 
-var SUPPORTED_FORMATS = ['.sketch', '.psd', '.rp'];
+var SUPPORTED_FORMATS = ['.sketch'];
 
 // ===== 主渲染函数 =====
 function renderLibraryPage() {
@@ -83,7 +51,29 @@ function renderLibraryPage() {
   if (!mainContent) return;
 
   restoreHeaderDefault();
-  mainContent.innerHTML = renderLibraryHTML();
+  mainContent.innerHTML = '<div class="library library-card-page"><div class="empty-state"><p>正在加载组件库...</p></div></div>';
+  loadFramoLibrariesForMainUI().then(function(list) {
+    if (list && list.length) {
+      designSystems = list;
+      window.designSystems = designSystems;
+    }
+    mainContent.innerHTML = renderLibraryHTML();
+  }).catch(function(err) {
+    console.error('Load Framo libraries failed:', err);
+    mainContent.innerHTML = renderLibraryHTML();
+    showToast('组件库加载失败，已显示本地默认数据', 'warning');
+  });
+}
+
+function loadFramoLibrariesForMainUI() {
+  return fetch('/api/framo/libraries', { cache: 'no-store' }).then(function(res) {
+    return res.json().then(function(payload) {
+      if (!res.ok || !Array.isArray(payload)) throw new Error('组件库接口异常');
+      return payload.map(function(library) {
+        return normalizeFramoLibraryForMainUI(library, null);
+      });
+    });
+  });
 }
 
 function updateHeaderForLibrary() {
@@ -316,9 +306,9 @@ function showNewLibraryModal() {
         '<div id="lib-upload-zone" class="upload-zone" ondragover="handleLibDragOver(event)" ondragleave="handleLibDragLeave(event)" ondrop="handleLibDrop(event)" onclick="document.getElementById(\'lib-file-input\').click()">' +
           '<svg class="upload-zone-icon" width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17,8 12,3 7,8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>' +
           '<p class="upload-hint">拖拽或点击上传设计文件</p>' +
-          '<p class="upload-formats">支持 Sketch (.sketch)、Photoshop (.psd)、Axure (.rp) 格式</p>' +
+          '<p class="upload-formats">支持 Sketch (.sketch) 格式，使用 Framo 真实解析引擎</p>' +
         '</div>' +
-        '<input type="file" id="lib-file-input" accept=".sketch,.psd,.rp" style="display:none" onchange="handleLibFileSelect(event)" />' +
+        '<input type="file" id="lib-file-input" accept=".sketch" style="display:none" onchange="handleLibFileSelect(event)" />' +
         '<div id="lib-name-group" class="form-row library-name-group" style="display:none">' +
           '<label>组件库名称</label>' +
           '<input type="text" id="lib-name-input" placeholder="输入组件库名称" />' +
@@ -407,7 +397,7 @@ function selectLibFile(file) {
   // 验证格式
   var ext = '.' + file.name.split('.').pop().toLowerCase();
   if (SUPPORTED_FORMATS.indexOf(ext) === -1) {
-    showToast('不支持的文件格式，请上传 .sketch/.psd/.rp 文件', 'error');
+    showToast('不支持的文件格式，请上传 .sketch 文件', 'error');
     return;
   }
 
@@ -455,7 +445,7 @@ window.clearLibSelectedFile = function() {
     zone.innerHTML =
       '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom:8px"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17,8 12,3 7,8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>' +
       '<p class="upload-hint">拖拽或点击上传设计文件</p>' +
-      '<p class="upload-formats">支持 Sketch (.sketch)、Photoshop (.psd)、Axure (.rp) 格式</p>';
+      '<p class="upload-formats">支持 Sketch (.sketch) 格式，使用 Framo 真实解析引擎</p>';
     zone.ondragover = handleLibDragOver;
     zone.ondragleave = handleLibDragLeave;
     zone.ondrop = handleLibDrop;
@@ -927,7 +917,9 @@ function seedHash(str) {
   return Math.abs(h);
 }
 
-// ===== 真实 Sketch 文件解析（基于 JSZip 前端解压）=====
+// ===== Sketch 解析入口 =====
+// 旧的 JSZip 前端解析器会把部分 Symbol / 图标路径误判成乱码资产。
+// 当前组件库 UI 只允许走 /api/framo/sketch/import，也就是修改 UI 前已经验证可用的 Framo 后端解析链路。
 window.libParseResult = null;
 
 // 从 zip 中读取 JSON 文件
@@ -1547,6 +1539,7 @@ function extractComponentsFromPages(pagesData) {
 
 // 主解析函数（使用 Framo 正确的 parseSketchDocument 逻辑，客户端运行）
 function parseSketchFile(file) {
+  return Promise.reject(new Error('旧客户端 Sketch 解析器已移除，请使用 Framo 后端解析接口'));
   return new Promise(function(resolve, reject) {
     var reader = new FileReader();
     reader.onload = function(e) {
@@ -2013,18 +2006,8 @@ window.startLibraryParse = function() {
       }, delay);
     });
   } else {
-    // ===== .psd / .rp → 模拟解析回退 =====
-    parseStages.forEach(function(stage, i) {
-      setTimeout(function() {
-        updateParseStage(i);
-        if (i === parseStages.length - 1) {
-          setTimeout(function() {
-            window.libParseResult = simulateParseResult(file.name);
-            showParseDoneResult(window.libParseResult);
-          }, 500);
-        }
-      }, (i + 1) * 800);
-    });
+    showToast('当前仅支持 .sketch 文件，请使用 Framo 真实解析引擎', 'error');
+    resetLibraryParseToUpload();
   }
 };
 
@@ -2062,12 +2045,27 @@ function normalizeFramoLibraryForMainUI(library, file) {
     });
   });
   var fonts = assets.fonts || [];
-  var components = assets.components || [];
+  var components = assets.components || (Array.isArray(library.components) ? library.components.map(function(name) {
+    var parts = String(name || '').split('/');
+    return {
+      name: parts[parts.length - 1] || name,
+      fullName: name,
+      category: parts.length > 1 ? parts[0] : '组件',
+      variantCount: 1,
+      preview: { color: '#EEF2FF', radius: 10 }
+    };
+  }) : []);
   var sizes = assets.fontSizes || assets.sizes || [];
   var stats = library.stats || {};
+  var sourceFile = file ? file.name : (library.name ? library.name + '.sketch' : 'Sketch 文件');
 
   return {
-    name: library.name || file.name.replace(/\.sketch$/i, ''),
+    id: library.id,
+    name: library.name || (file ? file.name.replace(/\.sketch$/i, '') : '未命名组件库'),
+    version: library.version || '1.0.0',
+    description: library.description || (library.sourceType === 'sketch'
+      ? '从 ' + sourceFile + ' 解析生成的组件库，包含 ' + icons.length + ' 图标、' + fonts.length + ' 字体、' + components.length + ' 组件'
+      : '服务端组件库'),
     sourceType: library.sourceType || 'sketch',
     sourceLibraryId: library.id,
     importedAt: library.importedAt,
@@ -2195,42 +2193,11 @@ window.confirmCreateLibrary = function() {
   var sizes = result.sizes || [];
   var colors = result.colors || [];
 
-  var newDS = {
-    id: String(Date.now()),
-    name: libraryName,
-    description: '从 ' + (window.libSelectedFile ? window.libSelectedFile.name : '设计文件') + ' 解析生成的组件库，包含 ' + icons.length + ' 图标、' + fonts.length + ' 字体、' + components.length + ' 组件',
-    componentCount: components.length,
-    colorCount: colors.length,
-    createdAt: new Date().toISOString().split('T')[0],
-    sourceType: result.sourceType || 'sketch',
-    sourceLibraryId: result.sourceLibraryId || null,
-    importedAt: result.importedAt || new Date().toISOString(),
-    previewResult: result.previewResult || null,
-    // 颜色：支持 Framo 格式 {value, usages, count, chroma, luminance} 和纯 hex 字符串
-    colors: colors.slice(),
-    source: window.libSelectedFile ? window.libSelectedFile.name : null,
-    // === Framo 数据格式（含真实 bezier 路径）===
-    icons: icons.slice(),        // {name, paths[], color, width, height, priority}
-    fonts: fonts.slice(),        // {family, weights[], sizes[], count, sample}
-    components: components.slice(), // {name, fullName, category, variantCount, preview{c}}
-    sizes: sizes.slice(),        // {size, count, samples[]}
-    textStyles: (result.textStyles || []).slice(), // {name, family, size, color}
-    layerStyles: (result.layerStyles || []).slice(), // {name, color, radius}
-    tokens: result.tokens || {}, // {colorPrimary, colorSurface, borderRadius, ...}
-    stats: result.stats || {}     // {pages, layers, colors, fonts, icons, components}
-  };
-
-  // 添加到列表头部
-  designSystems.unshift(newDS);
-
-  // 持久化到 localStorage
-  saveDesignSystems(designSystems);
-
   // 关闭弹窗
   var modal = document.getElementById('new-library-modal');
   if (modal) modal.remove();
 
-  // 重新渲染页面
+  // 使用服务端 Framo 解析结果刷新列表；不再写入旧 localStorage 副本。
   renderLibraryPage();
 
   showToast('组件库「' + libraryName + '」创建成功', 'success');
