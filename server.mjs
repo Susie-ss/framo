@@ -7,6 +7,7 @@ import { promisify } from "node:util";
 import { execFile } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { createHash } from "node:crypto";
+import { inflateRawSync } from "node:zlib";
 import AdmZip from "adm-zip";
 
 const PORT = Number(process.env.PORT || 4173);
@@ -19,6 +20,90 @@ const ASSET_ROOT = join(ROOT, "data", "sketch-assets");
 const execFileAsync = promisify(execFile);
 const MAX_UPLOAD_MB = 200;
 const MAX_UPLOAD_BYTES = MAX_UPLOAD_MB * 1024 * 1024;
+
+function parseZipCentralDirectory(buffer) {
+  const minEOCD = 22;
+  const maxCommentLength = 0xffff;
+  const searchStart = Math.max(0, buffer.length - minEOCD - maxCommentLength);
+  let eocd = -1;
+  for (let offset = buffer.length - minEOCD; offset >= searchStart; offset -= 1) {
+    if (buffer.readUInt32LE(offset) === 0x06054b50) {
+      eocd = offset;
+      break;
+    }
+  }
+  if (eocd < 0) throw new Error("Sketch ZIP 中央目录缺失");
+  const totalEntries = buffer.readUInt16LE(eocd + 10);
+  let centralOffset = buffer.readUInt32LE(eocd + 16);
+  if (centralOffset === 0xffffffff || totalEntries === 0xffff) {
+    throw new Error("暂不支持 Zip64 格式的 Sketch 文档");
+  }
+  const entries = new Map();
+  for (let index = 0; index < totalEntries; index += 1) {
+    if (buffer.readUInt32LE(centralOffset) !== 0x02014b50) throw new Error("Sketch ZIP 中央目录异常");
+    const method = buffer.readUInt16LE(centralOffset + 10);
+    const compressedSize = buffer.readUInt32LE(centralOffset + 20);
+    const uncompressedSize = buffer.readUInt32LE(centralOffset + 24);
+    const nameLength = buffer.readUInt16LE(centralOffset + 28);
+    const extraLength = buffer.readUInt16LE(centralOffset + 30);
+    const commentLength = buffer.readUInt16LE(centralOffset + 32);
+    const localOffset = buffer.readUInt32LE(centralOffset + 42);
+    const name = buffer.subarray(centralOffset + 46, centralOffset + 46 + nameLength).toString("utf8");
+    entries.set(name, { name, method, compressedSize, uncompressedSize, localOffset });
+    centralOffset += 46 + nameLength + extraLength + commentLength;
+  }
+  return entries;
+}
+
+function readZipEntryFromCentralDirectory(buffer, entry) {
+  if (!entry) throw new Error("Sketch 文档缺少指定条目");
+  const localOffset = entry.localOffset;
+  if (buffer.readUInt32LE(localOffset) !== 0x04034b50) throw new Error(`Sketch ZIP 条目异常：${entry.name}`);
+  const nameLength = buffer.readUInt16LE(localOffset + 26);
+  const extraLength = buffer.readUInt16LE(localOffset + 28);
+  const dataStart = localOffset + 30 + nameLength + extraLength;
+  const compressed = buffer.subarray(dataStart, dataStart + entry.compressedSize);
+  if (entry.method === 0) return compressed;
+  if (entry.method === 8) return inflateRawSync(compressed, { finishFlush: 2 });
+  throw new Error(`Sketch ZIP 使用了不支持的压缩方式：${entry.method}`);
+}
+
+function readSketchJsonEntries(buffer) {
+  const entries = [];
+  let entryMap;
+  try {
+    const zip = new AdmZip(buffer);
+    const zipEntries = zip.getEntries();
+    entries.push(...zipEntries.map((entry) => entry.entryName).filter(Boolean));
+    entryMap = new Map(zipEntries.map((entry) => [entry.entryName, { admEntry: entry }]));
+  } catch {
+    entryMap = null;
+  }
+  if (!entryMap) {
+    const central = parseZipCentralDirectory(buffer);
+    entries.push(...central.keys());
+    entryMap = new Map([...central.entries()].map(([name, entry]) => [name, { centralEntry: entry }]));
+  }
+  if (entries.length > 100000) throw new Error("Sketch 文件条目过多，无法安全解析");
+  if (entries.some((entry) => entry.startsWith("/") || entry.split("/").includes(".."))) {
+    throw new Error("Sketch 文件包含不安全的路径");
+  }
+  const readEntry = (entryName) => {
+    const entry = entryMap.get(entryName);
+    if (!entry) throw new Error(`Sketch 文档缺少 ${entryName}`);
+    try {
+      if (entry.admEntry) return JSON.parse(entry.admEntry.getData().toString("utf8"));
+    } catch (error) {
+      if (!/ADM-ZIP|Descriptor data/i.test(String(error?.message || error))) throw error;
+      const central = parseZipCentralDirectory(buffer);
+      const fallback = central.get(entryName);
+      if (!fallback) throw error;
+      return JSON.parse(readZipEntryFromCentralDirectory(buffer, fallback).toString("utf8"));
+    }
+    return JSON.parse(readZipEntryFromCentralDirectory(buffer, entry.centralEntry).toString("utf8"));
+  };
+  return { entries, readEntry };
+}
 
 const projects = [
   {
@@ -614,24 +699,9 @@ async function parseSketchUpload(file) {
   const path = join(dir, "upload.sketch");
   try {
     await writeFile(path, file.data);
-    const zip = new AdmZip(file.data);
-    const zipEntries = zip.getEntries();
-    const entries = zipEntries.map((entry) => entry.entryName).filter(Boolean);
-    if (entries.length > 100000) throw new Error("Sketch 文件条目过多，无法安全解析");
-    if (zipEntries.some((entry) => entry.isDirectory && entry.entryName.endsWith(".json"))) {
-      throw new Error("Sketch 文件结构异常");
-    }
-    if (entries.some((entry) => entry.startsWith("/") || entry.split("/").includes(".."))) {
-      throw new Error("Sketch 文件包含不安全的路径");
-    }
+    const { entries, readEntry } = readSketchJsonEntries(file.data);
     if (!entries.includes("document.json")) throw new Error("Sketch 文档缺少 document.json");
     const pageEntries = entries.filter((entry) => /^pages\/[^/]+\.json$/i.test(entry));
-    const entryMap = new Map(zipEntries.map((entry) => [entry.entryName, entry]));
-    const readEntry = (entry) => {
-      const zipEntry = entryMap.get(entry);
-      if (!zipEntry) throw new Error(`Sketch 文档缺少 ${entry}`);
-      return JSON.parse(zipEntry.getData().toString("utf8"));
-    };
     const document = readEntry("document.json");
     const pages = pageEntries.map(readEntry);
     const parsed = parseSketchDocument(document, pages);
