@@ -2597,12 +2597,16 @@ function renderIconsTab(icons) {
 
   var cardsHTML = icons.map(function(icon) {
     var iconMeta = getReadableIconMeta(icon);
-    // ===== 优先使用 sketchtool 导出的真实 SVG；没有导出时再降级到 JSON path =====
+    // ===== 优先使用 sketchtool 导出的真实 SVG；生产环境没有 sketchtool 时，
+    // 先按可读图标名匹配内置 SVG，再降级到 JSON path，避免旧版 Sketch
+    // transform 信息不完整导致图标碎片化显示。=====
     var svg = '';
     if (icon.previewUrl) {
       svg = '<img src="' + escapeHTML(icon.previewUrl) + '" alt="" loading="lazy" />';
     } else if (icon.svg) {
       svg = icon.svg;
+    } else if (iconSVGMap[iconMeta.name] || iconSVGMap[icon.name]) {
+      svg = iconSVGMap[iconMeta.name] || iconSVGMap[icon.name];
     } else if (icon.paths && icon.paths.length > 0) {
       var c = icon.color || '#333';
       var w = icon.width || 24;
@@ -2611,7 +2615,7 @@ function renderIconsTab(icons) {
       svg = '<svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">' + pts + '</svg>';
     } else {
       // 旧格式：使用 iconSVGMap 或 inline SVG
-      svg = iconSVGMap[icon.name] || '';
+      svg = iconSVGMap[iconMeta.name] || iconSVGMap[icon.name] || '';
     }
     // 截断过长的名称
     var displayName = iconMeta.name;
