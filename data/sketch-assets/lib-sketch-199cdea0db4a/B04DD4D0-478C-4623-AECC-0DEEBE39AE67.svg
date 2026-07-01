@@ -53,13 +53,13 @@
             <g id="时间" transform="translate(15, 15)">
                 <path d="M88,0.5 C88.9664983,0.5 89.8414983,0.891750844 90.4748737,1.52512627 C91.1082492,2.15850169 91.5,3.03350169 91.5,4 L91.5,24 C91.5,24.9664983 91.1082492,25.8414983 90.4748737,26.4748737 C89.8414983,27.1082492 88.9664983,27.5 88,27.5 L4,27.5 C3.03350169,27.5 2.15850169,27.1082492 1.52512627,26.4748737 C0.891750844,25.8414983 0.5,24.9664983 0.5,24 L0.5,4 C0.5,3.03350169 0.891750844,2.15850169 1.52512627,1.52512627 C2.15850169,0.891750844 3.03350169,0.5 4,0.5 Z" id="矩形" stroke="#EEEEEE"></path>
                 <text id="最近-7-天" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" fill="#333333">
-                    <tspan x="21.222" y="19">最近 7 天</tspan>
+                    <tspan x="21.2141993" y="19">最近 7 天</tspan>
                 </text>
             </g>
             <g id="时间" transform="translate(15, 53)">
                 <path d="M88,0.5 C88.9664983,0.5 89.8414983,0.891750844 90.4748737,1.52512627 C91.1082492,2.15850169 91.5,3.03350169 91.5,4 L91.5,24 C91.5,24.9664983 91.1082492,25.8414983 90.4748737,26.4748737 C89.8414983,27.1082492 88.9664983,27.5 88,27.5 L4,27.5 C3.03350169,27.5 2.15850169,27.1082492 1.52512627,26.4748737 C0.891750844,25.8414983 0.5,24.9664983 0.5,24 L0.5,4 C0.5,3.03350169 0.891750844,2.15850169 1.52512627,1.52512627 C2.15850169,0.891750844 3.03350169,0.5 4,0.5 Z" id="矩形" stroke="#EEEEEE"></path>
                 <text id="最近-30-天" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" fill="#333333">
-                    <tspan x="17.304" y="19">最近 30 天</tspan>
+                    <tspan x="17.4425944" y="19">最近 30 天</tspan>
                 </text>
             </g>
             <g id="时间" transform="translate(15, 91)">
@@ -90,13 +90,13 @@
                 <g id="编组" transform="translate(38, 32)">
                     <use id="矩形" stroke="#6698FF" mask="url(#mask-4)" stroke-width="2" fill="#FFFFFF" stroke-dasharray="3" xlink:href="#path-3"></use>
                     <text id="2020" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" fill="#333333">
-                        <tspan x="19.1" y="18">2020</tspan>
+                        <tspan x="19.3411902" y="18">2020</tspan>
                     </text>
                 </g>
                 <g id="编组备份" transform="translate(191.4884, 32)">
                     <use id="矩形" stroke="#DDDDDD" mask="url(#mask-6)" stroke-width="2" fill="#FFFFFF" stroke-dasharray="3" xlink:href="#path-5"></use>
                     <text id="2022" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" fill="#333333">
-                        <tspan x="19.6116279" y="18">2022</tspan>
+                        <tspan x="19.8222193" y="18">2022</tspan>
                     </text>
                 </g>
                 <g id="编组-5" transform="translate(0.0001, 32)" stroke="#DDDDDD">
@@ -110,7 +110,7 @@
                 <g id="编组-2" transform="translate(114.7442, 32)">
                     <use id="矩形" stroke="#DDDDDD" mask="url(#mask-8)" stroke-width="2" fill="#FFFFFF" stroke-dasharray="3" xlink:href="#path-7"></use>
                     <text id="2021" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" fill="#333333">
-                        <tspan x="20.549814" y="18">2021</tspan>
+                        <tspan x="20.7490041" y="18">2021</tspan>
                     </text>
                 </g>
                 <text id="年份" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#888888">
@@ -121,7 +121,7 @@
                 <g id="编组" transform="translate(38, 31)">
                     <use id="矩形" stroke="#6698FF" mask="url(#mask-10)" stroke-width="2" stroke-dasharray="3" xlink:href="#path-9"></use>
                     <text id="Q1" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" fill="#333333">
-                        <tspan x="17.992" y="19">Q1</tspan>
+                        <tspan x="18.0237955" y="19">Q1</tspan>
                     </text>
                 </g>
                 <g id="编组" transform="translate(95, 31)">
@@ -139,7 +139,7 @@
                 <g id="编组" transform="translate(210, 31)">
                     <use id="矩形" stroke="#DDDDDD" mask="url(#mask-16)" stroke-width="2" stroke-dasharray="3" xlink:href="#path-15"></use>
                     <text id="Q4" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" fill="#333333">
-                        <tspan x="14.298" y="19">Q4</tspan>
+                        <tspan x="14.3249974" y="19">Q4</tspan>
                     </text>
                 </g>
                 <g id="编组-5" transform="translate(0.0001, 31)" stroke="#DDDDDD">
@@ -155,7 +155,7 @@
                         <tspan x="0" y="15">季度</tspan>
                     </text>
                     <text id="2020" font-size="12" fill="#AAAAAA">
-                        <tspan x="38.1" y="15">2020</tspan>
+                        <tspan x="38.3411902" y="15">2020</tspan>
                     </text>
                 </g>
             </g>
@@ -194,7 +194,7 @@
                     <polyline id="路径" stroke-linecap="round" stroke-linejoin="round" transform="translate(13.7561, 13.9021) rotate(-180) translate(-13.7561, -13.9021)" points="12 10 15.512207 13.9218979 12 17.8041992"></polyline>
                 </g>
                 <text id="2020" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" fill="#AAAAAA">
-                    <tspan x="39.100131" y="14">2020</tspan>
+                    <tspan x="39.3413212" y="14">2020</tspan>
                 </text>
                 <text id="月份" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#888888">
                     <tspan x="0" y="15">月份</tspan>

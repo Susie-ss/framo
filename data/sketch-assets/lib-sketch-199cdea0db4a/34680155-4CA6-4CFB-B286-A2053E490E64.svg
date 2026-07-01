@@ -26,35 +26,35 @@
         </g>
         <rect id="矩形" fill="#6698FF" opacity="0.1" x="1" y="12" width="64" height="24"></rect>
         <text id="00" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" line-spacing="14" fill="#6698FF">
-            <tspan x="24" y="32">00</tspan>
+            <tspan x="24.3427856" y="31.3721008">00</tspan>
         </text>
         <rect id="矩形" fill="#FFFFFF" x="65" y="40" width="64" height="24"></rect>
         <text id="00" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#333333">
-            <tspan x="89.2" y="57">00</tspan>
+            <tspan x="89.5527856" y="57">00</tspan>
         </text>
         <rect id="矩形" fill="#6698FF" opacity="0.1" x="65" y="12" width="64" height="24"></rect>
         <text id="59" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#6698FF">
-            <tspan x="89.2" y="29">59</tspan>
+            <tspan x="89.2965961" y="29">59</tspan>
         </text>
         <rect id="矩形备份" fill="#FFFFFF" x="1" y="40" width="64" height="24"></rect>
         <text id="01" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" line-spacing="14" fill="#333333">
-            <tspan x="25" y="60">01</tspan>
+            <tspan x="26.0307856" y="59.3721008">01</tspan>
         </text>
         <rect id="矩形备份" fill="#FFFFFF" x="1" y="68" width="64" height="24"></rect>
         <text id="02" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" line-spacing="14" fill="#333333">
-            <tspan x="24" y="88">02</tspan>
+            <tspan x="24.2713885" y="87.3721008">02</tspan>
         </text>
         <rect id="矩形备份" fill="#FFFFFF" x="65" y="68" width="64" height="24"></rect>
         <text id="01" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#333333">
-            <tspan x="90.986" y="85">01</tspan>
+            <tspan x="91.2407856" y="85">01</tspan>
         </text>
         <rect id="矩形备份" fill="#FFFFFF" x="1" y="96" width="64" height="24"></rect>
         <text id="03" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" line-spacing="14" fill="#333333">
-            <tspan x="24" y="116">03</tspan>
+            <tspan x="24.3133868" y="115.372101">03</tspan>
         </text>
         <polygon id="矩形备份" fill="#FAFAFA" points="65 96 129 96 129 120 65 120"></polygon>
         <text id="02" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#333333">
-            <tspan x="89.2" y="113">02</tspan>
+            <tspan x="89.4813885" y="113">02</tspan>
         </text>
         <g id="1.Bace基础/3.Icon图标/系统/Pointing-hand" transform="translate(108, 102)" opacity="0.900000036">
             <g id="编组" filter="url(#filter-3)" transform="translate(1.5, 1)">
@@ -71,19 +71,19 @@
         </g>
         <rect id="矩形备份" fill="#FFFFFF" x="1" y="124" width="64" height="24"></rect>
         <text id="04" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" line-spacing="14" fill="#333333">
-            <tspan x="24" y="144">04</tspan>
+            <tspan x="24.2335901" y="143.372101">04</tspan>
         </text>
         <polygon id="矩形备份" fill="#FFFFFF" points="65 152 129 152 129 176 65 176"></polygon>
         <text id="04" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#333333">
-            <tspan x="89.2" y="169">04</tspan>
+            <tspan x="89.4435901" y="169">04</tspan>
         </text>
         <rect id="矩形备份" fill="#FFFFFF" x="65" y="124" width="64" height="24"></rect>
         <text id="03" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#333333">
-            <tspan x="89.2" y="141">03</tspan>
+            <tspan x="89.5233868" y="141">03</tspan>
         </text>
         <rect id="矩形备份" fill="#FFFFFF" x="1" y="153" width="64" height="24"></rect>
         <text id="05" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" line-spacing="14" fill="#333333">
-            <tspan x="24" y="173">05</tspan>
+            <tspan x="24.2587891" y="172.372101">05</tspan>
         </text>
         <polygon id="直线" fill="#EEEEEE" fill-rule="nonzero" points="65 0 65 182 64 182 64 0"></polygon>
         <polygon id="直线备份" fill="#EEEEEE" fill-rule="nonzero" points="129 181 129 182 0 182 0 181"></polygon>

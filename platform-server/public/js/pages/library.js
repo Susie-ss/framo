@@ -30,6 +30,7 @@ function saveDesignSystems(list) {
 }
 
 var designSystems; // 初始化延迟到模板数据定义之后
+var selectedLibraryIds = [];
 
 // 解析阶段配置
 var parseStages = [
@@ -103,7 +104,11 @@ function renderLibraryHTML() {
       ? ('从 ' + ds.source + ' 解析生成的组件库，包含 ' + iconCount + ' 图标、' + fontCount + ' 字体、' + compCount + ' 组件')
       : ds.description;
 
+    var checked = selectedLibraryIds.indexOf(ds.id) >= 0 ? ' checked' : '';
     return '<div class="ds-card library-asset-card" data-id="' + ds.id + '" onclick="openDSDetail(\'' + ds.id + '\')">' +
+      '<label class="ds-select-check" onclick="event.stopPropagation()" title="选择组件库">' +
+        '<input type="checkbox" data-library-select="' + ds.id + '"' + checked + ' onchange="toggleLibrarySelection(\'' + ds.id + '\', this.checked)" />' +
+      '</label>' +
       '<div class="ds-card-actions" onclick="event.stopPropagation()">' +
         '<button class="ds-action-btn ds-rename-btn" title="重命名" onclick="renameDesignSystem(\'' + ds.id + '\')">' +
           '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>' +
@@ -134,9 +139,12 @@ function renderLibraryHTML() {
         '<h2>组件库</h2>' +
         '<p class="library-desc">管理你的设计系统和组件资产</p>' +
       '</div>' +
-      '<button class="btn btn-primary library-new-btn" onclick="showNewLibraryModal()">' +
-        '<svg class="icon-color icon-sm"><use href="/libs/iconpark/icons.svg#ico-plus"/></svg> 新建组件库' +
-      '</button>' +
+      '<div class="library-header-actions">' +
+        '<button class="btn btn-ghost library-batch-delete-btn" onclick="batchDeleteDesignSystems()" ' + (selectedLibraryIds.length ? '' : 'disabled') + '>批量删除' + (selectedLibraryIds.length ? '（' + selectedLibraryIds.length + '）' : '') + '</button>' +
+        '<button class="btn btn-primary library-new-btn" onclick="showNewLibraryModal()">' +
+          '<svg class="icon-color icon-sm"><use href="/libs/iconpark/icons.svg#ico-plus"/></svg> 新建组件库' +
+        '</button>' +
+      '</div>' +
     '</div>' +
     '<div class="design-systems-grid">' + (cardsHTML || '<div class="empty-state"><p>暂无组件库</p></div>') + '</div>' +
   '</div>';
@@ -155,26 +163,71 @@ window.deleteDesignSystem = function(id) {
     confirmText: '确认删除',
     confirmClass: 'btn-danger',
     onConfirm: function() {
-      var idx = -1;
-      for (var i = 0; i < designSystems.length; i++) {
-        if (designSystems[i].id === id) { idx = i; break; }
-      }
-      if (idx === -1) { showToast('未找到该组件库', 'error'); return; }
-
-      var name = designSystems[idx].name;
-      designSystems.splice(idx, 1);
-      saveDesignSystems(designSystems);
-
-      // 如果当前在详情页且删除的是当前查看的 DS，返回列表
-      if (currentDS && currentDS.id === id) {
-        navigateTo('library');
-      } else {
-        renderLibraryPage();
-      }
-      showToast('已删除组件库「' + name + '」', 'success');
+      deleteDesignSystemsOnServer([id]).then(function(deleted) {
+        if (!deleted.length) { showToast('未找到该组件库', 'error'); return; }
+        selectedLibraryIds = selectedLibraryIds.filter(function(item) { return item !== id; });
+        if (currentDS && currentDS.id === id) {
+          navigateTo('library');
+        } else {
+          renderLibraryPage();
+        }
+        showToast('已删除组件库', 'success');
+      }).catch(function(err) {
+        showToast(err.message || '删除失败', 'error');
+      });
     }
   });
 };
+
+window.toggleLibrarySelection = function(id, checked) {
+  if (checked && selectedLibraryIds.indexOf(id) < 0) selectedLibraryIds.push(id);
+  if (!checked) selectedLibraryIds = selectedLibraryIds.filter(function(item) { return item !== id; });
+  renderLibraryPage();
+};
+
+window.batchDeleteDesignSystems = function() {
+  var ids = selectedLibraryIds.slice();
+  if (!ids.length) {
+    showToast('请先选择要删除的组件库', 'warning');
+    return;
+  }
+  showConfirmDialog({
+    title: '批量删除组件库',
+    message: '确定要删除已选的 ' + ids.length + ' 个组件库吗？此操作不可恢复。',
+    confirmText: '确认删除',
+    confirmClass: 'btn-danger',
+    onConfirm: function() {
+      deleteDesignSystemsOnServer(ids).then(function(deleted) {
+        selectedLibraryIds = selectedLibraryIds.filter(function(id) { return deleted.indexOf(id) < 0; });
+        renderLibraryPage();
+        showToast('已删除 ' + deleted.length + ' 个组件库', 'success');
+      }).catch(function(err) {
+        showToast(err.message || '批量删除失败', 'error');
+      });
+    }
+  });
+};
+
+function deleteDesignSystemsOnServer(ids) {
+  if (ids.length === 1) {
+    return fetch('/api/framo/libraries/' + encodeURIComponent(ids[0]), { method: 'DELETE' }).then(function(res) {
+      return res.json().catch(function() { return {}; }).then(function(payload) {
+        if (!res.ok || !payload.ok) throw new Error(payload.error || '删除失败');
+        return payload.deleted || ids;
+      });
+    });
+  }
+  return fetch('/api/framo/libraries/batch-delete', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ ids: ids })
+  }).then(function(res) {
+    return res.json().catch(function() { return {}; }).then(function(payload) {
+      if (!res.ok || !payload.ok) throw new Error(payload.error || '批量删除失败');
+      return payload.deleted || [];
+    });
+  });
+}
 
 window.renameDesignSystem = function(id) {
   var ds = null;
@@ -2605,17 +2658,17 @@ function renderIconsTab(icons) {
       svg = '<img src="' + escapeHTML(icon.previewUrl) + '" alt="" loading="lazy" />';
     } else if (icon.svg) {
       svg = icon.svg;
-    } else if (iconSVGMap[iconMeta.name] || iconSVGMap[icon.name]) {
+    } else if (!(currentDS && currentDS.isServerLibrary) && (iconSVGMap[iconMeta.name] || iconSVGMap[icon.name])) {
       svg = iconSVGMap[iconMeta.name] || iconSVGMap[icon.name];
-    } else if (icon.paths && icon.paths.length > 0) {
+    } else if (!(currentDS && currentDS.isServerLibrary) && icon.paths && icon.paths.length > 0) {
       var c = icon.color || '#333';
       var w = icon.width || 24;
       var h = icon.height || 24;
       var pts = icon.paths.map(function(p) { return '<path d="' + escapeHTML(p) + '" fill="' + c + '" fill-rule="evenodd" clip-rule="evenodd" stroke="none"/>'; }).join('');
       svg = '<svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">' + pts + '</svg>';
     } else {
-      // 旧格式：使用 iconSVGMap 或 inline SVG
-      svg = iconSVGMap[iconMeta.name] || iconSVGMap[icon.name] || '';
+      // Sketch 真实库没有可用 previewUrl 时，不再使用随机模板或不可靠 path 冒充原始图标。
+      svg = '<span class="icon-preview-unavailable">等待真实预览</span>';
     }
     // 截断过长的名称
     var displayName = iconMeta.name;
@@ -2759,9 +2812,10 @@ function renderComponentsTab() {
       if (displayName.indexOf('/') >= 0) displayName = displayName.split('/').pop();
       var cat = comp.category || '';
       var previewColor = (comp.preview && comp.preview.color) ? comp.preview.color : '#5B5EF4';
+      var fallbackPreview = getCustomCompPreview(displayName, cat || comp.fullName || displayName);
       var previewHTML = comp.previewUrl
-        ? '<img src="' + escapeHTML(comp.previewUrl) + '" alt="" loading="lazy" />'
-        : '<div style="padding:10px 20px;background:' + escapeHTML(previewColor) + ';color:#fff;border-radius:6px;font-size:13px;font-weight:500">' + escapeHTML(displayName) + '</div>';
+        ? '<img src="' + escapeHTML(comp.previewUrl) + '" alt="" loading="lazy" onerror="this.style.display=\'none\';this.parentNode.classList.add(\'preview-failed\')" />' + fallbackPreview
+        : fallbackPreview;
       return '<div class="component-card">' +
         '<div class="comp-header"><h4>' + escapeHTML(displayName) + '</h4><span class="comp-category">' + escapeHTML(cat) + '</span></div>' +
         '<div class="comp-preview sketch-preview" style="height:96px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,' + escapeHTML(previewColor) + '12,' + escapeHTML(previewColor) + '08);border:1px solid ' + escapeHTML(previewColor) + '22;border-radius:8px;overflow:hidden">' +

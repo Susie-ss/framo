@@ -9,7 +9,7 @@
             <g id="编组">
                 <circle id="椭圆形" fill="#6698FF" cx="12" cy="12" r="12"></circle>
                 <text id="1" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#FFFFFF">
-                    <tspan x="9.193" y="17">1</tspan>
+                    <tspan x="9.23219641" y="17">1</tspan>
                 </text>
             </g>
             <line x1="88.5" y1="12.5" x2="269.514706" y2="12.5" id="直线-2" stroke="#EEEEEE" stroke-linecap="square"></line>
@@ -22,7 +22,7 @@
             <g id="3.Navigation导航/4.Stepper-步骤条/基础控件/6.进行中（徽标）">
                 <circle id="椭圆形备份-2" fill="#EEEEEE" cx="12" cy="12" r="12"></circle>
                 <text id="1" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#999999">
-                    <tspan x="7.8" y="17">2</tspan>
+                    <tspan x="7.85249786" y="17">2</tspan>
                 </text>
             </g>
         </g>
@@ -35,7 +35,7 @@
             <g id="3.Navigation导航/4.Stepper-步骤条/基础控件/6.进行中（徽标）">
                 <circle id="椭圆形备份-2" fill="#EEEEEE" cx="12" cy="12" r="12"></circle>
                 <text id="1" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#999999">
-                    <tspan x="7.8" y="17">3</tspan>
+                    <tspan x="7.87349701" y="17">3</tspan>
                 </text>
             </g>
         </g>

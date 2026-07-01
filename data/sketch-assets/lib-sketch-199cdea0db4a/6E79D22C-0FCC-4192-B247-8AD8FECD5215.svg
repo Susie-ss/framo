@@ -12,9 +12,9 @@
             <text id="第-32~48-条-共-600-条" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal">
                 <tspan x="20" y="29" fill="#888888">第 </tspan>
                 <tspan x="38.662" y="29" fill="#333333">32~48 </tspan>
-                <tspan x="83.924" y="29" fill="#888888">条 共 </tspan>
-                <tspan x="121.248" y="29" fill="#333333">600 </tspan>
-                <tspan x="151.11" y="29" fill="#888888">条</tspan>
+                <tspan x="83.5460154" y="29" fill="#888888">条 共 </tspan>
+                <tspan x="120.870015" y="29" fill="#333333">600 </tspan>
+                <tspan x="150.358231" y="29" fill="#888888">条</tspan>
             </text>
             <g id="4.数据展示-Data-Display/5.Pagination-分页-/场景1备份-2" transform="translate(1079, 8)">
                 <g id="分页场景1" transform="translate(111.4505, 0)">
@@ -54,7 +54,7 @@
                         <text id="共-20-页">
                             <tspan x="0" y="15" fill="#AAAAAA">共 </tspan>
                             <tspan x="18.662" y="15" fill="#666666">20 </tspan>
-                            <tspan x="40.124" y="15" fill="#AAAAAA">页</tspan>
+                            <tspan x="39.8426115" y="15" fill="#AAAAAA">页</tspan>
                         </text>
                     </g>
                     <path d="M251.783516,0.5 L251.783516,31.5 L220.361538,31.5 L220.361538,0.5 L251.783516,0.5 Z" id="矩形复制-5" stroke="#6698FF" fill="#6698FF"></path>

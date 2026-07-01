@@ -6,7 +6,7 @@
         <path d="M100,0.5 C100.966498,0.5 101.841498,0.891750844 102.474874,1.52512627 C103.108249,2.15850169 103.5,3.03350169 103.5,4 L103.5,40 C103.5,40.9664983 103.108249,41.8414983 102.474874,42.4748737 C101.841498,43.1082492 100.966498,43.5 100,43.5 L0.5,43.5 L0.5,0.5 L100,0.5 Z" id="矩形复制-6" stroke="#DDDDDD" transform="translate(52, 22) rotate(-180) translate(-52, -22)"></path>
         <g id="编组" transform="translate(16, 0.5)">
             <text id="中国+86" font-family="PingFangSC-Regular, PingFang SC" font-size="13.9650317" font-weight="normal" fill="#888888">
-                <tspan x="0.431527139" y="26.5">中国+86</tspan>
+                <tspan x="0.540449954" y="26.5">中国+86</tspan>
             </text>
             <polygon id="多边形-1" fill="#CACACA" points="68.49847 25.48283 62.99581 18.49179 74.00101 18.49179"></polygon>
             <line x1="87.5" y1="-1.13685103e-13" x2="87.5" y2="42.8675537" id="直线" stroke="#348FE4" stroke-linecap="square"></line>

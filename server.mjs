@@ -111,6 +111,23 @@ async function persistSketchLibraries() {
   await writeFile(DATA_FILE, JSON.stringify(libraries.filter((item) => item.sourceType === "sketch"), null, 2));
 }
 
+async function deleteLibraries(ids = []) {
+  const targets = new Set(ids.map((id) => String(id || "").trim()).filter(Boolean));
+  if (!targets.size) return { deleted: [] };
+  const deleted = [];
+  for (let index = libraries.length - 1; index >= 0; index -= 1) {
+    const library = libraries[index];
+    if (!targets.has(library.id)) continue;
+    libraries.splice(index, 1);
+    deleted.push(library.id);
+    if (library.sourceType === "sketch") {
+      await rm(join(ASSET_ROOT, library.id), { recursive: true, force: true });
+    }
+  }
+  if (deleted.length) await persistSketchLibraries();
+  return { deleted };
+}
+
 function rgba(color = {}) {
   const channel = (value) => Math.round(Math.max(0, Math.min(1, Number(value) || 0)) * 255);
   const alpha = color.alpha == null ? 1 : Math.max(0, Math.min(1, Number(color.alpha) || 0));
@@ -284,8 +301,23 @@ function componentScore(item) {
 }
 
 async function exportSketchPreviews(sketchPath, libraryId, assets) {
-  if (!existsSync(SKETCHTOOL)) return { engine: "json-fallback", exported: 0 };
   const target = join(ASSET_ROOT, libraryId);
+  const attachExistingPreviews = () => {
+    let exported = 0;
+    for (const item of [...assets.icons, ...assets.components]) {
+      const fileName = `${item.id}.svg`;
+      if (existsSync(join(target, fileName))) {
+        item.previewUrl = `/data/sketch-assets/${libraryId}/${fileName}`;
+        item.previewEngine = "prebuilt-svg";
+        exported += 1;
+      }
+    }
+    return exported;
+  };
+  if (!existsSync(SKETCHTOOL)) {
+    const exported = attachExistingPreviews();
+    return exported > 0 ? { engine: "prebuilt-svg", exported } : { engine: "json-fallback", exported: 0 };
+  }
   await rm(target, { recursive: true, force: true });
   await mkdir(target, { recursive: true });
   const items = [...assets.icons, ...assets.components];
@@ -807,6 +839,21 @@ const server = createServer(async (req, res) => {
     return;
   }
 
+  if (req.method === "DELETE" && url.pathname.startsWith("/api/libraries/")) {
+    const id = decodeURIComponent(url.pathname.split("/").pop() || "");
+    const result = await deleteLibraries([id]);
+    if (!result.deleted.length) return json(res, 404, { ok: false, error: "组件库不存在" });
+    json(res, 200, { ok: true, ...result });
+    return;
+  }
+
+  if (req.method === "POST" && url.pathname === "/api/libraries/batch-delete") {
+    const body = await readBody(req);
+    const result = await deleteLibraries(Array.isArray(body.ids) ? body.ids : []);
+    json(res, 200, { ok: true, ...result });
+    return;
+  }
+
   if (req.method === "POST" && url.pathname === "/api/sketch/import") {
     try {
       const raw = await readRawBody(req);
@@ -868,4 +915,4 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   });
 }
 
-export { server, parseSketchUpload, parseSketchDocument, sanitizeLibraryForClient, buildLayout, libraries, metrics, projects, prototypes };
+export { server, parseSketchUpload, parseSketchDocument, sanitizeLibraryForClient, deleteLibraries, buildLayout, libraries, metrics, projects, prototypes };

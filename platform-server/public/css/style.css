@@ -5014,3 +5014,60 @@ button {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.library-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.library-batch-delete-btn:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
+
+.library-asset-card {
+  position: relative;
+}
+
+.ds-select-check {
+  position: absolute;
+  top: 16px;
+  right: 74px;
+  z-index: 3;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #E5E7EB;
+  border-radius: 10px;
+  background: rgba(255,255,255,.92);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, .06);
+}
+
+.ds-select-check input {
+  width: 16px;
+  height: 16px;
+  accent-color: #5B5EF4;
+}
+
+.icon-preview-unavailable,
+.component-preview-unavailable {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: #94A3B8;
+  font-size: 12px;
+  text-align: center;
+  background: linear-gradient(135deg, rgba(91, 94, 244, .06), rgba(148, 163, 184, .04));
+}
+
+.comp-preview.sketch-preview > img + div {
+  display: none !important;
+}
+
+.comp-preview.sketch-preview.preview-failed > img + div {
+  display: flex !important;
+}

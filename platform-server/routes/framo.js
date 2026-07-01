@@ -515,6 +515,32 @@ router.get('/libraries', async function(req, res) {
   res.json(advanced.libraries.map(sanitize));
 });
 
+// Framo: DELETE /api/libraries/:id — 删除组件库
+router.delete('/libraries/:id', async function(req, res) {
+  var advanced = await advancedFramo();
+  var remove = advanced.deleteLibraries;
+  if (typeof remove !== 'function') {
+    return res.status(500).json({ ok: false, error: '组件库删除能力未初始化' });
+  }
+  var result = await remove([req.params.id]);
+  if (!result.deleted || !result.deleted.length) {
+    return res.status(404).json({ ok: false, error: '组件库不存在' });
+  }
+  res.json({ ok: true, deleted: result.deleted });
+});
+
+// Framo: POST /api/libraries/batch-delete — 批量删除组件库
+router.post('/libraries/batch-delete', async function(req, res) {
+  var advanced = await advancedFramo();
+  var remove = advanced.deleteLibraries;
+  if (typeof remove !== 'function') {
+    return res.status(500).json({ ok: false, error: '组件库删除能力未初始化' });
+  }
+  var ids = Array.isArray(req.body.ids) ? req.body.ids : [];
+  var result = await remove(ids);
+  res.json({ ok: true, deleted: result.deleted || [] });
+});
+
 // Framo: GET /api/prototypes — 原型列表
 router.get('/prototypes', async function(req, res) {
   var advanced = await advancedFramo();
