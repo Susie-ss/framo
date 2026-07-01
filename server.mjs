@@ -7,6 +7,7 @@ import { promisify } from "node:util";
 import { execFile } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { createHash } from "node:crypto";
+import AdmZip from "adm-zip";
 
 const PORT = Number(process.env.PORT || 4173);
 const ROOT = dirname(fileURLToPath(import.meta.url));
@@ -465,32 +466,28 @@ async function parseSketchUpload(file) {
   if (file.data[0] !== 0x50 || file.data[1] !== 0x4b) throw new Error("文件不是有效的 Sketch ZIP 文档");
   const dir = await mkdtemp(join(tmpdir(), "framo-sketch-"));
   const path = join(dir, "upload.sketch");
-  const extractedDir = join(dir, "extracted");
   try {
     await writeFile(path, file.data);
-    const { stdout } = await execFileAsync("unzip", ["-Z1", path], { maxBuffer: 64 * 1024 * 1024 });
-    const entries = stdout.split("\n").filter(Boolean);
+    const zip = new AdmZip(file.data);
+    const zipEntries = zip.getEntries();
+    const entries = zipEntries.map((entry) => entry.entryName).filter(Boolean);
     if (entries.length > 100000) throw new Error("Sketch 文件条目过多，无法安全解析");
+    if (zipEntries.some((entry) => entry.isDirectory && entry.entryName.endsWith(".json"))) {
+      throw new Error("Sketch 文件结构异常");
+    }
     if (entries.some((entry) => entry.startsWith("/") || entry.split("/").includes(".."))) {
       throw new Error("Sketch 文件包含不安全的路径");
     }
     if (!entries.includes("document.json")) throw new Error("Sketch 文档缺少 document.json");
     const pageEntries = entries.filter((entry) => /^pages\/[^/]+\.json$/i.test(entry));
-    await mkdir(extractedDir, { recursive: true });
-
-    // 大型 Sketch 页面 JSON 可能超过子进程 stdout 缓冲区，因此解压到临时磁盘后读取。
-    const jsonEntries = ["document.json", ...pageEntries];
-    const chunkSize = 500;
-    for (let index = 0; index < jsonEntries.length; index += chunkSize) {
-      await execFileAsync("unzip", ["-qq", "-o", path, ...jsonEntries.slice(index, index + chunkSize), "-d", extractedDir], {
-        maxBuffer: 4 * 1024 * 1024
-      });
-    }
-
-    const readEntry = async (entry) => JSON.parse(await readFile(join(extractedDir, entry), "utf8"));
-    const document = await readEntry("document.json");
-    const pages = [];
-    for (const entry of pageEntries) pages.push(await readEntry(entry));
+    const entryMap = new Map(zipEntries.map((entry) => [entry.entryName, entry]));
+    const readEntry = (entry) => {
+      const zipEntry = entryMap.get(entry);
+      if (!zipEntry) throw new Error(`Sketch 文档缺少 ${entry}`);
+      return JSON.parse(zipEntry.getData().toString("utf8"));
+    };
+    const document = readEntry("document.json");
+    const pages = pageEntries.map(readEntry);
     const parsed = parseSketchDocument(document, pages);
     const libraryId = `lib-sketch-${createHash("sha1").update(file.data).digest("hex").slice(0, 12)}`;
     let previewResult = { engine: "json-fallback", exported: 0 };
