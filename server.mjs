@@ -189,9 +189,27 @@ function iconPriority(name = "") {
   if (/(^|[./\s_-])icon([/\s_-]|$)/i.test(name)) score += 130;
   if (/(^|\/)icon图标(\/|$)/i.test(name)) score += 70;
   if (/(^|\/)(icon|ico)(\/|$)/i.test(name)) score += 50;
+  if (/\/(1\.\s*action|2\.normal|5\.navigation|11\.editor)\//i.test(name)) score += 35;
+  if (/\/(12\.文件类型|0\.应用|13\.勋章)\//i.test(name)) score -= 160;
   if (/图标按钮|图标\+文字|带icon/i.test(name)) score -= 45;
+  if (/文件类型|应用|勋章|Clipped|测试管理|管理后台|Access|Testhub|角色头像|avatar|备份|mask|蒙版|bg|background/i.test(name)) score -= 120;
   if (/default|hover|禁用|选中/i.test(name)) score -= 15;
   return score;
+}
+
+function isUsableIconCandidate(item) {
+  const fullName = String(item.name || "");
+  const segments = fullName.split("/").map(cleanSegment).filter(Boolean);
+  const shortName = cleanSegment(segments.at(-1) || fullName);
+  if (!shortName || /^\d+$/.test(shortName)) return false;
+  if (!item.paths?.length) return false;
+  if (item.priority < 120) return false;
+  if (/(12\.文件类型|0\.应用|13\.勋章|文件类型|应用|勋章|Clipped|测试管理|管理后台|Access|Testhub|角色头像|avatar|备份|mask|蒙版|bg|background)/i.test(fullName)) return false;
+  if (/^(zip|rar|txt|ppt|php|doc|pdf|mp3|mp4|html|css|js|java|ipa|apk|exe|csv|xls|xsd|vss|swf|ttf|bak|bat|code|key|fla|文件|图片|文档|链接)$/i.test(shortName)) return false;
+  const width = Number(item.width) || 0;
+  const height = Number(item.height) || 0;
+  if (width > 64 || height > 64) return false;
+  return true;
 }
 
 function fontWeight(name = "") {
@@ -366,21 +384,24 @@ function parseSketchDocument(document, pages) {
   const primary = [...palette].filter((item) => item.luminance > .12 && item.luminance < .88).sort((a, b) => (b.chroma * Math.log2(b.count + 1)) - (a.chroma * Math.log2(a.count + 1)))[0]?.value || "#5B5BD6";
   const surface = palette.filter((item) => item.luminance > .92).sort((a, b) => b.count - a.count)[0]?.value || "#FFFFFF";
   const iconNames = new Set();
-  const icons = iconCandidates.filter((item) => item.paths.length > 0 && item.priority >= 120 && !/备份|角色头像|avatar/i.test(item.name)).sort((a, b) => b.priority - a.priority).filter((item) => {
+  const icons = iconCandidates.filter(isUsableIconCandidate).sort((a, b) => b.priority - a.priority).filter((item) => {
     const shortName = item.name.split("/").pop().trim().toLowerCase();
     if (!shortName || /^\d+$/.test(shortName)) return false;
     if (iconNames.has(shortName)) return false;
     iconNames.add(shortName);
     return true;
-  }).slice(0, 3000);
+  }).slice(0, 240);
 
   const componentGroups = new Map();
   for (const component of components) {
     if (/Base基础\/1\.icon图标/i.test(component.name)) continue;
+    if (/^icon图标\//i.test(component.name)) continue;
     const segments = component.name.split("/").map(cleanSegment).filter(Boolean);
     if (segments.length < 2) continue;
     const category = segments[0];
     const name = segments[1];
+    if (/^icon图标$/i.test(category)) continue;
+    if (/^normal$/i.test(name) && segments.length <= 2) continue;
     const key = `${category}/${name}`.toLowerCase();
     if (!componentGroups.has(key)) componentGroups.set(key, { name, category, variants: [], representative: component });
     const group = componentGroups.get(key);

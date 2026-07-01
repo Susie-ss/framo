@@ -2061,6 +2061,7 @@ function normalizeFramoLibraryForMainUI(library, file) {
 
   return {
     id: library.id,
+    isServerLibrary: true,
     name: library.name || (file ? file.name.replace(/\.sketch$/i, '') : '未命名组件库'),
     version: library.version || '1.0.0',
     description: library.description || (library.sourceType === 'sketch'
@@ -2431,6 +2432,24 @@ function renderDesignSystemDetail(dsId) {
   if (!mainContent) return;
 
   var ds = findDesignSystemById(dsId);
+  if ((!ds || (/^lib-sketch-/.test(String(dsId || '')) && !ds.isServerLibrary)) && typeof loadFramoLibrariesForMainUI === 'function') {
+    mainContent.innerHTML = '<div class="library library-detail-page"><div class="empty-state"><p>正在加载组件库资产...</p></div></div>';
+    loadFramoLibrariesForMainUI().then(function(list) {
+      if (list && list.length) {
+        designSystems = list;
+        window.designSystems = designSystems;
+      }
+      renderDesignSystemDetail(dsId);
+    }).catch(function(err) {
+      console.error('Load library detail failed:', err);
+      showToast('组件库详情加载失败', 'error');
+      currentDS = ds;
+      mainContent.innerHTML = renderDetailHTML(ds);
+      bindDetailEvents();
+    });
+    return;
+  }
+
   currentDS = ds;  // ★ 关键：记录当前查看的 DS，后续渲染函数从中取数据
   currentDSTab = 'icons';
   dsIconSearch = '';
@@ -2578,17 +2597,21 @@ function renderIconsTab(icons) {
 
   var cardsHTML = icons.map(function(icon) {
     var iconMeta = getReadableIconMeta(icon);
-    // ===== 优先使用 Framo 格式（paths[] 真实 bezier 路径） =====
+    // ===== 优先使用 sketchtool 导出的真实 SVG；没有导出时再降级到 JSON path =====
     var svg = '';
-    if (icon.paths && icon.paths.length > 0) {
+    if (icon.previewUrl) {
+      svg = '<img src="' + escapeHTML(icon.previewUrl) + '" alt="" loading="lazy" />';
+    } else if (icon.svg) {
+      svg = icon.svg;
+    } else if (icon.paths && icon.paths.length > 0) {
       var c = icon.color || '#333';
       var w = icon.width || 24;
       var h = icon.height || 24;
       var pts = icon.paths.map(function(p) { return '<path d="' + escapeHTML(p) + '" fill="' + c + '" fill-rule="evenodd" clip-rule="evenodd" stroke="none"/>'; }).join('');
-      svg = '<svg width="20" height="20" viewBox="0 0 ' + w + ' ' + h + '" aria-hidden="true">' + pts + '</svg>';
+      svg = '<svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">' + pts + '</svg>';
     } else {
       // 旧格式：使用 iconSVGMap 或 inline SVG
-      svg = icon.svg || iconSVGMap[icon.name] || '';
+      svg = iconSVGMap[icon.name] || '';
     }
     // 截断过长的名称
     var displayName = iconMeta.name;
@@ -2732,10 +2755,13 @@ function renderComponentsTab() {
       if (displayName.indexOf('/') >= 0) displayName = displayName.split('/').pop();
       var cat = comp.category || '';
       var previewColor = (comp.preview && comp.preview.color) ? comp.preview.color : '#5B5EF4';
+      var previewHTML = comp.previewUrl
+        ? '<img src="' + escapeHTML(comp.previewUrl) + '" alt="" loading="lazy" />'
+        : '<div style="padding:10px 20px;background:' + escapeHTML(previewColor) + ';color:#fff;border-radius:6px;font-size:13px;font-weight:500">' + escapeHTML(displayName) + '</div>';
       return '<div class="component-card">' +
         '<div class="comp-header"><h4>' + escapeHTML(displayName) + '</h4><span class="comp-category">' + escapeHTML(cat) + '</span></div>' +
-        '<div class="comp-preview" style="height:72px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,' + escapeHTML(previewColor) + '22,' + escapeHTML(previewColor) + '11);border:1px solid ' + escapeHTML(previewColor) + '33;border-radius:8px">' +
-          '<div style="padding:10px 20px;background:' + escapeHTML(previewColor) + ';color:#fff;border-radius:6px;font-size:13px;font-weight:500">' + escapeHTML(displayName) + '</div>' +
+        '<div class="comp-preview sketch-preview" style="height:96px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,' + escapeHTML(previewColor) + '12,' + escapeHTML(previewColor) + '08);border:1px solid ' + escapeHTML(previewColor) + '22;border-radius:8px;overflow:hidden">' +
+          previewHTML +
         '</div>' +
         '<div style="padding:8px 12px;font-size:12px;color:var(--text-muted);display:flex;gap:8px;justify-content:space-between">' +
           '<span>' + escapeHTML(comp.fullName || comp.name || '') + '</span>' +
