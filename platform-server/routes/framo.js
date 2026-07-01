@@ -511,7 +511,8 @@ router.get('/projects', async function(req, res) {
 // Framo: GET /api/libraries — 组件库列表
 router.get('/libraries', async function(req, res) {
   var advanced = await advancedFramo();
-  res.json(advanced.libraries);
+  var sanitize = advanced.sanitizeLibraryForClient || function(library) { return library; };
+  res.json(advanced.libraries.map(sanitize));
 });
 
 // Framo: GET /api/prototypes — 原型列表

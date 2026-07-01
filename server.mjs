@@ -212,6 +212,43 @@ function isUsableIconCandidate(item) {
   return true;
 }
 
+function sanitizeLibraryForClient(library) {
+  if (!library || library.sourceType !== "sketch" || !library.assets) return library;
+  const assets = { ...library.assets };
+  const seenIcons = new Set();
+  assets.icons = (assets.icons || [])
+    .map((item) => ({ ...item, priority: item.priority ?? iconPriority(item.name) }))
+    .filter(isUsableIconCandidate)
+    .sort((a, b) => b.priority - a.priority)
+    .filter((item) => {
+      const shortName = String(item.name || "").split("/").pop().trim().toLowerCase();
+      if (!shortName || seenIcons.has(shortName)) return false;
+      seenIcons.add(shortName);
+      return true;
+    })
+    .slice(0, 240);
+
+  assets.components = (assets.components || []).filter((component) => {
+    const fullName = String(component.fullName || component.name || "");
+    const segments = fullName.split("/").map(cleanSegment).filter(Boolean);
+    if (/Base基础\/1\.icon图标/i.test(fullName)) return false;
+    if (/^icon图标$/i.test(segments[0] || "")) return false;
+    if (/^normal$/i.test(segments[1] || "") && segments.length <= 2) return false;
+    return true;
+  });
+
+  return {
+    ...library,
+    assets,
+    components: assets.components.map((item) => item.fullName || item.name).filter(Boolean),
+    stats: {
+      ...(library.stats || {}),
+      icons: assets.icons.length,
+      components: assets.components.length
+    }
+  };
+}
+
 function fontWeight(name = "") {
   if (/black|heavy/i.test(name)) return 900;
   if (/extra.?bold|ultra.?bold/i.test(name)) return 800;
@@ -829,4 +866,4 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   });
 }
 
-export { server, parseSketchUpload, parseSketchDocument, buildLayout, libraries, metrics, projects, prototypes };
+export { server, parseSketchUpload, parseSketchDocument, sanitizeLibraryForClient, buildLayout, libraries, metrics, projects, prototypes };
