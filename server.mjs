@@ -824,7 +824,7 @@ const server = createServer(async (req, res) => {
 
   if (req.method === "POST" && url.pathname === "/api/ai/generate") {
     const body = await readBody(req);
-    const library = libraries.find((item) => item.id === body.libraryId) || libraries[0];
+    const library = sanitizeLibraryForClient(libraries.find((item) => item.id === body.libraryId) || libraries[0]);
     const layout = buildLayout(body.prompt, library);
 
     json(res, 200, {

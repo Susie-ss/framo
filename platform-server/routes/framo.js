@@ -544,7 +544,8 @@ router.post('/ai/generate', async function(req, res) {
   var prompt = req.body.prompt || '';
   var libraryId = req.body.libraryId || '';
   var advanced = await advancedFramo();
-  var library = advanced.libraries.find(function(l) { return l.id === libraryId; }) || advanced.libraries[0];
+  var sanitize = advanced.sanitizeLibraryForClient || function(library) { return library; };
+  var library = sanitize(advanced.libraries.find(function(l) { return l.id === libraryId; }) || advanced.libraries[0]);
   var layout = advanced.buildLayout(prompt, library);
 
   res.json({

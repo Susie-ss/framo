@@ -4200,6 +4200,28 @@ button {
   border-color: var(--primary);
 }
 
+.ai-gen-library-summary {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: rgba(91,94,244,.06);
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1.6;
+}
+.ai-gen-library-summary strong {
+  display: block;
+  color: var(--text);
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+.ai-gen-library-summary span {
+  display: inline-flex;
+  margin-right: 8px;
+  color: var(--primary);
+  white-space: nowrap;
+}
+
 .ai-gen-messages {
   flex: 1;
   overflow-y: auto;
@@ -4306,6 +4328,28 @@ button {
   background: var(--surface);
 }
 
+.ai-gen-quick-prompts {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 10px 20px 0;
+  background: var(--surface);
+}
+.ai-gen-quick-prompts button {
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-secondary);
+  border-radius: 999px;
+  padding: 5px 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.ai-gen-quick-prompts button:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: rgba(91,94,244,.06);
+}
+
 .ai-gen-input-area textarea {
   flex: 1;
   padding: 10px 12px;
@@ -4340,6 +4384,10 @@ button {
   justify-content: center;
   border-radius: var(--radius-sm);
   flex-shrink: 0;
+}
+.ai-gen-send-btn:disabled {
+  opacity: .55;
+  cursor: not-allowed;
 }
 
 .ai-gen-preview-header {
@@ -4497,6 +4545,14 @@ button {
   font-family: 'SF Mono', 'Menlo', monospace;
   white-space: pre-wrap;
   word-break: break-all;
+}
+
+.ai-gen-token-line {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 11px;
 }
 
 /* ===== 设计系统详情：缺失样式 ===== */
