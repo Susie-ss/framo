@@ -185,14 +185,15 @@ function iconPaths(layer, paths = [], rootSize = null, offset = { x: 0, y: 0 }, 
 function iconPriority(name = "") {
   let score = 0;
   if (/Base基础\/1\.icon图标/i.test(name)) score += 120;
+  if (/(^|\/)1\.icon图标\/(0\.\s*导航|1\.\s*action|2\.normal|3\.tips|5\.navigation)(\/|$)/i.test(name)) score += 90;
   if (/anticon|iconfont/i.test(name)) score += 140;
   if (/(^|[./\s_-])icon([/\s_-]|$)/i.test(name)) score += 130;
   if (/(^|\/)icon图标(\/|$)/i.test(name)) score += 70;
   if (/(^|\/)(icon|ico)(\/|$)/i.test(name)) score += 50;
-  if (/\/(1\.\s*action|2\.normal|5\.navigation|11\.editor)\//i.test(name)) score += 35;
-  if (/\/(12\.文件类型|0\.应用|13\.勋章)\//i.test(name)) score -= 160;
+  if (/\/(0\.\s*导航|1\.\s*action|2\.normal|3\.tips|5\.navigation)\//i.test(name)) score += 45;
+  if (/\/(11\.editor|12\.文件类型|0\.应用|9\.application|13\.角色头像|13\.勋章)\//i.test(name)) score -= 240;
   if (/图标按钮|图标\+文字|带icon/i.test(name)) score -= 45;
-  if (/文件类型|应用|勋章|Clipped|测试管理|管理后台|Access|Testhub|角色头像|avatar|备份|mask|蒙版|bg|background/i.test(name)) score -= 120;
+  if (/editor|UML|图形|文件类型|应用|application|勋章|Clipped|测试管理|管理后台|Access|Testhub|角色头像|avatar|备份|mask|蒙版|bg|background/i.test(name)) score -= 120;
   if (/default|hover|禁用|选中/i.test(name)) score -= 15;
   return score;
 }
@@ -204,7 +205,8 @@ function isUsableIconCandidate(item) {
   if (!shortName || /^\d+$/.test(shortName)) return false;
   if (!item.paths?.length) return false;
   if (item.priority < 120) return false;
-  if (/(12\.文件类型|0\.应用|13\.勋章|文件类型|应用|勋章|Clipped|测试管理|管理后台|Access|Testhub|角色头像|avatar|备份|mask|蒙版|bg|background)/i.test(fullName)) return false;
+  if (!/(^|\/)1\.icon图标\/(0\.\s*导航|1\.\s*action|2\.normal|3\.tips|5\.navigation)(\/|$)/i.test(fullName) && !/Base基础\/1\.icon图标\/(0\.\s*导航|1\.\s*action|2\.normal|3\.tips|5\.navigation)(\/|$)/i.test(fullName)) return false;
+  if (/(11\.editor|12\.文件类型|0\.应用|9\.application|13\.角色头像|13\.勋章|editor|UML|图形|文件类型|应用|application|勋章|Clipped|测试管理|管理后台|Access|Testhub|角色头像|avatar|备份|mask|蒙版|bg|background)/i.test(fullName)) return false;
   if (/^(zip|rar|txt|ppt|php|doc|pdf|mp3|mp4|html|css|js|java|ipa|apk|exe|csv|xls|xsd|vss|swf|ttf|bak|bat|code|key|fla|文件|图片|文档|链接)$/i.test(shortName)) return false;
   const width = Number(item.width) || 0;
   const height = Number(item.height) || 0;
