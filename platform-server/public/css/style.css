@@ -3195,6 +3195,11 @@ button {
   flex-shrink: 0;
 }
 
+/* 组件库卡片颜色块只显示前6个 */
+.library-asset-card .ds-colors .color-dot:nth-child(n+7) {
+  display: none;
+}
+
 .ds-name {
   font-size: 16px;
   font-weight: 600;
@@ -3434,6 +3439,8 @@ button {
   max-width: none;
   width: 100%;
   padding: 8px 8px 56px;
+  contain: content;
+  min-height: 60vh;
 }
 
 .library-card-page .library-header {
@@ -3815,14 +3822,13 @@ button {
 
 .library-create-modal .parse-color-dots {
   gap: 14px;
+  flex-wrap: wrap;
+  max-height: 120px;
+  overflow: hidden;
 }
 
-.library-create-modal .parse-color-dot {
-  width: 48px;
-  height: 48px;
-  border-radius: 10px;
-  border: 4px solid #fff;
-  box-shadow: 0 12px 28px rgba(18,25,38,.12);
+.library-create-modal .parse-color-dot:nth-child(n+11) {
+  display: none;
 }
 
 .ds-detail {
@@ -4944,12 +4950,13 @@ button {
 
 .library-create-modal .parse-color-dots {
   gap: 10px;
+  flex-wrap: wrap;
+  max-height: 100px;
+  overflow: hidden;
 }
 
-.library-create-modal .parse-color-dot {
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
+.library-create-modal .parse-color-dot:nth-child(n+11) {
+  display: none;
 }
 
 .ds-detail {
@@ -5036,7 +5043,7 @@ button {
 .ds-select-check {
   position: absolute;
   top: 16px;
-  right: 74px;
+  left: 16px;
   z-index: 3;
   width: 32px;
   height: 32px;
