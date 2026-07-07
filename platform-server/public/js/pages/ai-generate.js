@@ -203,6 +203,8 @@ function aiGenSendMessage() {
       });
     })
     .then(function(payload) {
+      // 后端返回 { ok: true, result: layout }
+      // layout 包含 tokens, componentReferences, layout 等字段
       var result = payload.result || buildLocalLayout(prompt, library);
       var refs = result.componentReferences || [];
       aiGenMessages.pop();
@@ -298,6 +300,11 @@ function inferPreviewTitle(prompt) {
 }
 
 function renderGeneratedPreview(result, library, prompt) {
+  // 如果后端返回了 HTML，直接渲染
+  if (result && result.html) {
+    return result.html;
+  }
+  
   var tokens = result.tokens || normalizePreviewTokens(library);
   var primary = tokens.colorPrimary || '#5B5EF4';
   var surface = tokens.colorSurface || '#FFFFFF';
