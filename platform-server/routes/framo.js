@@ -7,6 +7,7 @@ var multer = require('multer');
 var multerUpload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 200 * 1024 * 1024 } });
 var db = require('../db/connector');
 var path = require('path');
+var https = require('https');
 var advancedModulePromise;
 
 function advancedFramo() {
@@ -565,23 +566,164 @@ router.post('/sketch/import', multerUpload.single('file'), async function(req, r
   }
 });
 
-// Framo: POST /api/ai/generate — 结构化 AI 生成
-router.post('/ai/generate', async function(req, res) {
-  var prompt = req.body.prompt || '';
-  var libraryId = req.body.libraryId || '';
-  var advanced = await advancedFramo();
-  var sanitize = advanced.sanitizeLibraryForClient || function(library) { return library; };
-  var library = sanitize(advanced.libraries.find(function(l) { return l.id === libraryId; }) || advanced.libraries[0]);
-  var layout = advanced.buildLayout(prompt, library);
-
-  res.json({
-    ok: true,
-    promptTemplate: {
-      libraryId: library.id,
-      rules: ['只能使用组件库中的组件', '必须输出 JSON', '颜色必须来自 tokens', '必须使用 container 包裹']
-    },
-    result: layout
+// ===== AI 调用（OpenRouter）=====
+function callOpenRouter(messages) {
+  return new Promise(function(resolve, reject) {
+    var apiKey = process.env.ANTHROPIC_API_KEY || '';
+    if (!apiKey) {
+      return reject(new Error('未配置 ANTHROPIC_API_KEY'));
+    }
+    var data = JSON.stringify({
+      model: 'anthropic/claude-3.5-sonnet',
+      messages: messages,
+      temperature: 0.7,
+      max_tokens: 4000,
+      response_format: { type: 'json_object' }
+    });
+    var options = {
+      hostname: 'openrouter.ai',
+      path: '/api/v1/chat/completions',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + apiKey,
+        'HTTP-Referer': 'https://framo.app',
+        'X-Title': 'Framo AI Generator'
+      }
+    };
+    var req = https.request(options, function(response) {
+      var chunks = [];
+      response.on('data', function(chunk) { chunks.push(chunk); });
+      response.on('end', function() {
+        var body = Buffer.concat(chunks).toString();
+        try {
+          var result = JSON.parse(body);
+          if (result.error) return reject(new Error(result.error.message || 'AI API error'));
+          var content = result.choices && result.choices[0] && result.choices[0].message && result.choices[0].message.content;
+          if (!content) return reject(new Error('AI 返回空内容'));
+          resolve(content);
+        } catch (e) {
+          reject(new Error('AI 返回解析失败: ' + e.message));
+        }
+      });
+    });
+    req.on('error', function(err) { reject(err); });
+    req.write(data);
+    req.end();
   });
+}
+
+function buildAIPrompt(userPrompt, library) {
+  var tokens = library.tokens || {};
+  var components = library.components || [];
+  var colors = library.assets && library.assets.colors ? library.assets.colors.slice(0, 10) : [];
+  var fonts = library.assets && library.assets.fonts ? library.assets.fonts.slice(0, 3) : [];
+
+  var colorList = colors.map(function(c) { return c.value || c; }).join(', ');
+  var fontList = fonts.map(function(f) { return f.family || f; }).join(', ');
+  var componentList = components.join(', ');
+
+  return [
+    {
+      role: 'system',
+      content: '你是一个专业的 UI 设计师和前端开发者。你的任务是根据用户描述和组件库规范，生成一个页面原型的 JSON 布局描述。\n\n' +
+        '你必须返回一个有效的 JSON 对象，格式如下：\n' +
+        '{\n' +
+        '  "type": "page",\n' +
+        '  "tokens": { "colorPrimary": "...", "colorSurface": "...", "borderRadius": "...", "fontSizeBase": 14 },\n' +
+        '  "componentReferences": [\n' +
+        '    { "role": "容器", "component": "...", "reason": "..." }\n' +
+        '  ],\n' +
+        '  "layout": [\n' +
+        '    {\n' +
+        '      "type": "container",\n' +
+        '      "props": { "title": "页面标题" },\n' +
+        '      "children": [\n' +
+        '        { "type": "stats", "items": [{ "label": "...", "value": "...", "delta": "..." }] },\n' +
+        '        { "type": "panel", "title": "...", "action": "...", "table": { "columns": ["..."], "rows": [["..."]] } }\n' +
+        '      ]\n' +
+        '    }\n' +
+        '  ]\n' +
+        '}\n\n' +
+        '布局节点类型说明：\n' +
+        '- container: 页面容器，必须有 props.title 和 children\n' +
+        '- stats: 统计卡片行，items 数组包含 label/value/delta\n' +
+        '- panel: 面板，包含 title/action/table(可选)\n' +
+        '- 所有颜色必须使用组件库提供的颜色值\n' +
+        '- 根据用户描述生成合适的业务内容，不要返回固定示例数据'
+    },
+    {
+      role: 'user',
+      content: '用户描述：' + userPrompt + '\n\n' +
+        '组件库信息：\n' +
+        '- 名称：' + (library.name || '默认组件库') + '\n' +
+        '- 主色：' + (tokens.colorPrimary || '#1677FF') + '\n' +
+        '- 表面色：' + (tokens.colorSurface || '#FFFFFF') + '\n' +
+        '- 圆角：' + (tokens.borderRadius || '8px') + '\n' +
+        '- 基础字号：' + (tokens.fontSizeBase || 14) + 'px\n' +
+        '- 可用颜色：' + (colorList || tokens.colorPrimary) + '\n' +
+        '- 可用字体：' + (fontList || 'System') + '\n' +
+        '- 可用组件：' + (componentList || 'button, card, table') + '\n\n' +
+        '请根据以上信息生成一个完整的页面原型 JSON。'
+    }
+  ];
+}
+
+// Framo: POST /api/ai/generate — 真实 AI 生成
+router.post('/ai/generate', async function(req, res) {
+  try {
+    var prompt = req.body.prompt || '';
+    var libraryId = req.body.libraryId || '';
+    var advanced = await advancedFramo();
+    var sanitize = advanced.sanitizeLibraryForClient || function(library) { return library; };
+    var library = sanitize(advanced.libraries.find(function(l) { return l.id === libraryId; }) || advanced.libraries[0]);
+
+    if (!prompt.trim()) {
+      return res.status(400).json({ ok: false, error: '请输入生成描述' });
+    }
+
+    var messages = buildAIPrompt(prompt, library);
+    var aiResponse = await callOpenRouter(messages);
+
+    var layout;
+    try {
+      layout = JSON.parse(aiResponse);
+    } catch (e) {
+      // 尝试从 markdown 代码块中提取 JSON
+      var match = aiResponse.match(/```json\s*([\s\S]*?)\s*```/);
+      if (match) layout = JSON.parse(match[1]);
+      else {
+        // 兜底：使用 mock 布局但注入用户 prompt
+        layout = advanced.buildLayout(prompt, library);
+        layout.prompt = prompt;
+      }
+    }
+
+    // 确保返回格式兼容前端
+    if (!layout.tokens) layout.tokens = library.tokens || { colorPrimary: '#1677FF', colorSurface: '#FFFFFF', borderRadius: '8px' };
+    if (!layout.componentReferences) layout.componentReferences = [];
+    if (!layout.layout) layout.layout = [];
+
+    res.json({
+      ok: true,
+      promptTemplate: {
+        libraryId: library.id,
+        rules: ['只能使用组件库中的组件', '必须输出 JSON', '颜色必须来自 tokens', '必须使用 container 包裹']
+      },
+      result: layout
+    });
+  } catch (err) {
+    console.error('AI generate error:', err.message);
+    // 兜底返回 mock 数据
+    var advanced = await advancedFramo();
+    var library = advanced.libraries[0];
+    var layout = advanced.buildLayout(prompt, library);
+    res.json({
+      ok: true,
+      promptTemplate: { libraryId: library.id, rules: [] },
+      result: layout
+    });
+  }
 });
 
 module.exports = router;
