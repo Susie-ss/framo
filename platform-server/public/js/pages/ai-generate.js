@@ -212,7 +212,13 @@ function aiGenSendMessage() {
         refs: refs,
         tokens: result.tokens || {}
       });
-      aiGenCurrentHTML = renderGeneratedPreview(result, library, prompt);
+      // 提取 AI 生成的 HTML 直接渲染到预览 iframe
+      var aiHtml = result.html || '';
+      if (!aiHtml && result.layout && result.layout[0]) {
+        var aiFrame = (result.layout[0].children || []).find(function(c) { return c.type === 'ai-frame'; });
+        if (aiFrame) aiHtml = aiFrame.content;
+      }
+      aiGenCurrentHTML = aiHtml || renderGeneratedPreview(result, library, prompt);
       updatePreview(aiGenCurrentHTML);
       updatePreviewTitle(prompt, library);
     })
