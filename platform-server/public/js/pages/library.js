@@ -182,14 +182,7 @@ window.deleteDesignSystem = function(id) {
 window.toggleLibrarySelection = function(id, checked) {
   if (checked && selectedLibraryIds.indexOf(id) < 0) selectedLibraryIds.push(id);
   if (!checked) selectedLibraryIds = selectedLibraryIds.filter(function(item) { return item !== id; });
-  // 只更新批量删除按钮的计数，不重新渲染整个页面
-  var batchBtn = document.querySelector('.library-batch-delete-btn');
-  if (batchBtn) {
-    batchBtn.textContent = selectedLibraryIds.length
-      ? '批量删除（' + selectedLibraryIds.length + '）'
-      : '批量删除';
-    batchBtn.disabled = selectedLibraryIds.length === 0;
-  }
+  renderLibraryPage();
 };
 
 window.batchDeleteDesignSystems = function() {
