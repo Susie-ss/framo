@@ -300,11 +300,6 @@ function inferPreviewTitle(prompt) {
 }
 
 function renderGeneratedPreview(result, library, prompt) {
-  // 如果后端返回了 HTML，直接渲染
-  if (result && result.html) {
-    return result.html;
-  }
-  
   var tokens = result.tokens || normalizePreviewTokens(library);
   var primary = tokens.colorPrimary || '#5B5EF4';
   var surface = tokens.colorSurface || '#FFFFFF';
