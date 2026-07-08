@@ -1,4 +1,4 @@
 {
-  "serverUrl": "http://localhost:4173",
+  "serverUrl": "https://framo-production.up.railway.app",
   "uiPort": 8080
 }
