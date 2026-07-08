@@ -4,6 +4,7 @@ const db = require('../db/connector');
 const { authMiddleware } = require('../middleware/auth');
 const { v4: uuidv4 } = require('uuid');
 const logger = require('../db/logger');
+const config = require('../config');
 
 // 安全地获取 projects 表列名（兼容 SQLite 和 PostgreSQL）
 var _safeProjCols = null;
@@ -38,7 +39,7 @@ router.get('/:id', async (req, res) => {
       const token = req.headers['authorization']?.replace('Bearer ', '');
       if (token) {
         const jwt = require('jsonwebtoken');
-        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'dev_secret');
+        const decoded = jwt.verify(token, config.JWT_SECRET);
         const user = await db.get('SELECT id, username FROM users WHERE id = ?', [decoded.userId]);
         if (user) {
           currentUserId = user.id;
@@ -123,7 +124,7 @@ router.get('/:id/pages', async (req, res) => {
       const token = req.headers['authorization']?.replace('Bearer ', '');
       if (token) {
         const jwt = require('jsonwebtoken');
-        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'dev_secret');
+        const decoded = jwt.verify(token, config.JWT_SECRET);
         const user = await db.get('SELECT id FROM users WHERE id = ?', [decoded.userId]);
         if (user) {
           currentUserId = user.id;
