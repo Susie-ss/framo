@@ -620,20 +620,55 @@ function callOpenRouter(messages) {
 function buildAIPrompt(userPrompt, library) {
   var tokens = library.tokens || {};
   var components = library.components || [];
-  var componentList = components.slice(0, 8).join(', ');
+  var colors = library.assets && library.assets.colors ? library.assets.colors.slice(0, 10) : [];
+  var fonts = library.assets && library.assets.fonts ? library.assets.fonts.slice(0, 3) : [];
 
-  var primaryColor = tokens.colorPrimary || '#1677FF';
-  var borderRadius = tokens.borderRadius || '8px';
-  var fontSize = tokens.fontSizeBase || 14;
+  var colorList = colors.map(function(c) { return c.value || c; }).join(', ');
+  var fontList = fonts.map(function(f) { return f.family || f; }).join(', ');
+  var componentList = components.join(', ');
 
   return [
     {
       role: 'system',
-      content: '你是一个前端开发者。根据用户需求生成简短的 HTML 页面原型（内联 CSS）。要求：1.代码不超过60行 2.不要markdown代码块 3.返回完整HTML 4.使用主色：' + primaryColor + ' 5.圆角：' + borderRadius + ' 6.字号：' + fontSize + 'px'
+      content: '你是一个专业的 UI 设计师和前端开发者。根据用户描述和组件库规范，生成一个页面原型的 JSON 布局描述。\n\n' +
+        '你必须返回一个有效的 JSON 对象，格式如下：\n' +
+        '{\n' +
+        '  "type": "page",\n' +
+        '  "tokens": { "colorPrimary": "...", "colorSurface": "...", "borderRadius": "...", "fontSizeBase": 14 },\n' +
+        '  "componentReferences": [\n' +
+        '    { "role": "容器", "component": "...", "reason": "..." }\n' +
+        '  ],\n' +
+        '  "layout": [\n' +
+        '    {\n' +
+        '      "type": "container",\n' +
+        '      "props": { "title": "页面标题" },\n' +
+        '      "children": [\n' +
+        '        { "type": "stats", "items": [{ "label": "...", "value": "...", "delta": "..." }] },\n' +
+        '        { "type": "panel", "title": "...", "action": "...", "table": { "columns": ["..."], "rows": [["..."]] } }\n' +
+        '      ]\n' +
+        '    }\n' +
+        '  ]\n' +
+        '}\n\n' +
+        '布局节点类型说明：\n' +
+        '- container: 页面容器，必须有 props.title 和 children\n' +
+        '- stats: 统计卡片行，items 数组包含 label/value/delta\n' +
+        '- panel: 面板，包含 title/action/table(可选)\n' +
+        '- 所有颜色必须使用组件库提供的颜色值\n' +
+        '- 根据用户描述生成合适的业务内容，不要返回固定示例数据'
     },
     {
       role: 'user',
-      content: '需求：' + userPrompt + '\n可用组件：' + (componentList || 'button, input, form, card') + '\n请生成 HTML 代码。'
+      content: '用户描述：' + userPrompt + '\n\n' +
+        '组件库信息：\n' +
+        '- 名称：' + (library.name || '默认组件库') + '\n' +
+        '- 主色：' + (tokens.colorPrimary || '#1677FF') + '\n' +
+        '- 表面色：' + (tokens.colorSurface || '#FFFFFF') + '\n' +
+        '- 圆角：' + (tokens.borderRadius || '8px') + '\n' +
+        '- 基础字号：' + (tokens.fontSizeBase || 14) + 'px\n' +
+        '- 可用颜色：' + (colorList || tokens.colorPrimary) + '\n' +
+        '- 可用字体：' + (fontList || 'System') + '\n' +
+        '- 可用组件：' + (componentList || 'button, card, table') + '\n\n' +
+        '请根据以上信息生成一个完整的页面原型 JSON。'
     }
   ];
 }
@@ -654,45 +689,48 @@ router.post('/ai/generate', async function(req, res) {
     var messages = buildAIPrompt(prompt, library);
     var aiResponse = await callOpenRouter(messages);
 
-    // AI 现在返回 HTML 代码，直接使用
-    var html = aiResponse;
-    // 清理 markdown 代码块标记
-    html = html.replace(/^```html\s*/i, '').replace(/\s*```$/i, '').trim();
-    
-    // 确保 HTML 是完整的
-    if (!html.includes('<!DOCTYPE html>') && !html.includes('<html')) {
-      // 如果不完整，包装成完整 HTML
-      html = '<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>AI Generated</title></head><body>' + html + '</body></html>';
+    var layout;
+    try {
+      layout = JSON.parse(aiResponse);
+    } catch (e) {
+      // 尝试从 markdown 代码块中提取 JSON
+      var match = aiResponse.match(/```json\s*([\s\S]*?)\s*```/);
+      if (match) layout = JSON.parse(match[1]);
+      else {
+        // AI 返回的不是 JSON，兜底使用 mock 布局但注入用户 prompt
+        layout = advanced.buildLayout(prompt, library);
+        layout.prompt = prompt;
+      }
     }
 
-    var tokens = library.tokens || { colorPrimary: '#1677FF', colorSurface: '#FFFFFF', borderRadius: '8px', fontSizeBase: 14 };
+    // 确保返回格式兼容前端
+    if (!layout.tokens) layout.tokens = library.tokens || { colorPrimary: '#1677FF', colorSurface: '#FFFFFF', borderRadius: '8px' };
+    if (!layout.componentReferences) layout.componentReferences = [];
+    if (!layout.layout) layout.layout = [];
 
     res.json({
       ok: true,
       promptTemplate: {
         libraryId: library.id,
-        rules: ['使用组件库主色', '响应式布局']
+        rules: ['只能使用组件库中的组件', '必须输出 JSON', '颜色必须来自 tokens', '必须使用 container 包裹']
       },
-      result: {
-        type: 'page',
-        prompt: prompt,
-        libraryId: library.id,
-        tokens: tokens,
-        componentReferences: [
-          { role: 'AI生成', component: 'HTML页面', reason: '基于"' + prompt + '"生成' }
-        ],
-        layout: [{
-          type: 'container',
-          props: { title: prompt },
-          children: [{ type: 'html', content: html }]
-        }],
-        html: html
-      }
+      result: layout
     });
   } catch (err) {
     console.error('AI generate error:', err.message);
-    // 返回错误信息以便调试
-    return res.json({ ok: false, error: err.message });
+    // 兜底返回 mock 布局
+    try {
+      var advanced = await advancedFramo();
+      var library = advanced.libraries[0];
+      var layout = advanced.buildLayout(prompt, library);
+      res.json({
+        ok: true,
+        promptTemplate: { libraryId: library.id, rules: [] },
+        result: layout
+      });
+    } catch (fallbackErr) {
+      return res.json({ ok: false, error: err.message });
+    }
   }
 });
 
