@@ -95,6 +95,7 @@ function firstFill(layer) {
 }
 
 function deepFill(layer) {
+  if (!layer || layer.isVisible === false || Number(layer.style && layer.style.contextSettings && layer.style.contextSettings.opacity) === 0) return null;
   var c = firstFill(layer);
   if (c) return c;
   if (layer && layer.layers) {
@@ -224,13 +225,14 @@ function parseSketchDocument(document, pages) {
 
   function iconPaths(layer, paths, rootSize, offset, isRoot) {
     if (!paths) paths = [];
+    if (!layer || layer.isVisible === false || Number(layer.style && layer.style.contextSettings && layer.style.contextSettings.opacity) === 0) return paths;
     if (!rootSize) {
       var f = layer.frame || {};
       rootSize = { width: Math.max(1, f.width || 24), height: Math.max(1, f.height || 24) };
     }
     if (!offset) offset = { x: 0, y: 0 };
     if (isRoot === undefined) isRoot = true;
-    if (paths.length >= 8) return paths;
+    if (paths.length >= 32) return paths;
     var frame = layer.frame || {};
     var root = rootSize;
     var localOffset = isRoot ? offset : { x: offset.x + (Number(frame.x) || 0), y: offset.y + (Number(frame.y) || 0) };

@@ -232,6 +232,7 @@ function firstFill(layer) {
 }
 
 function deepFill(layer) {
+  if (!layer || layer.isVisible === false || Number(layer?.style?.contextSettings?.opacity) === 0) return null;
   if (firstFill(layer)) return firstFill(layer);
   for (const child of layer?.layers || []) {
     const color = deepFill(child);
@@ -257,7 +258,10 @@ function samePoint(left, right) {
 }
 
 function iconPaths(layer, paths = [], rootSize = null, offset = { x: 0, y: 0 }, isRoot = true) {
-  if (paths.length >= 8) return paths;
+  // Sketch Symbol 常包含隐藏的「规范」图层。它们只能用于编辑参考，
+  // 不能进入图标 SVG，否则会把真实图形挤出路径上限并污染颜色。
+  if (!layer || layer.isVisible === false || Number(layer?.style?.contextSettings?.opacity) === 0) return paths;
+  if (paths.length >= 32) return paths;
   const frame = layer?.frame || {};
   const root = rootSize || { width: Math.max(1, frame.width || 24), height: Math.max(1, frame.height || 24) };
   const localOffset = isRoot ? offset : { x: offset.x + (Number(frame.x) || 0), y: offset.y + (Number(frame.y) || 0) };
