@@ -194,7 +194,14 @@ function aiGenSendMessage() {
   fetch('/api/framo/ai/generate', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ prompt: prompt, libraryId: library ? library.id : undefined })
+    body: JSON.stringify({
+      prompt: prompt,
+      libraryId: library ? library.id : undefined,
+      currentHtml: aiGenCurrentHTML && aiGenCurrentHTML !== renderEmptyPreview() ? aiGenCurrentHTML : '',
+      history: aiGenMessages.slice(-8).map(function(item) {
+        return { type: item.type, text: item.text };
+      })
+    })
   })
     .then(function(res) {
       return res.json().then(function(payload) {
@@ -207,12 +214,22 @@ function aiGenSendMessage() {
       // layout 包含 tokens, componentReferences, layout 等字段
       var result = payload.result || buildLocalLayout(prompt, library);
       var refs = result.componentReferences || [];
+      var meta = result.meta || {};
       aiGenMessages.pop();
-      addAIMessage('bot', '已基于「' + (library ? library.name : '默认组件库') + '」生成页面，右侧可以直接预览。', {
+      var modeText = meta.mode === 'model'
+        ? ('AI 已生成页面' + (meta.model ? '（' + meta.model + '）' : ''))
+        : '已使用组件库驱动生成器生成可预览页面';
+      addAIMessage('bot', modeText + '，基于「' + (library ? library.name : '默认组件库') + '」，右侧可以直接预览。', {
         refs: refs,
         tokens: result.tokens || {}
       });
-      aiGenCurrentHTML = renderGeneratedPreview(result, library, prompt);
+      // 提取 AI 生成的 HTML 直接渲染到预览 iframe
+      var aiHtml = result.html || '';
+      if (!aiHtml && result.layout && result.layout[0]) {
+        var aiFrame = (result.layout[0].children || []).find(function(c) { return c.type === 'ai-frame'; });
+        if (aiFrame) aiHtml = aiFrame.content;
+      }
+      aiGenCurrentHTML = aiHtml || renderGeneratedPreview(result, library, prompt);
       updatePreview(aiGenCurrentHTML);
       updatePreviewTitle(prompt, library);
     })
@@ -313,7 +330,7 @@ function renderGeneratedPreview(result, library, prompt) {
   var title = result.layout && result.layout[0] && result.layout[0].props ? result.layout[0].props.title : inferPreviewTitle(prompt);
   var children = result.layout && result.layout[0] ? (result.layout[0].children || []) : [];
   var statsBlock = children.find(function(item) { return item.type === 'stats'; }) || { items: [] };
-  var panel = children.find(function(item) { return item.type === 'panel'; }) || {};
+  var aiFrame = children.find(function(item) { return item.type === 'ai-frame'; });
   var refs = result.componentReferences || [];
   var family = getPreviewFontFamily(library);
 
@@ -323,7 +340,9 @@ function renderGeneratedPreview(result, library, prompt) {
     '.hero{display:flex;justify-content:space-between;gap:24px;align-items:stretch;background:' + surface + ';border:1px solid rgba(15,23,42,.08);border-radius:' + radius + ';padding:28px;box-shadow:0 18px 48px rgba(15,23,42,.08)}' +
     '.eyebrow{letter-spacing:.16em;text-transform:uppercase;color:#94A3B8;font-size:12px;font-weight:700;margin-bottom:10px}.hero h1{margin:0 0 12px;font-size:30px;line-height:1.25}.hero p{margin:0;color:#64748B;line-height:1.8;max-width:720px}.brand{min-width:260px;border-radius:' + radius + ';background:linear-gradient(135deg,' + primary + ',#7C3AED);color:#fff;padding:24px;display:flex;flex-direction:column;justify-content:center}.brand small{opacity:.75}.brand strong{font-size:22px;margin-top:16px}' +
     '.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:20px 0}.card{background:#fff;border:1px solid rgba(15,23,42,.08);border-radius:' + radius + ';padding:20px;box-shadow:0 12px 32px rgba(15,23,42,.06)}.card .label{color:#94A3B8;font-size:12px}.card .value{font-size:30px;color:' + primary + ';font-weight:800;margin-top:8px}.card .delta{color:#10B981;font-size:12px;margin-top:10px}' +
-    '.main{display:grid;grid-template-columns:1.6fr .8fr;gap:20px}.panel h2,.refs h2{font-size:18px;margin:0 0 16px}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:12px;border-bottom:1px solid #EEF2F7}th{color:#94A3B8;font-size:12px}.status{display:inline-flex;padding:4px 10px;border-radius:999px;background:' + primary + '14;color:' + primary + ';font-size:12px}.refs-list{display:flex;flex-direction:column;gap:10px}.ref{padding:12px;border:1px solid #EEF2F7;border-radius:12px}.ref span{font-size:11px;color:#94A3B8;text-transform:uppercase}.ref strong{display:block;margin-top:4px}.tokens{margin-top:14px;padding:12px;border-radius:12px;background:#0F172A;color:#C7D2FE;font-family:monospace;font-size:12px;white-space:pre-wrap}' +
+    '.preview-frame{border:1px solid rgba(15,23,42,.08);border-radius:' + radius + ';overflow:hidden;background:#fff;box-shadow:0 12px 32px rgba(15,23,42,.06)}' +
+    '.preview-frame iframe{width:100%;height:600px;border:none;display:block}' +
+    '.refs-section h2{font-size:18px;margin:0 0 16px}.refs-list{display:flex;flex-direction:column;gap:10px}.ref{padding:12px;border:1px solid #EEF2F7;border-radius:12px}.ref span{font-size:11px;color:#94A3B8;text-transform:uppercase}.ref strong{display:block;margin-top:4px}.tokens{margin-top:14px;padding:12px;border-radius:12px;background:#0F172A;color:#C7D2FE;font-family:monospace;font-size:12px;white-space:pre-wrap}' +
     '@media(max-width:900px){.hero,.main{grid-template-columns:1fr;display:block}.brand{margin-top:16px}.stats{grid-template-columns:1fr}}' +
     '</style></head><body><div class="shell">';
 
@@ -333,14 +352,16 @@ function renderGeneratedPreview(result, library, prompt) {
     return '<div class="card"><div class="label">' + aiEscape(item.label) + '</div><div class="value">' + aiEscape(item.value) + '</div><div class="delta">' + aiEscape(item.delta || '+0%') + '</div></div>';
   }).join('') + '</section>';
 
-  var table = panel.table || { columns: ['名称', '负责人', '状态', '时间'], rows: [] };
-  html += '<section class="main"><div class="card panel"><h2>' + aiEscape(panel.title || title) + '</h2><table><thead><tr>' + (table.columns || []).map(function(col) { return '<th>' + aiEscape(col) + '</th>'; }).join('') + '</tr></thead><tbody>' + (table.rows || []).map(function(row) {
-    return '<tr>' + row.map(function(cell, idx) { return '<td>' + (idx === 2 ? '<span class="status">' + aiEscape(cell) + '</span>' : aiEscape(cell)) + '</td>'; }).join('') + '</tr>';
-  }).join('') + '</tbody></table></div>';
+  // AI 真实页面预览
+  if (aiFrame && aiFrame.content) {
+    html += '<div class="preview-frame"><iframe srcdoc="' + aiEscape(aiFrame.content) + '"></iframe></div>';
+  } else {
+    html += '<div class="preview-frame"><iframe srcdoc="<div style=\'padding:40px;text-align:center;color:#64748B;font-size:14px\'>AI 页面生成中...</div>"></iframe></div>';
+  }
 
-  html += '<aside class="card refs"><h2>引用组件</h2><div class="refs-list">' + refs.map(function(ref) {
-    return '<div class="ref"><span>' + aiEscape(ref.role) + '</span><strong>' + aiEscape(ref.component) + '</strong><small>' + aiEscape(ref.reason || '') + '</small></div>';
-  }).join('') + '</div><div class="tokens">' + aiEscape(JSON.stringify(tokens, null, 2)) + '</div></aside></section>';
+  html += '<div class="refs-section" style="margin-top:16px"><aside class="card"><h2>引用组件</h2><div class="refs-list">' + refs.map(function(ref) {
+    return '<div class="ref"><span>' + aiEscape(ref.role) + '</span><strong>' + aiEscape(ref.component) + '</strong></div>';
+  }).join('') + '</div><div class="tokens">' + aiEscape(JSON.stringify(tokens, null, 2)) + '</div></aside></div>';
   html += '</div></body></html>';
   return html;
 }
