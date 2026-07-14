@@ -58,8 +58,9 @@ function renderAIGeneratePage() {
         '<div class="ai-gen-preview-header">' +
           '<span id="ai-gen-preview-title">预览：等待生成</span>' +
           '<button class="ai-gen-refresh-btn" onclick="aiGenRefreshPreview()" title="刷新预览">↻</button>' +
+          '<button class="ai-gen-fullscreen-btn" onclick="aiGenToggleFullscreen()" title="全屏查看预览" aria-label="全屏查看预览">⛶</button>' +
         '</div>' +
-        '<iframe id="ai-gen-preview" class="ai-gen-preview-frame" title="AI 生成预览"></iframe>' +
+        '<div id="ai-gen-preview-stage" class="ai-gen-preview-stage"><iframe id="ai-gen-preview" class="ai-gen-preview-frame" title="AI 生成页面预览" sandbox="allow-forms allow-modals"></iframe></div>' +
       '</section>' +
     '</div>';
 
@@ -229,6 +230,7 @@ function aiGenSendMessage() {
         var aiFrame = (result.layout[0].children || []).find(function(c) { return c.type === 'ai-frame'; });
         if (aiFrame) aiHtml = aiFrame.content;
       }
+      // 右侧只承载生成结果本身，不再拼接引用组件、Token 或工作台外壳。
       aiGenCurrentHTML = aiHtml || renderGeneratedPreview(result, library, prompt);
       updatePreview(aiGenCurrentHTML);
       updatePreviewTitle(prompt, library);
@@ -383,6 +385,20 @@ function updatePreview(html) {
   iframe.srcdoc = aiGenCurrentHTML;
 }
 
+function aiGenToggleFullscreen() {
+  var stage = document.getElementById('ai-gen-preview-stage');
+  if (!stage) return;
+  if (document.fullscreenElement === stage) {
+    if (document.exitFullscreen) document.exitFullscreen();
+    return;
+  }
+  if (stage.requestFullscreen) {
+    stage.requestFullscreen().catch(function() { stage.classList.toggle('ai-gen-preview-stage-fullscreen'); });
+  } else {
+    stage.classList.toggle('ai-gen-preview-stage-fullscreen');
+  }
+}
+
 function aiGenRefreshPreview() {
   updatePreview(aiGenCurrentHTML || renderEmptyPreview());
 }
@@ -393,3 +409,4 @@ window.aiGenHandleKeydown = aiGenHandleKeydown;
 window.aiGenUsePrompt = aiGenUsePrompt;
 window.aiGenChangeLibrary = aiGenChangeLibrary;
 window.aiGenRefreshPreview = aiGenRefreshPreview;
+window.aiGenToggleFullscreen = aiGenToggleFullscreen;

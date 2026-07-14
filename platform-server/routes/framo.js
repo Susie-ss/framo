@@ -611,12 +611,15 @@ function normalizeAITokens(library) {
   var colors = library && library.assets && Array.isArray(library.assets.colors) ? library.assets.colors : [];
   var firstColor = colors[0] && (colors[0].value || colors[0]);
   var fontSizes = library && library.assets && Array.isArray(library.assets.fontSizes) ? library.assets.fontSizes : [];
+  var fonts = library && library.assets && Array.isArray(library.assets.fonts) ? library.assets.fonts : [];
+  var font = fonts[0] && (fonts[0].family || fonts[0].name);
   return {
     colorPrimary: tokens.colorPrimary || firstColor || '#5B5EF4',
     colorSurface: tokens.colorSurface || '#FFFFFF',
     borderRadius: tokens.borderRadius || '12px',
     fontSizeBase: Number(tokens.fontSizeBase || (fontSizes[0] && fontSizes[0].size) || 14),
-    spacingBase: Number(tokens.spacingBase || 8)
+    spacingBase: Number(tokens.spacingBase || 8),
+    fontFamily: font || 'system-ui'
   };
 }
 
@@ -726,6 +729,9 @@ function requestChatCompletion(config, model, messages) {
       });
     });
     req.on('error', function(err) { reject(err); });
+    req.setTimeout(30000, function() {
+      req.destroy(new Error('AI 请求超时（30 秒）'));
+    });
     req.write(data);
     req.end();
   });
@@ -751,6 +757,7 @@ function buildAIPrompt(userPrompt, library, context) {
   var tokens = normalizeAITokens(library);
   var components = normalizeAIComponents(library);
   var componentList = components.slice(0, 20).map(function(item) { return item.fullName || item.name; }).join('；');
+  var palette = library && library.assets && Array.isArray(library.assets.colors) ? library.assets.colors.slice(0, 10).map(function(item) { return item.value || item; }).join('、') : tokens.colorPrimary;
   var fonts = library && library.assets && Array.isArray(library.assets.fonts) ? library.assets.fonts.slice(0, 6).map(function(f) { return f.family || f.name; }).join('、') : '系统字体';
   var sizes = library && library.assets && Array.isArray(library.assets.fontSizes) ? library.assets.fontSizes.slice(0, 8).map(function(s) { return s.size || s; }).join('、') : String(tokens.fontSizeBase);
   var history = context && Array.isArray(context.history) ? context.history.slice(-6).map(function(item) {
@@ -761,11 +768,11 @@ function buildAIPrompt(userPrompt, library, context) {
   return [
     {
       role: 'system',
-      content: '你是 Flowa 的资深产品设计师和前端原型工程师。只输出一个完整可预览 HTML 文件，不要 markdown，不要解释，不要外链资源，不要 script。页面必须真实像产品原型：有清晰业务结构、可辨认组件、合理空状态/表格/表单/卡片/按钮。必须使用这些设计 Token：主色 ' + tokens.colorPrimary + '，表面色 ' + tokens.colorSurface + '，圆角 ' + tokens.borderRadius + '，基础字号 ' + tokens.fontSizeBase + 'px。优先引用组件库语义：' + (componentList || 'Button、Input、Form、Card、Table') + '。可用字体：' + fonts + '；字号：' + sizes + '。'
+      content: '你是 Flowa 的资深产品设计师和前端原型工程师。只输出一个完整可预览 HTML 文件，不要 markdown，不要解释，不要外链资源，不要 script。页面必须真实像产品原型：有清晰业务结构、可辨认组件、合理空状态/表格/表单/卡片/按钮。当前选中的组件库是「' + String(library && library.name || '默认组件库') + '」，它是唯一视觉来源，严禁使用另一套设计系统或默认紫色模板。必须使用这些设计 Token：主色 ' + tokens.colorPrimary + '，表面色 ' + tokens.colorSurface + '，圆角 ' + tokens.borderRadius + '，基础字号 ' + tokens.fontSizeBase + 'px，间距基数 ' + tokens.spacingBase + 'px。优先引用组件库语义：' + (componentList || 'Button、Input、Form、Card、Table') + '。可用字体：' + fonts + '；字号：' + sizes + '；组件库色板：' + palette + '。CSS 中的按钮、输入框、表格、标签、卡片必须围绕上述 Token 和色板构建；如果颜色不在色板中，只能使用灰阶。'
     },
     {
       role: 'user',
-      content: '请根据这个需求生成或修改一个 1280px 宽度内适配的中文业务页面原型：' + userPrompt + '\n最近对话：\n' + (history || '无') + '\n当前预览 HTML（如果有，请在此基础上迭代，而不是重新跑偏）：\n' + (currentHtml || '无') + '\n要求：1. 内联 CSS 2. 视觉精致但代码紧凑 3. 用注释标出引用的组件库组件 4. body 背景、卡片、按钮、输入框、表格等都要完整可见。'
+      content: '请根据这个需求生成或修改一个 1280px 宽度内适配的中文业务页面原型：' + userPrompt + '\n最近对话：\n' + (history || '无') + '\n当前预览 HTML（如果有，请在此基础上迭代，而不是重新跑偏）：\n' + (currentHtml || '无') + '\n要求：1. 内联 CSS 2. 视觉精致但代码紧凑 3. 用注释标出引用的组件库组件 4. body 只包含页面本身，不要生成工作台外壳、AI 说明、Token 面板或组件引用列表 5. 所有视觉控件都要与当前组件库风格一致。'
     }
   ];
 }
@@ -776,13 +783,15 @@ function buildLocalAIHTML(prompt, library) {
   var type = inferAIPageType(prompt);
   var primary = tokens.colorPrimary;
   var surface = tokens.colorSurface;
+  var fontFamily = String(tokens.fontFamily || 'system-ui').replace(/["<>]/g, '');
+  var palette = library && library.assets && Array.isArray(library.assets.colors) ? library.assets.colors : [];
+  var accent = palette[1] && (palette[1].value || palette[1]) || primary;
   var radius = tokens.borderRadius;
   var fontSize = tokens.fontSizeBase;
   var title = /登录|login/i.test(prompt) ? '进入 Flowa 工作台' : (/项目|任务/i.test(prompt) ? '项目协作工作台' : (/表单|录入|创建/i.test(prompt) ? '新建业务对象' : (/营销|官网|landing/i.test(prompt) ? '设计资产智能协作平台' : '业务数据工作台')));
-  var componentBadges = refs.map(function(ref) { return '<span>' + escapeHTML(ref.component) + '</span>'; }).join('');
   var core = '';
   if (type === 'login') {
-    core = '<section class="login-card"><div><h1>' + escapeHTML(title) + '</h1><p>基于「' + escapeHTML(library ? library.name : '默认组件库') + '」生成的登录体验。</p><label>团队账号</label><input placeholder="请输入用户名"><label>密码</label><input type="password" placeholder="请输入密码"><button>登录并同步组件库</button></div><aside><b>Design Token</b><span>主色 ' + escapeHTML(primary) + '</span><span>字号 ' + escapeHTML(fontSize) + 'px</span><span>圆角 ' + escapeHTML(radius) + '</span></aside></section>';
+    core = '<section class="login-card"><div><h1>' + escapeHTML(title) + '</h1><p>使用你的团队账号继续。</p><label>团队账号</label><input placeholder="请输入用户名"><label>密码</label><input type="password" placeholder="请输入密码"><button>登录</button></div></section>';
   } else if (type === 'form') {
     core = '<section class="panel"><div class="panel-head"><h2>' + escapeHTML(title) + '</h2><button>保存草稿</button></div><div class="form-grid"><label>名称<input value="智能生成页面"></label><label>负责人<input value="Susie"></label><label>状态<select><option>设计中</option><option>待评审</option></select></label><label>优先级<select><option>高</option><option>中</option></select></label></div><textarea placeholder="补充业务说明">根据组件库规范自动生成页面结构、字段和操作区。</textarea><div class="actions"><button class="ghost">取消</button><button>提交</button></div></section>';
   } else if (type === 'list') {
@@ -790,7 +799,7 @@ function buildLocalAIHTML(prompt, library) {
   } else {
     core = '<section class="stats"><div><small>项目数</small><b>28</b><span>+12%</span></div><div><small>组件引用</small><b>' + escapeHTML(String(refs.length)) + '</b><span>来自组件库</span></div><div><small>完成率</small><b>86%</b><span>+8%</span></div></section><section class="grid"><div class="panel"><div class="panel-head"><h2>最近任务</h2><button>新建</button></div><ul><li><b>组件库解析</b><span>进行中</span></li><li><b>AI 页面预览</b><span>已完成</span></li><li><b>插件发布</b><span>待验证</span></li></ul></div><div class="panel accent"><h2>生成策略</h2><p>页面已按组件库 Token、字体、字号和组件语义自动组织，可继续在对话中要求调整。</p>' + componentBadges + '</div></section>';
   }
-  return '<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>' + escapeHTML(title) + '</title><style>*{box-sizing:border-box}body{margin:0;background:#f4f6fb;color:#172033;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",sans-serif;font-size:' + fontSize + 'px}.page{min-height:100vh;padding:32px}.hero{display:flex;justify-content:space-between;gap:24px;align-items:center;background:' + surface + ';border:1px solid #e7eaf3;border-radius:' + radius + ';padding:28px;box-shadow:0 18px 50px rgba(15,23,42,.08)}.hero h1{margin:0 0 10px;font-size:30px}.hero p{margin:0;color:#6b7280;line-height:1.8}.badge{display:inline-flex;margin-top:16px;gap:8px;flex-wrap:wrap}.badge span,.panel .accent span{padding:6px 10px;border-radius:999px;background:#eef2ff;color:' + primary + ';font-size:12px}.primary{background:linear-gradient(135deg,' + primary + ',#7c3aed);color:white;border-radius:' + radius + ';padding:20px;min-width:260px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:20px 0}.stats div,.panel,.login-card{background:' + surface + ';border:1px solid #e7eaf3;border-radius:' + radius + ';box-shadow:0 14px 36px rgba(15,23,42,.06)}.stats div{padding:20px}.stats small{display:block;color:#8a94a6}.stats b{display:block;font-size:34px;color:' + primary + ';margin:8px 0}.stats span{color:#10b981}.grid{display:grid;grid-template-columns:1.2fr .8fr;gap:16px}.panel{padding:22px}.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}.panel h2{margin:0;font-size:20px}button{border:0;border-radius:10px;background:' + primary + ';color:white;padding:10px 16px;font-weight:700;cursor:pointer}.ghost{background:#f1f5f9;color:#475569}input,select,textarea{width:100%;border:1px solid #dfe4ee;border-radius:10px;padding:12px 14px;background:#fff;font:inherit}textarea{min-height:96px;margin-top:14px}.toolbar{display:flex;gap:10px;margin-bottom:14px}.toolbar input{flex:1}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:13px;border-bottom:1px solid #edf0f6}th{color:#8a94a6;font-weight:600}em{font-style:normal;color:' + primary + ';background:#eef2ff;padding:4px 8px;border-radius:999px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}label{display:block;color:#64748b;margin-bottom:12px}label input,label select{margin-top:7px}.actions{display:flex;justify-content:flex-end;gap:10px;margin-top:16px}.login-card{display:grid;grid-template-columns:1fr 280px;gap:26px;padding:30px;margin-top:20px}.login-card aside{background:#0f172a;color:#dbeafe;border-radius:' + radius + ';padding:20px;display:flex;flex-direction:column;gap:12px;justify-content:center}.panel ul{list-style:none;padding:0;margin:0}.panel li{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid #edf0f6}.accent p{line-height:1.8;color:#64748b}@media(max-width:860px){.hero,.grid,.login-card{display:block}.primary{margin-top:16px}.stats,.form-grid{grid-template-columns:1fr}}</style></head><body><main class="page"><section class="hero"><div><h1>' + escapeHTML(title) + '</h1><p>' + escapeHTML(prompt) + '</p><div class="badge">' + componentBadges + '</div></div><div class="primary"><strong>' + escapeHTML(library ? library.name : 'Flowa 默认组件库') + '</strong><p>Token 驱动 · 组件引用 · 可预览 HTML</p></div></section>' + core + '</main></body></html>';
+  return '<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>' + escapeHTML(title) + '</title><style>*{box-sizing:border-box}body{margin:0;background:#f4f6fb;color:#172033;font-family:"' + fontFamily + '",-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",sans-serif;font-size:' + fontSize + 'px}.page{min-height:100vh;padding:32px}.hero{background:' + surface + ';border:1px solid #e7eaf3;border-radius:' + radius + ';padding:28px;box-shadow:0 18px 50px rgba(15,23,42,.08)}.hero h1{margin:0 0 10px;font-size:30px}.hero p{margin:0;color:#6b7280;line-height:1.8}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:20px 0}.stats div,.panel,.login-card{background:' + surface + ';border:1px solid #e7eaf3;border-radius:' + radius + ';box-shadow:0 14px 36px rgba(15,23,42,.06)}.stats div{padding:20px}.stats small{display:block;color:#8a94a6}.stats b{display:block;font-size:34px;color:' + primary + ';margin:8px 0}.stats span{color:' + accent + '}.grid{display:grid;grid-template-columns:1.2fr .8fr;gap:16px}.panel{padding:22px}.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}.panel h2{margin:0;font-size:20px}button{border:0;border-radius:10px;background:' + primary + ';color:white;padding:10px 16px;font-weight:700;cursor:pointer}.ghost{background:#f1f5f9;color:#475569}input,select,textarea{width:100%;border:1px solid #dfe4ee;border-radius:10px;padding:12px 14px;background:#fff;font:inherit}textarea{min-height:96px;margin-top:14px}.toolbar{display:flex;gap:10px;margin-bottom:14px}.toolbar input{flex:1}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:13px;border-bottom:1px solid #edf0f6}th{color:#8a94a6;font-weight:600}em{font-style:normal;color:' + primary + ';background:' + primary + '18;padding:4px 8px;border-radius:999px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}label{display:block;color:#64748b;margin-bottom:12px}label input,label select{margin-top:7px}.actions{display:flex;justify-content:flex-end;gap:10px;margin-top:16px}.login-card{padding:30px;margin-top:20px}.panel ul{list-style:none;padding:0;margin:0}.panel li{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid #edf0f6}.accent p{line-height:1.8;color:#64748b}@media(max-width:860px){.grid,.login-card{display:block}.stats,.form-grid{grid-template-columns:1fr}}</style></head><body><main class="page"><section class="hero"><div><h1>' + escapeHTML(title) + '</h1><p>' + escapeHTML(prompt) + '</p></div></section>' + core + '</main></body></html>';
 }
 
 function buildAIResult(prompt, library, html, meta) {
