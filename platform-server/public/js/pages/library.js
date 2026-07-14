@@ -182,7 +182,14 @@ window.deleteDesignSystem = function(id) {
 window.toggleLibrarySelection = function(id, checked) {
   if (checked && selectedLibraryIds.indexOf(id) < 0) selectedLibraryIds.push(id);
   if (!checked) selectedLibraryIds = selectedLibraryIds.filter(function(item) { return item !== id; });
-  renderLibraryPage();
+  // 只更新批量删除按钮的计数，不重新渲染整个页面
+  var batchBtn = document.querySelector('.library-batch-delete-btn');
+  if (batchBtn) {
+    batchBtn.textContent = selectedLibraryIds.length
+      ? '批量删除（' + selectedLibraryIds.length + '）'
+      : '批量删除';
+    batchBtn.disabled = selectedLibraryIds.length === 0;
+  }
 };
 
 window.batchDeleteDesignSystems = function() {
@@ -2660,7 +2667,9 @@ function renderIconsTab(icons) {
       svg = icon.svg;
     } else if (!(currentDS && currentDS.isServerLibrary) && (iconSVGMap[iconMeta.name] || iconSVGMap[icon.name])) {
       svg = iconSVGMap[iconMeta.name] || iconSVGMap[icon.name];
-    } else if (!(currentDS && currentDS.isServerLibrary) && icon.paths && icon.paths.length > 0) {
+    } else if (icon.paths && icon.paths.length > 0) {
+      // 服务端 JSON 解析已经保留了 Sketch 的真实矢量路径；即使 sketchtool
+      // 没有导出 SVG，也优先使用这些路径，避免显示“等待真实预览”或占位图。
       var c = icon.color || '#333';
       var w = icon.width || 24;
       var h = icon.height || 24;

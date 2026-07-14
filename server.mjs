@@ -721,7 +721,7 @@ async function parseSketchUpload(file) {
     }
     const library = {
       id: libraryId,
-      name: file.name.replace(/\.sketch$/i, ""),
+      name: file.name.replace(/\.sketch$/i, "").trim(),
       version: "1.0.0",
       sourceType: "sketch",
       importedAt: new Date().toISOString(),
