@@ -240,8 +240,8 @@ function parseSketchDocument(document, pages) {
       var pts = layer.points.map(function(item) {
         return {
           point: sketchPoint(item.point, frame, root, localOffset),
-          incoming: sketchPoint(item.curveFrom || item.point, frame, root, localOffset),
-          outgoing: sketchPoint(item.curveTo || item.point, frame, root, localOffset)
+          incoming: sketchPoint(item.curveTo || item.point, frame, root, localOffset),
+          outgoing: sketchPoint(item.curveFrom || item.point, frame, root, localOffset)
         };
       }).filter(function(item) { return item.point; });
       if (pts.length > 1) {

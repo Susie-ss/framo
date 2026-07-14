@@ -268,8 +268,11 @@ function iconPaths(layer, paths = [], rootSize = null, offset = { x: 0, y: 0 }, 
   if (layer?._class === "shapePath" && Array.isArray(layer.points) && layer.points.length > 1) {
     const points = layer.points.map((item) => ({
       point: sketchPoint(item.point, frame, root, localOffset),
-      incoming: sketchPoint(item.curveFrom || item.point, frame, root, localOffset),
-      outgoing: sketchPoint(item.curveTo || item.point, frame, root, localOffset)
+      // Sketch 的 curveFrom / curveTo 是以当前锚点为参照记录的：
+      // 前者是从当前点离开的手柄，后者是抵达当前点的手柄。
+      // 按 SVG Bézier 的方向映射，避免曲线反向折叠成错误图形。
+      incoming: sketchPoint(item.curveTo || item.point, frame, root, localOffset),
+      outgoing: sketchPoint(item.curveFrom || item.point, frame, root, localOffset)
     })).filter((item) => item.point);
     if (points.length > 1) {
       let path = `M${pointCommand(points[0].point)}`;
