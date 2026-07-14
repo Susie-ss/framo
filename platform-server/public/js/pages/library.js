@@ -2673,8 +2673,13 @@ function renderIconsTab(icons) {
       var c = icon.color || '#333';
       var w = icon.width || 24;
       var h = icon.height || 24;
-      var pts = icon.paths.map(function(p) { return '<path d="' + escapeHTML(p) + '" fill="' + c + '" fill-rule="evenodd" clip-rule="evenodd" stroke="none"/>'; }).join('');
-      svg = '<svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">' + pts + '</svg>';
+      // 同一个 Sketch 图标经常由外轮廓和若干「挖空」路径组成。此前将每条
+      // 路径分别渲染，会让挖空区域再次被填满，最终出现残缺、块状的假图标。
+      // 合并为一个 compound path 后，evenodd 才能在所有子路径之间正确生效。
+      var compoundPath = icon.paths.map(function(p) { return escapeHTML(p); }).join(' ');
+      svg = '<svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">' +
+        '<path d="' + compoundPath + '" fill="' + c + '" fill-rule="evenodd" clip-rule="evenodd" stroke="none"/>' +
+      '</svg>';
     } else {
       // Sketch 真实库没有可用 previewUrl 时，不再使用随机模板或不可靠 path 冒充原始图标。
       svg = '<span class="icon-preview-unavailable">等待真实预览</span>';
