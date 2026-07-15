@@ -2376,6 +2376,35 @@ function buildIconSVGMap() {
 
 var iconSVGMap = buildIconSVGMap();
 
+// 仅用于已知名称的 Sketch 图标校正。不能直接使用 iconSVGMap 的全量池，
+// 因为该池对未知名称会返回随机模板；这里的每一项都有确定语义。
+function getVerifiedSketchIconSVG(name) {
+  var raw = String(name || '').trim().toLowerCase();
+  var aliases = {
+    '删除': 'delete', 'trash': 'delete', 'recycle bin': 'delete',
+    '标签': 'tag', 'tag-fill': 'tag',
+    '字母顺序_alphabetical-sorting': 'sort', 'sort-positive sequence': 'sort',
+    'question-circle': 'question', '?': 'question',
+    '直线 2复制': 'line', '形状': 'line',
+    'paperclip': 'paperclip', 'user-add': 'user-add', '选择': 'select',
+    'headset-bold': 'headset', 'icon-summarizing': 'layers', '因素-bold': 'chart'
+  };
+  var key = aliases[raw] || raw;
+  var safeBuiltin = ['search', 'settings', 'user', 'eye', 'share', 'plus', 'list', 'edit', 'delete', 'tag', 'star', 'star-fill', 'arrow-right', 'arrow-left', 'arrow-up', 'arrow-down', 'angle-right', 'angle-down', 'angle-up', 'caret-down', 'refresh', 'copy', 'link', 'calendar', 'bell'];
+  if (safeBuiltin.indexOf(key) >= 0) return iconSVGMap[key] || '';
+  var custom = {
+    question: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.7 2.7 0 0 1 5.1 1.25c0 1.8-2.6 2.1-2.6 3.75"/><circle cx="12" cy="17" r=".7" fill="currentColor" stroke="none"/></svg>',
+    paperclip: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m20.5 11.5-8.8 8.8a5 5 0 0 1-7.1-7.1l9.2-9.2a3.4 3.4 0 0 1 4.8 4.8l-9.2 9.2a1.7 1.7 0 0 1-2.4-2.4l8.5-8.5"/></svg>',
+    'user-add': '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="7" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M19 8v6M16 11h6"/></svg>',
+    select: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m4 3 7.6 17 2.2-6.2L20 11.6z"/><path d="m14 14 4.5 4.5"/></svg>',
+    headset: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><path d="M4 14h3v5H5a1 1 0 0 1-1-1zM20 14h-3v5h2a1 1 0 0 0 1-1z"/></svg>',
+    layers: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3 9 5-9 5-9-5zM3 12l9 5 9-5M3 16l9 5 9-5"/></svg>',
+    chart: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>',
+    line: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h16"/></svg>'
+  };
+  return custom[key] || '';
+}
+
 // 默认字体数据（fallback）
 var DEFAULT_FONTS = [
   { name: 'PingFang SC', family: 'sans-serif', weights: ['Regular (400)', 'Medium (500)', 'Semibold (600)'], sample: '原型协作平台', category: '系统字体' },
@@ -2661,10 +2690,15 @@ function renderIconsTab(icons) {
     // 先按可读图标名匹配内置 SVG，再降级到 JSON path，避免旧版 Sketch
     // transform 信息不完整导致图标碎片化显示。=====
     var svg = '';
+    var verifiedSVG = getVerifiedSketchIconSVG(iconMeta.name);
     if (icon.previewUrl) {
       svg = '<img src="' + escapeHTML(icon.previewUrl) + '" alt="" loading="lazy" />';
     } else if (icon.svg) {
       svg = icon.svg;
+    } else if (verifiedSVG) {
+      // 标准语义图标优先使用已验证的 SVG，避免旧版 foreignSymbol 的
+      // boolean / 曲线控制点在 JSON 路径中被错误解释。
+      svg = verifiedSVG;
     } else if (!(currentDS && currentDS.isServerLibrary) && (iconSVGMap[iconMeta.name] || iconSVGMap[icon.name])) {
       svg = iconSVGMap[iconMeta.name] || iconSVGMap[icon.name];
     } else if (icon.paths && icon.paths.length > 0) {
@@ -2793,10 +2827,34 @@ function renderComponentsTab() {
     var colorIdx = Math.abs(seedHash(name)) % colors.length;
     var bgColor = colors[colorIdx];
     var cat = (category || '').toLowerCase();
+    var semanticName = (String(name || '') + ' ' + String(category || '')).toLowerCase();
 
-    // 根据分类生成不同样式的缩略图预览
+    // 先按组件名称识别，再按分类兜底。Sketch 的组件分类常统一为「数据展示」，
+    // 若只看分类，Table、Progress、Avatar 都会错误地渲染成同一组色条。
     var previewHTML;
-    if (cat.indexOf('按钮') >= 0 || cat.indexOf('btn') >= 0) {
+    if (/table|表格/.test(semanticName)) {
+      previewHTML = '<div style="width:100%;border:1px solid ' + bgColor + '30;border-radius:5px;overflow:hidden;background:#fff"><div style="display:grid;grid-template-columns:1.2fr 1fr .8fr;gap:1px;background:' + bgColor + '22;padding:5px"><span style="height:5px;background:' + bgColor + '75;border-radius:2px"></span><span style="height:5px;background:' + bgColor + '75;border-radius:2px"></span><span style="height:5px;background:' + bgColor + '75;border-radius:2px"></span></div><div style="padding:5px;display:grid;gap:4px"><div style="display:grid;grid-template-columns:1.2fr 1fr .8fr;gap:7px"><i style="height:4px;background:#e8edf5;border-radius:2px"></i><i style="height:4px;background:#e8edf5;border-radius:2px"></i><i style="height:4px;background:#e8edf5;border-radius:2px"></i></div><div style="display:grid;grid-template-columns:1.2fr 1fr .8fr;gap:7px"><i style="height:4px;background:#e8edf5;border-radius:2px"></i><i style="height:4px;background:#e8edf5;border-radius:2px"></i><i style="height:4px;background:#e8edf5;border-radius:2px"></i></div></div></div>';
+    } else if (/progress|进度/.test(semanticName)) {
+      previewHTML = '<div style="width:100%;display:grid;gap:9px"><div style="display:flex;justify-content:space-between;font-size:10px;color:' + bgColor + '"><span>进行中</span><span>68%</span></div><div style="height:8px;background:' + bgColor + '22;border-radius:9px;overflow:hidden"><div style="width:68%;height:100%;border-radius:9px;background:' + bgColor + '"></div></div></div>';
+    } else if (/pagination|分页/.test(semanticName)) {
+      previewHTML = '<div style="display:flex;gap:5px;align-items:center"><span style="color:#98a2b3;font-size:12px">‹</span><b style="font-size:10px;background:' + bgColor + ';color:#fff;border-radius:3px;padding:4px 7px">1</b><span style="font-size:10px;color:#667085;padding:4px 5px">2</span><span style="font-size:10px;color:#667085;padding:4px 5px">3</span><span style="color:#98a2b3;font-size:12px">›</span></div>';
+    } else if (/avatar|头像/.test(semanticName)) {
+      previewHTML = '<div style="display:flex;align-items:center;gap:9px"><span style="width:34px;height:34px;border-radius:50%;background:' + bgColor + ';display:flex;align-items:flex-end;justify-content:center;overflow:hidden"><i style="width:19px;height:19px;border-radius:50% 50% 38% 38%;background:#fff;display:block;transform:translateY(7px)"></i></span><div style="display:grid;gap:5px"><i style="width:55px;height:7px;background:' + bgColor + '55;border-radius:3px"></i><i style="width:38px;height:6px;background:' + bgColor + '22;border-radius:3px"></i></div></div>';
+    } else if (/badge|徽标/.test(semanticName)) {
+      previewHTML = '<div style="position:relative;width:42px;height:32px;border:1px solid ' + bgColor + '33;border-radius:5px"><b style="position:absolute;right:-7px;top:-8px;min-width:17px;height:17px;line-height:17px;text-align:center;border-radius:9px;background:' + bgColor + ';color:#fff;font-size:9px">8</b></div>';
+    } else if (/label|tag|标签/.test(semanticName)) {
+      previewHTML = '<div style="display:flex;gap:6px"><span style="font-size:10px;color:' + bgColor + ';background:' + bgColor + '18;border:1px solid ' + bgColor + '33;padding:4px 8px;border-radius:3px">标签</span><span style="font-size:10px;color:#667085;background:#f2f4f7;padding:4px 8px;border-radius:3px">Label</span></div>';
+    } else if (/button|按钮/.test(semanticName)) {
+      previewHTML = '<div style="display:inline-flex;gap:6px"><div style="padding:6px 14px;background:' + bgColor + ';border-radius:4px;color:#fff;font-size:11px;font-weight:500">确定</div><div style="padding:6px 14px;border:1px solid ' + bgColor + '44;border-radius:4px;color:' + bgColor + ';font-size:11px">取消</div></div>';
+    } else if (/divider|分割线/.test(semanticName)) {
+      previewHTML = '<div style="width:100%;height:1px;background:' + bgColor + '66;position:relative"><i style="position:absolute;left:42%;top:-3px;width:28px;height:6px;background:#fff"></i></div>';
+    } else if (/checkbox|多选/.test(semanticName)) {
+      previewHTML = '<div style="display:flex;gap:10px;align-items:center;font-size:10px;color:#667085"><b style="width:15px;height:15px;border-radius:3px;background:' + bgColor + ';color:#fff;text-align:center;line-height:15px">✓</b>已选择</div>';
+    } else if (/radio|单选/.test(semanticName)) {
+      previewHTML = '<div style="display:flex;gap:10px;align-items:center;font-size:10px;color:#667085"><b style="width:15px;height:15px;border:4px solid ' + bgColor + ';border-radius:50%;box-sizing:border-box"></b>已选择</div>';
+    } else if (/switch|开关/.test(semanticName)) {
+      previewHTML = '<div style="width:38px;height:20px;background:' + bgColor + ';border-radius:12px;padding:2px;box-sizing:border-box"><i style="display:block;width:16px;height:16px;margin-left:auto;background:#fff;border-radius:50%"></i></div>';
+    } else if (cat.indexOf('按钮') >= 0 || cat.indexOf('btn') >= 0) {
       previewHTML = '<div style="display:inline-flex;gap:6px"><div style="padding:6px 14px;background:' + bgColor + ';border-radius:4px;color:#fff;font-size:11px;font-weight:500">Button</div><div style="padding:6px 14px;border:1px solid ' + bgColor + '44;border-radius:4px;color:' + bgColor + ';font-size:11px">Ghost</div></div>';
     } else if (cat.indexOf('表单') >= 0 || cat.indexOf('input') >= 0 || cat.indexOf('form') >= 0) {
       previewHTML = '<div style="display:flex;flex-direction:column;gap:6px;width:100%"><div style="height:8px;width:40%;background:' + bgColor + '44;border-radius:3px"></div><div style="height:28px;border:1px solid ' + bgColor + '44;border-radius:4px;display:flex;align-items:center;padding:0 10px;font-size:10px;color:' + bgColor + '88">Placeholder</div></div>';
