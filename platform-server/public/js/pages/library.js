@@ -2387,7 +2387,10 @@ function getVerifiedSketchIconSVG(name) {
     'question-circle': 'question', '?': 'question',
     '直线 2复制': 'line', '形状': 'line',
     'paperclip': 'paperclip', 'user-add': 'user-add', '选择': 'select',
-    'headset-bold': 'headset', 'icon-summarizing': 'layers', '因素-bold': 'chart'
+    'headset-bold': 'headset', 'icon-summarizing': 'layers', '因素-bold': 'chart',
+    'outdent2': 'outdent', 'view-board': 'view-board', 'preview': 'preview',
+    'sweep': 'sweep', 'bulb': 'lightbulb', 'department': 'department',
+    'importance': 'importance', 'user-group-fill': 'user-group', '另存为': 'save'
   };
   var key = aliases[raw] || raw;
   var safeBuiltin = ['search', 'settings', 'user', 'eye', 'share', 'plus', 'list', 'edit', 'delete', 'tag', 'star', 'star-fill', 'arrow-right', 'arrow-left', 'arrow-up', 'arrow-down', 'angle-right', 'angle-down', 'angle-up', 'caret-down', 'refresh', 'copy', 'link', 'calendar', 'bell'];
@@ -2400,7 +2403,16 @@ function getVerifiedSketchIconSVG(name) {
     headset: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><path d="M4 14h3v5H5a1 1 0 0 1-1-1zM20 14h-3v5h2a1 1 0 0 0 1-1z"/></svg>',
     layers: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3 9 5-9 5-9-5zM3 12l9 5 9-5M3 16l9 5 9-5"/></svg>',
     chart: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>',
-    line: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h16"/></svg>'
+    line: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h16"/></svg>',
+    outdent: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 6h9M11 12h7M11 18h9M4 12h5M7 9l-3 3 3 3"/></svg>',
+    'view-board': '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>',
+    preview: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="14" height="18" rx="2"/><circle cx="10" cy="10" r="2"/><path d="m17 15 3 3m-5-3a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>',
+    sweep: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m4 20 10-10M7 17l-2-2 3-3 2 2M12 12l3 3-3 3-3-3"/><path d="M14 5h6M17 2v6"/></svg>',
+    lightbulb: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 22h4M8 14a7 7 0 1 1 8 0c-1 1-1 2-1 3H9c0-1 0-2-1-3z"/></svg>',
+    department: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="11" height="18" rx="1"/><path d="M15 8h5v13H9M8 7h3M8 11h3M8 15h3"/></svg>',
+    importance: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 21V4m0 1h12l-2 4 2 4H5"/></svg>',
+    'user-group': '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20a6 6 0 0 1 12 0M15 16a5 5 0 0 1 5 4"/></svg>',
+    save: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3h12l3 3v15H5z"/><path d="M8 3v6h8V3M8 21v-7h8v7"/></svg>'
   };
   return custom[key] || '';
 }
@@ -2832,7 +2844,13 @@ function renderComponentsTab() {
     // 先按组件名称识别，再按分类兜底。Sketch 的组件分类常统一为「数据展示」，
     // 若只看分类，Table、Progress、Avatar 都会错误地渲染成同一组色条。
     var previewHTML;
-    if (/table|表格/.test(semanticName)) {
+    if (/筛选|filter/.test(semanticName)) {
+      previewHTML = '<div style="display:flex;align-items:center;gap:7px;border:1px solid ' + bgColor + '33;border-radius:5px;padding:7px 9px;background:#fff"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="' + bgColor + '" stroke-width="2"><path d="M3 5h18l-7 8v5l-4 2v-7z"/></svg><span style="font-size:11px;color:#475467">筛选</span><b style="margin-left:auto;font-size:10px;color:' + bgColor + '">⌄</b></div>';
+    } else if (/排序|sort/.test(semanticName)) {
+      previewHTML = '<div style="display:flex;align-items:center;gap:7px;border:1px solid ' + bgColor + '33;border-radius:5px;padding:7px 9px;background:#fff"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="' + bgColor + '" stroke-width="2"><path d="M8 4v16M5 7l3-3 3 3M16 20V4m-3 13 3 3 3-3"/></svg><span style="font-size:11px;color:#475467">排序</span><b style="margin-left:auto;font-size:10px;color:' + bgColor + '">⌄</b></div>';
+    } else if (/工具栏|toolbar/.test(semanticName)) {
+      previewHTML = '<div style="display:flex;gap:6px;width:100%;align-items:center"><div style="height:26px;flex:1;border:1px solid #dce3ee;border-radius:4px"></div><span style="font-size:10px;color:' + bgColor + ';padding:6px;border:1px solid ' + bgColor + '33;border-radius:4px">筛选</span><span style="font-size:10px;color:' + bgColor + ';padding:6px;border:1px solid ' + bgColor + '33;border-radius:4px">排序</span></div>';
+    } else if (/table|表格/.test(semanticName)) {
       previewHTML = '<div style="width:100%;border:1px solid ' + bgColor + '30;border-radius:5px;overflow:hidden;background:#fff"><div style="display:grid;grid-template-columns:1.2fr 1fr .8fr;gap:1px;background:' + bgColor + '22;padding:5px"><span style="height:5px;background:' + bgColor + '75;border-radius:2px"></span><span style="height:5px;background:' + bgColor + '75;border-radius:2px"></span><span style="height:5px;background:' + bgColor + '75;border-radius:2px"></span></div><div style="padding:5px;display:grid;gap:4px"><div style="display:grid;grid-template-columns:1.2fr 1fr .8fr;gap:7px"><i style="height:4px;background:#e8edf5;border-radius:2px"></i><i style="height:4px;background:#e8edf5;border-radius:2px"></i><i style="height:4px;background:#e8edf5;border-radius:2px"></i></div><div style="display:grid;grid-template-columns:1.2fr 1fr .8fr;gap:7px"><i style="height:4px;background:#e8edf5;border-radius:2px"></i><i style="height:4px;background:#e8edf5;border-radius:2px"></i><i style="height:4px;background:#e8edf5;border-radius:2px"></i></div></div></div>';
     } else if (/progress|进度/.test(semanticName)) {
       previewHTML = '<div style="width:100%;display:grid;gap:9px"><div style="display:flex;justify-content:space-between;font-size:10px;color:' + bgColor + '"><span>进行中</span><span>68%</span></div><div style="height:8px;background:' + bgColor + '22;border-radius:9px;overflow:hidden"><div style="width:68%;height:100%;border-radius:9px;background:' + bgColor + '"></div></div></div>';

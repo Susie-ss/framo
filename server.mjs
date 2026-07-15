@@ -500,6 +500,7 @@ function parseSketchDocument(document, pages) {
   const fonts = new Map();
   const iconCandidates = [];
   const components = [];
+  const semanticComponents = new Map();
   const textStyles = [];
   const layerStyles = [];
 
@@ -517,6 +518,26 @@ function parseSketchDocument(document, pages) {
         category: (layer.name || "Component").split(/[\/_-]/)[0],
         preview: { color: rgba(deepFill(layer) || { red: .94, green: .94, blue: .94, alpha: 1 }), radius: layer?.style?.contextSettings?.opacity === 0 ? 0 : 10 }
       });
+    }
+
+    // 设计稿中的表格工具栏通常只是命名 group，而不是 symbolMaster。
+    // 将反复出现、且名称明确的筛选/排序/工具栏提升为可复用组件，避免
+    // Table 组件只有一个空缩略图而丢失其关键交互结构。
+    const tableContext = /表格|table/i.test(fullPath);
+    const semanticKind = /带筛选排序/.test(layerName) ? "工具栏" : (/^筛选(?:备份)?$/i.test(layerName) ? "筛选" : (/^排序(?:备份)?$/i.test(layerName) ? "排序" : ""));
+    if (tableContext && semanticKind && ["group", "shapeGroup"].includes(layer._class) && (layer.layers || []).length >= 2) {
+      const key = `数据展示 Data Display/Table ${semanticKind}`;
+      if (!semanticComponents.has(key)) {
+        semanticComponents.set(key, {
+          id: layer.do_objectID || `semantic-table-${semanticKind}`,
+          symbolId: null,
+          name: `Table ${semanticKind}`,
+          width: Math.round(layer.frame?.width || 0),
+          height: Math.round(layer.frame?.height || 0),
+          category: "数据展示 Data Display",
+          preview: { color: rgba(deepFill(layer) || { red: .4, green: .6, blue: .95, alpha: 1 }), radius: 6 }
+        });
+      }
     }
 
     const inIconLibrary = /(^|\/)(1\.)?Base基础\/1\.icon图标\//i.test(fullPath)
@@ -610,6 +631,7 @@ function parseSketchDocument(document, pages) {
   }).slice(0, 240);
 
   const componentGroups = new Map();
+  for (const component of semanticComponents.values()) components.push(component);
   for (const component of components) {
     if (/Base基础\/1\.icon图标/i.test(component.name)) continue;
     if (/^icon图标\//i.test(component.name)) continue;
