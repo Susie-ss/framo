@@ -531,7 +531,9 @@ function parseSketchDocument(document, pages) {
         semanticComponents.set(key, {
           id: layer.do_objectID || `semantic-table-${semanticKind}`,
           symbolId: null,
-          name: `Table ${semanticKind}`,
+          // 与 symbolMaster 一致使用「分类/名称」格式，后续分组逻辑才能
+          // 作为独立组件保留下来，而不是被 segments.length 过滤掉。
+          name: `数据展示 Data Display/Table ${semanticKind}`,
           width: Math.round(layer.frame?.width || 0),
           height: Math.round(layer.frame?.height || 0),
           category: "数据展示 Data Display",
