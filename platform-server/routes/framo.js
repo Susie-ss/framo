@@ -723,18 +723,16 @@ function getAIConfig() {
   }
   if (process.env.OPENROUTER_API_KEY || process.env.ANTHROPIC_API_KEY) {
     // 默认使用 OpenRouter 的免费路由，避免没有充值额度时仍去请求付费模型。
-    // 如需指定模型，可通过 OPENROUTER_MODEL 覆盖；否则依次尝试免费模型。
-    var openRouterModel = process.env.OPENROUTER_MODEL || process.env.AI_MODEL || 'openrouter/free';
-    var freeModels = [
-      'openrouter/free',
-      'meta-llama/llama-3.3-70b-instruct:free'
-    ];
+    // 只有显式开启 AI_ALLOW_PAID=true 时才允许使用部署环境的付费模型变量。
+    var allowPaid = process.env.AI_ALLOW_PAID === 'true';
+    var openRouterModel = allowPaid ? (process.env.OPENROUTER_MODEL || process.env.AI_MODEL || 'openrouter/free') : 'openrouter/free';
     return {
       provider: 'openrouter',
       apiKey: process.env.OPENROUTER_API_KEY || process.env.ANTHROPIC_API_KEY,
       baseURL: process.env.OPENROUTER_BASE_URL || 'https://openrouter.ai/api/v1',
       model: openRouterModel,
-      models: [openRouterModel].concat(freeModels).filter(function(item, index, list) { return item && list.indexOf(item) === index; })
+      requestTimeout: allowPaid ? 30000 : 12000,
+      models: [openRouterModel]
     };
   }
   return null;
@@ -783,8 +781,8 @@ function requestChatCompletion(config, model, messages) {
       });
     });
     req.on('error', function(err) { reject(err); });
-    req.setTimeout(30000, function() {
-      req.destroy(new Error('AI 请求超时（30 秒）'));
+    req.setTimeout(config.requestTimeout || 30000, function() {
+      req.destroy(new Error('AI 请求超时'));
     });
     req.write(data);
     req.end();
