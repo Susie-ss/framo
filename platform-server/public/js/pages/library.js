@@ -140,6 +140,7 @@ function renderLibraryHTML() {
         '<p class="library-desc">管理你的设计系统和组件资产</p>' +
       '</div>' +
       '<div class="library-header-actions">' +
+        '<button class="btn btn-ghost library-select-all-btn" onclick="toggleAllLibrarySelections()">' + (designSystems.length && selectedLibraryIds.length === designSystems.length ? '取消全选' : '全选') + '</button>' +
         '<button class="btn btn-ghost library-batch-delete-btn" onclick="batchDeleteDesignSystems()" ' + (selectedLibraryIds.length ? '' : 'disabled') + '>批量删除' + (selectedLibraryIds.length ? '（' + selectedLibraryIds.length + '）' : '') + '</button>' +
         '<button class="btn btn-primary library-new-btn" onclick="showNewLibraryModal()">' +
           '<svg class="icon-color icon-sm"><use href="/libs/iconpark/icons.svg#ico-plus"/></svg> 新建组件库' +
@@ -190,6 +191,24 @@ window.toggleLibrarySelection = function(id, checked) {
       : '批量删除';
     batchBtn.disabled = selectedLibraryIds.length === 0;
   }
+  var selectAllBtn = document.querySelector('.library-select-all-btn');
+  if (selectAllBtn) selectAllBtn.textContent = designSystems.length && selectedLibraryIds.length === designSystems.length ? '取消全选' : '全选';
+};
+
+window.toggleAllLibrarySelections = function() {
+  if (!designSystems || !designSystems.length) return;
+  var selectAll = selectedLibraryIds.length !== designSystems.length;
+  selectedLibraryIds = selectAll ? designSystems.map(function(item) { return item.id; }) : [];
+  document.querySelectorAll('input[data-library-select]').forEach(function(input) {
+    input.checked = selectAll;
+  });
+  var batchBtn = document.querySelector('.library-batch-delete-btn');
+  if (batchBtn) {
+    batchBtn.textContent = selectAll ? '批量删除（' + selectedLibraryIds.length + '）' : '批量删除';
+    batchBtn.disabled = !selectAll;
+  }
+  var selectAllBtn = document.querySelector('.library-select-all-btn');
+  if (selectAllBtn) selectAllBtn.textContent = selectAll ? '取消全选' : '全选';
 };
 
 window.batchDeleteDesignSystems = function() {

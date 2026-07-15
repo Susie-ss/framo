@@ -13,6 +13,7 @@ import AdmZip from "adm-zip";
 const PORT = Number(process.env.PORT || 4173);
 const ROOT = dirname(fileURLToPath(import.meta.url));
 const DATA_FILE = join(ROOT, "data", "sketch-libraries.json");
+const DELETED_LIBRARIES_FILE = join(ROOT, "data", "deleted-library-ids.json");
 const PLATFORM_FILE = join(ROOT, "data", "platform.json");
 const PLUGIN_FILE = join(ROOT, "downloads", "Flowa-Axure-Plugin-1.0.0.zip");
 const SKETCHTOOL = "/Applications/Sketch.app/Contents/MacOS/sketchtool";
@@ -190,10 +191,20 @@ const libraries = [
 
 const savedSketchLibraries = await readFile(DATA_FILE, "utf8").then(JSON.parse).catch(() => []);
 if (Array.isArray(savedSketchLibraries)) libraries.unshift(...savedSketchLibraries);
+// 手动/AI 预置库并不位于 sketch-libraries.json 中；保存删除标记，避免服务重启后重新注入。
+const deletedLibraryIds = new Set(await readFile(DELETED_LIBRARIES_FILE, "utf8").then(JSON.parse).catch(() => []).then((ids) => Array.isArray(ids) ? ids : []));
+for (let index = libraries.length - 1; index >= 0; index -= 1) {
+  if (deletedLibraryIds.has(libraries[index].id)) libraries.splice(index, 1);
+}
 
 async function persistSketchLibraries() {
   await mkdir(dirname(DATA_FILE), { recursive: true });
   await writeFile(DATA_FILE, JSON.stringify(libraries.filter((item) => item.sourceType === "sketch"), null, 2));
+}
+
+async function persistDeletedLibraryIds() {
+  await mkdir(dirname(DELETED_LIBRARIES_FILE), { recursive: true });
+  await writeFile(DELETED_LIBRARIES_FILE, JSON.stringify([...deletedLibraryIds], null, 2));
 }
 
 async function deleteLibraries(ids = []) {
@@ -205,11 +216,12 @@ async function deleteLibraries(ids = []) {
     if (!targets.has(library.id)) continue;
     libraries.splice(index, 1);
     deleted.push(library.id);
+    deletedLibraryIds.add(library.id);
     if (library.sourceType === "sketch") {
       await rm(join(ASSET_ROOT, library.id), { recursive: true, force: true });
     }
   }
-  if (deleted.length) await persistSketchLibraries();
+  if (deleted.length) await Promise.all([persistSketchLibraries(), persistDeletedLibraryIds()]);
   return { deleted };
 }
 

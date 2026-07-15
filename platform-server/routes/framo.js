@@ -648,6 +648,8 @@ function pickAIComponent(components, pattern, fallback) {
 function buildComponentReferences(prompt, library) {
   var components = normalizeAIComponents(library);
   var pageType = inferAIPageType(prompt);
+  // 保留下面的数据引用分支；看板本身也会引用数据组件。
+  var type = '';
   var shipTableWorkflow = isShipTableWorkflow(library, prompt);
   if (shipTableWorkflow) {
     return [
@@ -853,6 +855,8 @@ function buildLocalAIHTML(prompt, library) {
     core = '<section class="panel"><div class="panel-head"><h2>' + escapeHTML(title) + '</h2><button>保存草稿</button></div><div class="form-grid"><label>名称<input value="智能生成页面"></label><label>负责人<input value="Susie"></label><label>状态<select><option>设计中</option><option>待评审</option></select></label><label>优先级<select><option>高</option><option>中</option></select></label></div><textarea placeholder="补充业务说明">根据组件库规范自动生成页面结构、字段和操作区。</textarea><div class="actions"><button class="ghost">取消</button><button>提交</button></div></section>';
   } else if (type === 'list') {
     core = '<section class="panel"><div class="panel-head"><h2>' + escapeHTML(title) + '</h2><button>新建记录</button></div><div class="toolbar"><input placeholder="搜索名称 / 状态"><button class="ghost">筛选</button><button class="ghost">导出</button></div><table><thead><tr><th>名称</th><th>负责人</th><th>状态</th><th>更新时间</th></tr></thead><tbody><tr><td>组件库解析优化</td><td>Susie</td><td><em>进行中</em></td><td>刚刚</td></tr><tr><td>AI 页面生成</td><td>Flowa AI</td><td><em>已生成</em></td><td>12 分钟前</td></tr><tr><td>原型预览发布</td><td>Team</td><td><em>待确认</em></td><td>今天</td></tr></tbody></table></section>';
+  } else if (type === 'dashboard') {
+    core = '<section class="stats"><div><small>本周完成任务</small><b>128</b><span>较上周 +18%</span></div><div><small>进行中项目</small><b>24</b><span>8 个待关注</span></div><div><small>交付准时率</small><b>92%</b><span>较上周 +6%</span></div></section><section class="grid"><div class="panel"><div class="panel-head"><h2>' + escapeHTML(title) + '</h2><button>查看详情</button></div><div class="trend"><div class="axis"><span>120</span><span>80</span><span>40</span><span>0</span></div><div class="chart"><svg viewBox="0 0 520 180" preserveAspectRatio="none" aria-label="项目趋势图"><defs><linearGradient id="area" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="' + primary + '" stop-opacity=".28"/><stop offset="1" stop-color="' + primary + '" stop-opacity=".02"/></linearGradient></defs><path d="M0 148 C45 126,72 137,108 108 S172 112,210 84 S271 93,307 53 S367 72,401 43 S467 45,520 16 L520 180 L0 180Z" fill="url(#area)"/><path d="M0 148 C45 126,72 137,108 108 S172 112,210 84 S271 93,307 53 S367 72,401 43 S467 45,520 16" fill="none" stroke="' + primary + '" stroke-width="4" stroke-linecap="round"/></svg><div class="chart-labels"><span>周一</span><span>周二</span><span>周三</span><span>周四</span><span>周五</span><span>周六</span><span>周日</span></div></div></div></div><div class="panel accent"><h2>待处理事项</h2><ul><li><b>设计评审</b><span>今天 15:00</span></li><li><b>原型验收</b><span>明天</span></li><li><b>需求排期</b><span>本周内</span></li></ul>' + componentBadges + '</div></section><section class="panel" style="margin-top:16px"><div class="panel-head"><h2>项目任务</h2><button class="ghost">筛选</button></div><table><thead><tr><th>任务名称</th><th>负责人</th><th>状态</th><th>更新时间</th></tr></thead><tbody><tr><td>设计系统组件盘点</td><td>产品设计组</td><td><em>进行中</em></td><td>刚刚</td></tr><tr><td>原型交互验收</td><td>体验团队</td><td><em>待确认</em></td><td>今天</td></tr></tbody></table></section>';
   } else {
     core = '<section class="stats"><div><small>项目数</small><b>28</b><span>+12%</span></div><div><small>组件引用</small><b>' + escapeHTML(String(refs.length)) + '</b><span>来自组件库</span></div><div><small>完成率</small><b>86%</b><span>+8%</span></div></section><section class="grid"><div class="panel"><div class="panel-head"><h2>最近任务</h2><button>新建</button></div><ul><li><b>组件库解析</b><span>进行中</span></li><li><b>AI 页面预览</b><span>已完成</span></li><li><b>插件发布</b><span>待验证</span></li></ul></div><div class="panel accent"><h2>生成策略</h2><p>页面已按组件库 Token、字体、字号和组件语义自动组织，可继续在对话中要求调整。</p>' + componentBadges + '</div></section>';
   }
@@ -953,7 +957,8 @@ router.post('/ai/generate', async function(req, res) {
         })
       });
     } catch (fallbackErr) {
-      return res.json({ ok: false, error: err.message });
+      console.error('AI fallback generate error:', fallbackErr.message);
+      return res.json({ ok: false, error: '组件库回退生成失败：' + (fallbackErr.message || err.message) });
     }
   }
 });
