@@ -646,6 +646,15 @@ function pickAIComponent(components, pattern, fallback) {
 function buildComponentReferences(prompt, library) {
   var components = normalizeAIComponents(library);
   var pageType = inferAIPageType(prompt);
+  var shipTableWorkflow = isShipTableWorkflow(library, prompt);
+  if (shipTableWorkflow) {
+    return [
+      { role: 'table', component: pickAIComponent(components, /Table[ /]?(表格)?$/i, 'Table 表格'), reason: '承载 Ship 项目计划数据' },
+      { role: 'toolbar', component: pickAIComponent(components, /Table.*工具栏|工具栏/i, 'Table 工具栏'), reason: '承载搜索与批量操作' },
+      { role: 'filter', component: pickAIComponent(components, /Table.*筛选|筛选/i, 'Table 筛选'), reason: '按状态筛选任务' },
+      { role: 'sort', component: pickAIComponent(components, /Table.*排序|排序/i, 'Table 排序'), reason: '按字段排序项目计划' }
+    ];
+  }
   var refs = [
     { role: 'layout', component: pickAIComponent(components, /Layout|布局|Card|卡片|Container|容器/i, 'Card / Layout'), reason: '页面结构与信息分区' },
     { role: 'action', component: pickAIComponent(components, /Button|按钮|Action/i, 'Button 按钮'), reason: '主操作与次操作' }
@@ -657,6 +666,40 @@ function buildComponentReferences(prompt, library) {
   }
   refs.push({ role: 'feedback', component: pickAIComponent(components, /Alert|Message|Notify|Toast|提示|通知/i, 'Message / Alert 反馈'), reason: '状态反馈' });
   return refs;
+}
+
+function isShipTableWorkflow(library, prompt) {
+  var name = String(library && library.name || '');
+  var components = normalizeAIComponents(library).map(function(item) { return item.fullName || item.name || ''; }).join(' ');
+  var task = String(prompt || '');
+  return /ship/i.test(name) && /Table|表格|筛选|排序|工具栏/i.test(components) && /项目|任务|表格|列表|筛选|排序|计划/i.test(task);
+}
+
+// Ship 的 Sketch 文件包含一组完整的项目计划表格（表格、工具栏、筛选、排序）。
+// 对这类请求使用结构化生成器，避免通用后台模板覆盖已解析的组件语义与视觉结构。
+function buildShipTableHTML(prompt, library) {
+  var tokens = normalizeAITokens(library);
+  var primary = tokens.colorPrimary || '#4F8CF7';
+  var family = String(tokens.fontFamily || 'PingFang SC').replace(/["<>]/g, '');
+  var rows = [
+    ['1', '列表名称', '36', '', ''],
+    ['2', 'AE-2819  列表名称', '6.5', '2022年4月', '9'],
+    ['3', 'AE-2819  列表名称', '9.5', '2022 Q1', '9'],
+    ['4', 'AE-2819  列表名称', '19', '2022 Q2', '4'],
+    ['5', 'AE-2819  列表名称', '3.5', '2022年3月', '24'],
+    ['6', 'AE-2819  列表名称', '24.5', '2022 Q2', '4'],
+    ['7', 'AE-2819  列表名称', '25', '2022 Q2', '12'],
+    ['8', 'AE-2819  列表名称', '6.5', '2022年3月', '6']
+  ];
+  var rowHTML = rows.map(function(row, index) {
+    var group = index === 0;
+    var title = group
+      ? '<span class="caret">›</span><span class="group-icon">◇</span>' + escapeHTML(row[1])
+      : '<span class="issue-dot">●</span><span class="issue-id">' + escapeHTML(row[1].slice(0, 7)) + '</span>' + escapeHTML(row[1].slice(7));
+    return '<tr class="' + (group ? 'group-row' : '') + '"><td class="index">' + escapeHTML(row[0]) + '</td><td class="subject">' + title + '</td><td class="score">' + escapeHTML(row[2]) + '</td><td>' + escapeHTML(row[3]) + '</td><td>' + escapeHTML(row[4]) + '</td></tr>';
+  }).join('');
+  return '<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>项目计划</title><style>' +
+    '*{box-sizing:border-box}body{margin:0;background:#fff;color:#394150;font-family:"' + family + '",-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",sans-serif;font-size:14px}.ship-page{min-height:100vh;background:#fff}.topline{height:54px;display:flex;align-items:center;padding:0 34px;border-bottom:1px solid #eef0f3;color:#697386;font-size:17px}.crumb-icon{font-size:20px;margin-right:12px;color:#7c8798}.crumb{color:#394150;font-weight:600}.crumb span{color:#9ba4b2;font-weight:400;margin:0 8px}.toolbar{height:82px;display:flex;align-items:center;gap:28px;padding:0 34px;border-bottom:1px solid #e9edf1;color:#747d8c}.search{display:flex;align-items:center;gap:11px;min-width:390px;color:#9aa3b0;font-size:16px}.search i{font-size:26px;font-style:normal;font-weight:300}.search .chevron{margin-left:auto;font-size:20px}.tool{display:flex;align-items:center;gap:8px;font-size:16px;white-space:nowrap}.tool b{font-size:21px;font-weight:400;color:#8e98a7}.tool.count{margin-left:4px;color:#7b8492}.data{padding:0 34px 40px;overflow:auto}table{width:100%;min-width:820px;border-collapse:collapse;table-layout:fixed}th{height:62px;color:#4d5562;font-size:17px;font-weight:500;text-align:left;border-bottom:1px solid #e6e9ed;padding:0 22px}td{height:68px;border-bottom:1px solid #edf0f3;padding:0 22px;color:#3f4652;font-size:16px}th+th,td+td{border-left:1px solid #edf0f3}.index{width:70px;text-align:center;color:#a6adb8;padding:0}.subject{width:49%;font-size:18px}.score{color:' + primary + ';font-weight:600;font-size:17px}.group-row td{font-weight:600}.caret{display:inline-block;font-size:30px;line-height:0;vertical-align:-2px;color:#9aa2af;margin-right:15px}.group-icon{color:#99a1ad;font-size:25px;vertical-align:-2px;margin-right:12px}.issue-dot{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:5px;background:' + primary + ';color:#fff;font-size:11px;margin-right:10px;vertical-align:0}.issue-id{color:#9ca3ad;margin-right:9px;font-size:16px}@media(max-width:760px){.topline,.toolbar{padding-left:18px;padding-right:18px}.toolbar{gap:14px;height:auto;min-height:72px;flex-wrap:wrap;padding-top:12px;padding-bottom:12px}.search{min-width:100%;height:28px}.data{padding:0 18px}}</style></head><body><main class="ship-page"><div class="topline"><span class="crumb-icon">☷</span><span class="crumb">全部计划</span><span> / </span><span>黑色部分</span><span style="margin-left:10px">⌄</span></div><div class="toolbar"><div class="search"><i>⌕</i><span>搜索</span><span class="chevron">⌄</span></div><div class="tool"><b>☷</b> 筛选</div><div class="tool"><b>⇅</b> 排序</div><div class="tool"><b>♧</b> 树状</div><div class="tool count">13 条需求</div></div><div class="data"><table><thead><tr><th class="index"><span style="font-size:21px;color:#c1c7d0">□</span></th><th>标题</th><th>分数</th><th>计划时间</th><th>工作量</th></tr></thead><tbody>' + rowHTML + '</tbody></table></div></main></body></html>';
 }
 
 function getAIConfig() {
@@ -782,6 +825,12 @@ function buildAIPrompt(userPrompt, library, context) {
 function buildLocalAIHTML(prompt, library) {
   var tokens = normalizeAITokens(library);
   var refs = buildComponentReferences(prompt, library);
+  if (isShipTableWorkflow(library, prompt)) {
+    return buildShipTableHTML(prompt, library);
+  }
+  var componentBadges = '<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:16px">' + refs.slice(0, 4).map(function(ref) {
+    return '<span style="border:1px solid rgba(15,23,42,.1);border-radius:999px;padding:6px 9px;font-size:12px;color:#475569">' + escapeHTML(ref.component) + '</span>';
+  }).join('') + '</div>';
   var type = inferAIPageType(prompt);
   var primary = tokens.colorPrimary;
   var surface = tokens.colorSurface;
@@ -841,6 +890,21 @@ router.post('/ai/generate', async function(req, res) {
 
     if (!prompt.trim()) {
       return res.status(400).json({ ok: false, error: '请输入生成描述' });
+    }
+
+    // Ship 的表格资产有明确的工具栏/筛选/排序/表格层级；优先使用结构化结果，
+    // 避免外部模型产出与原始 Sketch 风格无关的通用后台表格。
+    if (isShipTableWorkflow(library, prompt)) {
+      var shipHTML = buildShipTableHTML(prompt, library);
+      return res.json({
+        ok: true,
+        promptTemplate: { libraryId: library.id, rules: ['Ship 表格组件驱动', '复用工具栏、筛选、排序与表格字段'] },
+        result: buildAIResult(prompt, library, shipHTML, {
+          mode: 'component-driven',
+          provider: 'ship-structured-generator',
+          generatedAt: new Date().toISOString()
+        })
+      });
     }
 
     var messages = buildAIPrompt(prompt, library, {
