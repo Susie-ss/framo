@@ -2837,7 +2837,8 @@ function renderComponentsTab() {
   function getCustomCompPreview(name, category) {
     var colors = ['#5B5EF4','#22C55E','#F59E0B','#EF4444','#A855F7','#06B6D4','#8B5CF6','#EC4899'];
     var colorIdx = Math.abs(seedHash(name)) % colors.length;
-    var bgColor = colors[colorIdx];
+    // Sketch 导入库使用其实际 Token 主色，不再为每个组件随机分配彩色卡片。
+    var bgColor = (currentDS && currentDS.tokens && currentDS.tokens.colorPrimary) || colors[colorIdx];
     var cat = (category || '').toLowerCase();
     var semanticName = (String(name || '') + ' ' + String(category || '')).toLowerCase();
 
@@ -2851,7 +2852,7 @@ function renderComponentsTab() {
     } else if (/工具栏|toolbar/.test(semanticName)) {
       previewHTML = '<div style="display:flex;gap:6px;width:100%;align-items:center"><div style="height:26px;flex:1;border:1px solid #dce3ee;border-radius:4px"></div><span style="font-size:10px;color:' + bgColor + ';padding:6px;border:1px solid ' + bgColor + '33;border-radius:4px">筛选</span><span style="font-size:10px;color:' + bgColor + ';padding:6px;border:1px solid ' + bgColor + '33;border-radius:4px">排序</span></div>';
     } else if (/table|表格/.test(semanticName)) {
-      previewHTML = '<div style="width:100%;border:1px solid ' + bgColor + '30;border-radius:5px;overflow:hidden;background:#fff"><div style="display:grid;grid-template-columns:1.2fr 1fr .8fr;gap:1px;background:' + bgColor + '22;padding:5px"><span style="height:5px;background:' + bgColor + '75;border-radius:2px"></span><span style="height:5px;background:' + bgColor + '75;border-radius:2px"></span><span style="height:5px;background:' + bgColor + '75;border-radius:2px"></span></div><div style="padding:5px;display:grid;gap:4px"><div style="display:grid;grid-template-columns:1.2fr 1fr .8fr;gap:7px"><i style="height:4px;background:#e8edf5;border-radius:2px"></i><i style="height:4px;background:#e8edf5;border-radius:2px"></i><i style="height:4px;background:#e8edf5;border-radius:2px"></i></div><div style="display:grid;grid-template-columns:1.2fr 1fr .8fr;gap:7px"><i style="height:4px;background:#e8edf5;border-radius:2px"></i><i style="height:4px;background:#e8edf5;border-radius:2px"></i><i style="height:4px;background:#e8edf5;border-radius:2px"></i></div></div></div>';
+      previewHTML = '<div style="width:100%;border:1px solid #e6ebf2;border-radius:5px;overflow:hidden;background:#fff;font-size:8px;color:#475467"><div style="height:20px;display:flex;align-items:center;gap:7px;padding:0 7px;border-bottom:1px solid #eef1f5"><span style="width:42px;height:6px;background:#eef1f5;border-radius:2px"></span><span style="margin-left:auto;color:' + bgColor + '">⌕</span><span style="color:' + bgColor + '">筛选</span><span style="color:' + bgColor + '">排序</span></div><div style="display:grid;grid-template-columns:18px 1.4fr .7fr .9fr .55fr;min-height:16px;background:#f8fafc;border-bottom:1px solid #e6ebf2;align-items:center;padding:0 6px;gap:4px"><span>□</span><b>标题</b><b>分数</b><b>计划时间</b><b>工作量</b></div><div style="display:grid;grid-template-columns:18px 1.4fr .7fr .9fr .55fr;min-height:15px;border-bottom:1px solid #f0f2f5;align-items:center;padding:0 6px;gap:4px"><span>□</span><span>● 列表名称</span><span style="color:' + bgColor + '">6.5</span><span>2022 Q1</span><span>9</span></div><div style="display:grid;grid-template-columns:18px 1.4fr .7fr .9fr .55fr;min-height:15px;align-items:center;padding:0 6px;gap:4px"><span>□</span><span>● 列表名称</span><span style="color:' + bgColor + '">19</span><span>2022 Q2</span><span>4</span></div></div>';
     } else if (/progress|进度/.test(semanticName)) {
       previewHTML = '<div style="width:100%;display:grid;gap:9px"><div style="display:flex;justify-content:space-between;font-size:10px;color:' + bgColor + '"><span>进行中</span><span>68%</span></div><div style="height:8px;background:' + bgColor + '22;border-radius:9px;overflow:hidden"><div style="width:68%;height:100%;border-radius:9px;background:' + bgColor + '"></div></div></div>';
     } else if (/pagination|分页/.test(semanticName)) {
@@ -2889,7 +2890,7 @@ function renderComponentsTab() {
       var initials = name.split(/[\s\/-]+/).map(function(w){return w.charAt(0).toUpperCase();}).filter(Boolean).slice(0,3).join('');
       previewHTML = '<div style="display:flex;flex-direction:column;align-items:center;gap:6px"><div style="width:36px;height:36px;border-radius:8px;background:' + bgColor + ';display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:600">' + (initials || name.charAt(0).toUpperCase()) + '</div><span style="font-size:10px;color:' + bgColor + ';font-weight:500;text-align:center;line-height:1.2">' + name.split(/[\s\/-]+/).slice(0,2).join(' ') + '</span></div>';
     }
-    return '<div style="width:100%;min-height:72px;background:linear-gradient(135deg,' + bgColor + '11,' + bgColor + '08);border-radius:6px;display:flex;align-items:center;justify-content:center;border:1px solid ' + bgColor + '22;overflow:hidden;padding:10px">' + previewHTML + '</div>';
+    return '<div style="width:100%;min-height:72px;background:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;border:1px solid #edf0f4;overflow:hidden;padding:10px">' + previewHTML + '</div>';
   }
 
   var gridHTML = components.map(function(comp) {
@@ -2908,7 +2909,7 @@ function renderComponentsTab() {
         : fallbackPreview;
       return '<div class="component-card">' +
         '<div class="comp-header"><h4>' + escapeHTML(displayName) + '</h4><span class="comp-category">' + escapeHTML(cat) + '</span></div>' +
-        '<div class="comp-preview sketch-preview" style="height:128px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,' + escapeHTML(previewColor) + '10,#ffffff);border:1px solid ' + escapeHTML(previewColor) + '22;border-radius:8px;overflow:hidden">' +
+        '<div class="comp-preview sketch-preview" style="height:128px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #edf0f4;border-radius:8px;overflow:hidden">' +
           previewHTML +
         '</div>' +
         '<div style="padding:8px 12px;font-size:12px;color:var(--text-muted);display:flex;gap:8px;justify-content:space-between">' +
