@@ -722,18 +722,19 @@ function getAIConfig() {
     };
   }
   if (process.env.OPENROUTER_API_KEY || process.env.ANTHROPIC_API_KEY) {
-    var openRouterModel = process.env.OPENROUTER_MODEL || process.env.AI_MODEL || 'openai/gpt-4o-mini';
+    // 默认使用 OpenRouter 的免费路由，避免没有充值额度时仍去请求付费模型。
+    // 如需指定模型，可通过 OPENROUTER_MODEL 覆盖；否则依次尝试免费模型。
+    var openRouterModel = process.env.OPENROUTER_MODEL || process.env.AI_MODEL || 'openrouter/free';
+    var freeModels = [
+      'openrouter/free',
+      'meta-llama/llama-3.3-70b-instruct:free'
+    ];
     return {
       provider: 'openrouter',
       apiKey: process.env.OPENROUTER_API_KEY || process.env.ANTHROPIC_API_KEY,
       baseURL: process.env.OPENROUTER_BASE_URL || 'https://openrouter.ai/api/v1',
       model: openRouterModel,
-      models: [
-        openRouterModel,
-        'openai/gpt-4o-mini',
-        'google/gemini-flash-1.5',
-        'qwen/qwen-2.5-72b-instruct'
-      ].filter(function(item, index, list) { return item && list.indexOf(item) === index; })
+      models: [openRouterModel].concat(freeModels).filter(function(item, index, list) { return item && list.indexOf(item) === index; })
     };
   }
   return null;
