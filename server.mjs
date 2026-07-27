@@ -6,6 +6,7 @@ import { tmpdir } from "node:os";
 import { promisify } from "node:util";
 import { execFile } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { createRequire } from "node:module";
 import { createHash } from "node:crypto";
 import { inflateRawSync } from "node:zlib";
 import AdmZip from "adm-zip";
@@ -18,6 +19,13 @@ const PLATFORM_FILE = join(ROOT, "data", "platform.json");
 const PLUGIN_FILE = join(ROOT, "downloads", "Flowa-Axure-Plugin-1.0.0.zip");
 const SKETCHTOOL = "/Applications/Sketch.app/Contents/MacOS/sketchtool";
 const ASSET_ROOT = join(ROOT, "data", "sketch-assets");
+const require = createRequire(import.meta.url);
+const { createStore } = require("./platform-server/services/library-store.js");
+const libraryStore = createStore({
+  dataFile: DATA_FILE,
+  deletedFile: DELETED_LIBRARIES_FILE,
+  assetRoot: ASSET_ROOT
+});
 const execFileAsync = promisify(execFile);
 const MAX_UPLOAD_MB = 200;
 const MAX_UPLOAD_BYTES = MAX_UPLOAD_MB * 1024 * 1024;
@@ -189,22 +197,26 @@ const libraries = [
   }
 ];
 
-const savedSketchLibraries = await readFile(DATA_FILE, "utf8").then(JSON.parse).catch(() => []);
+const savedSketchLibraries = await libraryStore.loadSketchLibraries().catch((error) => {
+  console.error("[Framo] 无法读取持久化组件库，回退到本地数据：", error.message);
+  return readFile(DATA_FILE, "utf8").then(JSON.parse).catch(() => []);
+});
 if (Array.isArray(savedSketchLibraries)) libraries.unshift(...savedSketchLibraries);
 // 手动/AI 预置库并不位于 sketch-libraries.json 中；保存删除标记，避免服务重启后重新注入。
-const deletedLibraryIds = new Set(await readFile(DELETED_LIBRARIES_FILE, "utf8").then(JSON.parse).catch(() => []).then((ids) => Array.isArray(ids) ? ids : []));
+const deletedLibraryIds = new Set(await libraryStore.loadDeletedLibraryIds().catch((error) => {
+  console.error("[Framo] 无法读取删除记录，回退到本地数据：", error.message);
+  return readFile(DELETED_LIBRARIES_FILE, "utf8").then(JSON.parse).catch(() => []);
+}).then((ids) => Array.isArray(ids) ? ids : []));
 for (let index = libraries.length - 1; index >= 0; index -= 1) {
   if (deletedLibraryIds.has(libraries[index].id)) libraries.splice(index, 1);
 }
 
 async function persistSketchLibraries() {
-  await mkdir(dirname(DATA_FILE), { recursive: true });
-  await writeFile(DATA_FILE, JSON.stringify(libraries.filter((item) => item.sourceType === "sketch"), null, 2));
+  await libraryStore.saveSketchLibraries(libraries);
 }
 
 async function persistDeletedLibraryIds() {
-  await mkdir(dirname(DELETED_LIBRARIES_FILE), { recursive: true });
-  await writeFile(DELETED_LIBRARIES_FILE, JSON.stringify([...deletedLibraryIds], null, 2));
+  await libraryStore.saveDeletedLibraryIds(deletedLibraryIds);
 }
 
 async function deleteLibraries(ids = []) {
@@ -218,7 +230,7 @@ async function deleteLibraries(ids = []) {
     deleted.push(library.id);
     deletedLibraryIds.add(library.id);
     if (library.sourceType === "sketch") {
-      await rm(join(ASSET_ROOT, library.id), { recursive: true, force: true });
+      await libraryStore.deleteAssets(library.id);
     }
   }
   if (deleted.length) await Promise.all([persistSketchLibraries(), persistDeletedLibraryIds()]);
@@ -341,12 +353,19 @@ function sanitizeLibraryForClient(library) {
   if (!library || library.sourceType !== "sketch" || !library.assets) return library;
   const assets = { ...library.assets };
   const attachPreviewUrl = (item) => {
-    if (!item || !item.id || item.previewUrl) return item;
+    if (!item || !item.id) return item;
     const fileName = `${item.id}.svg`;
+    if (item.previewUrl) {
+      return {
+        ...item,
+        previewUrl: `/api/framo/assets/${library.id}/${fileName}`,
+        previewEngine: item.previewEngine || "prebuilt-svg"
+      };
+    }
     if (existsSync(join(ASSET_ROOT, library.id, fileName))) {
       return {
         ...item,
-        previewUrl: `/data/sketch-assets/${library.id}/${fileName}`,
+        previewUrl: `/api/framo/assets/${library.id}/${fileName}`,
         previewEngine: item.previewEngine || "prebuilt-svg"
       };
     }
@@ -447,7 +466,7 @@ async function exportSketchPreviews(sketchPath, libraryId, assets) {
     for (const item of [...assets.icons, ...assets.components]) {
       const fileName = `${item.id}.svg`;
       if (existsSync(join(target, fileName))) {
-        item.previewUrl = `/data/sketch-assets/${libraryId}/${fileName}`;
+        item.previewUrl = `/api/framo/assets/${libraryId}/${fileName}`;
         item.previewEngine = "prebuilt-svg";
         exported += 1;
       }
@@ -499,7 +518,7 @@ async function exportSketchPreviews(sketchPath, libraryId, assets) {
   for (const item of items) {
     const fileName = `${item.id}.svg`;
     if (existsSync(join(target, fileName))) {
-      item.previewUrl = `/data/sketch-assets/${libraryId}/${fileName}`;
+      item.previewUrl = `/api/framo/assets/${libraryId}/${fileName}`;
       item.previewEngine = "sketchtool";
       exported += 1;
     }
@@ -1082,4 +1101,11 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   });
 }
 
-export { server, parseSketchUpload, parseSketchDocument, sanitizeLibraryForClient, deleteLibraries, buildLayout, libraries, metrics, projects, prototypes };
+async function getLibraryAsset(libraryId, fileName) {
+  const safeLibraryId = String(libraryId || "").replace(/[^a-zA-Z0-9_-]/g, "");
+  const safeFileName = String(fileName || "").replace(/[^a-zA-Z0-9._-]/g, "");
+  if (!safeLibraryId || !safeFileName || !safeFileName.endsWith(".svg")) return null;
+  return libraryStore.getAsset(safeLibraryId, safeFileName);
+}
+
+export { server, parseSketchUpload, parseSketchDocument, sanitizeLibraryForClient, deleteLibraries, getLibraryAsset, buildLayout, libraries, metrics, projects, prototypes };

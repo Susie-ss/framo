@@ -518,6 +518,21 @@ router.get('/libraries', async function(req, res) {
   res.json(advanced.libraries.map(sanitize));
 });
 
+// 解析后的 SVG 预览在生产环境由 PostgreSQL 保存；本地开发时仍从
+// data/sketch-assets 回退读取，避免 Render 重启后组件预览丢失。
+router.get('/assets/:libraryId/:fileName', async function(req, res) {
+  try {
+    var advanced = await advancedFramo();
+    var asset = await advanced.getLibraryAsset(req.params.libraryId, req.params.fileName);
+    if (!asset) return res.status(404).end();
+    res.set('Content-Type', 'image/svg+xml; charset=utf-8');
+    res.set('Cache-Control', 'public, max-age=86400');
+    return res.send(asset);
+  } catch (error) {
+    return res.status(500).json({ ok: false, error: '读取组件预览失败' });
+  }
+});
+
 // Framo: DELETE /api/libraries/:id — 删除组件库
 router.delete('/libraries/:id', async function(req, res) {
   var advanced = await advancedFramo();
