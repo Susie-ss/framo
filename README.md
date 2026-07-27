@@ -103,7 +103,21 @@ open http://localhost:4173
 
 ## Deployment
 
-The platform server is designed to run on Railway with auto-deploy from GitHub. Set the following environment variables:
+### Render (recommended free preview deployment)
+
+The repository includes [`render.yaml`](./render.yaml). In Render, choose **New + → Blueprint**, connect `Susie-ss/framo`, and set the following values when prompted:
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `PUBLIC_APP_URL` | Yes | The Render public URL, for example `https://flowa.onrender.com` |
+| `DATABASE_URL` | Recommended | PostgreSQL connection string. Without it, the service falls back to SQLite, which is not persistent on free instances. |
+| `OPENROUTER_API_KEY` | Optional | Enables the free OpenRouter model. Without it the structured local generator remains available. |
+
+Render free services sleep after inactivity and their local filesystem is ephemeral. Do not rely on local uploaded Sketch files or generated SVG previews as durable production storage. Use PostgreSQL plus an external object store before treating the service as production.
+
+### Other environments
+
+Set the following environment variables:
 
 | Variable | Required | Description |
 |----------|----------|-------------|
