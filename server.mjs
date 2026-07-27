@@ -339,7 +339,11 @@ function isUsableIconCandidate(item) {
   if (isInternalSketchLayerName(shortName)) return false;
   if (!item.paths?.length) return false;
   if (item.priority < 120) return false;
-  if (!/(^|\/)(?:1\.)?icon图标\/(?:0\.\s*导航|1\.\s*action|2\.normal|3\.tips|5\.navigation|导航|action|normal|tips|navigation)(\/|$)/i.test(fullName)
+  // 一些 Sketch 文件（例如 AntDesign Pro 的页面稿）没有单独的
+  // 「icon图标」Symbol 库，图标是带名称的矢量 group。它们通过 source
+  // 明确标记后也可以安全保留；其他普通 group 仍维持严格路径过滤。
+  const namedVectorFallback = item.source === "named-vector";
+  if (!namedVectorFallback && !/(^|\/)(?:1\.)?icon图标\/(?:0\.\s*导航|1\.\s*action|2\.normal|3\.tips|5\.navigation|导航|action|normal|tips|navigation)(\/|$)/i.test(fullName)
     && !/Base基础\/(?:1\.)?icon图标\/(?:0\.\s*导航|1\.\s*action|2\.normal|3\.tips|5\.navigation|导航|action|normal|tips|navigation)(\/|$)/i.test(fullName)) return false;
   if (/(11\.editor|12\.文件类型|0\.应用|9\.application|13\.角色头像|13\.勋章|editor|UML|图形|文件类型|应用|application|勋章|Clipped|测试管理|管理后台|Access|Testhub|角色头像|avatar|备份|mask|蒙版|bg|background)/i.test(fullName)) return false;
   if (/^(zip|rar|txt|ppt|php|doc|pdf|mp3|mp4|html|css|js|java|ipa|apk|exe|csv|xls|xsd|vss|swf|ttf|bak|bat|code|key|fla|文件|图片|文档|链接)$/i.test(shortName)) return false;
@@ -433,6 +437,18 @@ function cleanSegment(value = "") {
 
 function isInternalSketchLayerName(value = "") {
   return /^(group|编组|shape|path|fill\s*\d*|stroke\s*\d*|rectangle|rect|oval|layer|line|shape path|shape group|规范|网格|grid|形状结合|合并形状|路径(?:\s*\d*)?|矩形(?:备份)?(?:\s*\d*)?|椭圆形|圆形|多边形|直线(?:\s*\d*)?|蒙版|mask|clipped)$/i.test(cleanSegment(value));
+}
+
+function isNamedVectorIconName(value = "") {
+  const name = cleanSegment(value);
+  if (!name || isInternalSketchLayerName(name)) return false;
+  // Sketch 自动生成的 Group 12、Combined Shape、Copy 等不是用户命名的图标。
+  if (/^(?:group|combined shape|shape|layer)(?:[\s_-]*(?:copy|\d+|备份))*$/i.test(name)) return false;
+  if (/^(?:形状|组合形状|路径|矩形|圆形|椭圆|多边形)(?:备份)?$/i.test(name)) return false;
+  if (/^(?:copy|备份|默认|default|normal|hover|active|disabled|状态|背景|前景|内容)$/i.test(name)) return false;
+  if (/^\d+(?:\.\d+)?$/.test(name)) return false;
+  // 英文 icon 名、中文语义名均可；过短的无意义字符不作为资产。
+  return /^[a-z][a-z0-9_-]{2,}$/i.test(name) || /^[\u4e00-\u9fff][\u4e00-\u9fff\w-]{1,}$/u.test(name);
 }
 
 function normalizeIconCandidateName(fullPath = "", fallbackName = "") {
@@ -530,7 +546,9 @@ function parseSketchDocument(document, pages) {
   const colors = new Map();
   const fonts = new Map();
   const iconCandidates = [];
+  const namedVectorIconCandidates = [];
   const components = [];
+  const artboards = [];
   const semanticComponents = new Map();
   const textStyles = [];
   const layerStyles = [];
@@ -548,6 +566,15 @@ function parseSketchDocument(document, pages) {
         height: Math.round(layer.frame?.height || 0),
         category: (layer.name || "Component").split(/[\/_-]/)[0],
         preview: { color: rgba(deepFill(layer) || { red: .94, green: .94, blue: .94, alpha: 1 }), radius: layer?.style?.contextSettings?.opacity === 0 ? 0 : 10 }
+      });
+    }
+    if (layer._class === "artboard" && layer.do_objectID) {
+      artboards.push({
+        id: layer.do_objectID,
+        name: layer.name || "Untitled screen",
+        width: Math.round(layer.frame?.width || 0),
+        height: Math.round(layer.frame?.height || 0),
+        preview: { color: rgba(deepFill(layer) || { red: .96, green: .97, blue: .99, alpha: 1 }), radius: 10 }
       });
     }
 
@@ -591,6 +618,30 @@ function parseSketchDocument(document, pages) {
         color: rgba(deepFill(layer) || { red: .2, green: .2, blue: .2, alpha: 1 }),
         paths: iconPaths(layer),
         priority: iconPriority(candidateName) + sourceBoost
+      });
+    }
+
+    // 不含 icon Symbol 的页面型 Sketch（AntDesign Pro 等）会把图标嵌在
+    // 画板内。只收集尺寸小、名称具有明确语义、且确实包含矢量路径的图层，
+    // 作为最后兜底，避免将卡片、文件类型或装饰形状误识别成图标。
+    const vectorFallback = !inIconLibrary
+      && ["group", "shapeGroup"].includes(layer._class)
+      && isNamedVectorIconName(layerName)
+      && (Number(layer.frame?.width) || 0) >= 8
+      && (Number(layer.frame?.height) || 0) >= 8
+      && (Number(layer.frame?.width) || 0) <= 64
+      && (Number(layer.frame?.height) || 0) <= 64;
+    if (vectorFallback && namedVectorIconCandidates.length < 5000) {
+      const paths = iconPaths(layer);
+      if (paths.length) namedVectorIconCandidates.push({
+        id: layer.do_objectID,
+        name: layerName,
+        width: Math.round(layer.frame?.width || 24),
+        height: Math.round(layer.frame?.height || 24),
+        color: rgba(deepFill(layer) || { red: .2, green: .2, blue: .2, alpha: 1 }),
+        paths,
+        priority: 130,
+        source: "named-vector"
       });
     }
   };
@@ -655,13 +706,33 @@ function parseSketchDocument(document, pages) {
   const primary = [...palette].filter((item) => item.luminance > .12 && item.luminance < .88).sort((a, b) => (b.chroma * Math.log2(b.count + 1)) - (a.chroma * Math.log2(a.count + 1)))[0]?.value || "#5B5BD6";
   const surface = palette.filter((item) => item.luminance > .92).sort((a, b) => b.count - a.count)[0]?.value || "#FFFFFF";
   const iconNames = new Set();
-  const icons = iconCandidates.filter(isUsableIconCandidate).sort((a, b) => b.priority - a.priority).filter((item) => {
+  const approvedIconCandidates = iconCandidates.filter(isUsableIconCandidate);
+  // 仅当文件没有规范 icon Symbol 库时才启用兜底，防止影响已有的 Tethys
+  // 等标准设计系统解析结果。
+  const iconInput = approvedIconCandidates.length ? approvedIconCandidates : namedVectorIconCandidates.filter(isUsableIconCandidate);
+  const icons = iconInput.sort((a, b) => b.priority - a.priority).filter((item) => {
     const shortName = item.name.split("/").pop().trim().toLowerCase();
     if (!shortName || /^\d+$/.test(shortName)) return false;
     if (iconNames.has(shortName)) return false;
     iconNames.add(shortName);
     return true;
   }).slice(0, 240);
+
+  // 有些产品原型不使用 Symbol，而是以画板直接承载真实页面组件。保留画板
+  // 作为「页面模板」组件，保证查询表格、表单、Dashboard 等内容不会被丢弃。
+  if (components.length < 4) {
+    for (const artboard of artboards) {
+      const segments = String(artboard.name).split("/").map(cleanSegment).filter(Boolean);
+      const title = segments.at(-1) || artboard.name;
+      const category = `页面模板 ${segments.at(-2) || segments.at(0) || "Screen"}`;
+      components.push({
+        ...artboard,
+        name: `${category}/${title}`,
+        category,
+        source: "artboard"
+      });
+    }
+  }
 
   const componentGroups = new Map();
   for (const component of semanticComponents.values()) components.push(component);
