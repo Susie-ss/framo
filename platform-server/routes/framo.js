@@ -618,7 +618,10 @@ function normalizeAIComponents(library) {
       name: item.name || item.fullName || item.category || 'Component',
       fullName: item.fullName || item.name || 'Component',
       category: item.category || String(item.fullName || item.name || 'Component').split('/')[0],
-      variants: item.variants || []
+      variants: item.variants || [],
+      previewUrl: item.previewUrl || '',
+      width: Number(item.width) || 0,
+      height: Number(item.height) || 0
     };
   }).filter(function(item) { return item.name; });
 }
@@ -655,37 +658,44 @@ function inferAIPageType(prompt) {
 function pickAIComponent(components, pattern, fallback) {
   for (var i = 0; i < components.length; i++) {
     var name = components[i].fullName || components[i].name || '';
-    if (pattern.test(name)) return name;
+    if (pattern.test(name)) return components[i];
   }
-  return fallback;
+  return fallback ? { name: fallback, fullName: fallback, category: 'fallback', previewUrl: '' } : null;
+}
+
+function referenceFor(role, components, pattern, fallback, reason) {
+  var component = pickAIComponent(components, pattern, fallback);
+  return {
+    role: role,
+    component: component ? (component.fullName || component.name) : fallback,
+    reason: reason,
+    previewUrl: component && component.previewUrl || '',
+    source: component && component.previewUrl ? 'sketch-preview' : 'token-rendered'
+  };
 }
 
 function buildComponentReferences(prompt, library) {
   var components = normalizeAIComponents(library);
   var pageType = inferAIPageType(prompt);
-  // 保留下面的数据引用分支；看板本身也会引用数据组件。
-  var type = '';
   var shipTableWorkflow = isShipTableWorkflow(library, prompt);
   if (shipTableWorkflow) {
     return [
-      { role: 'table', component: pickAIComponent(components, /Table[ /]?(表格)?$/i, 'Table 表格'), reason: '承载 Ship 项目计划数据' },
-      { role: 'toolbar', component: pickAIComponent(components, /Table.*工具栏|工具栏/i, 'Table 工具栏'), reason: '承载搜索与批量操作' },
-      { role: 'filter', component: pickAIComponent(components, /Table.*筛选|筛选/i, 'Table 筛选'), reason: '按状态筛选任务' },
-      { role: 'sort', component: pickAIComponent(components, /Table.*排序|排序/i, 'Table 排序'), reason: '按字段排序项目计划' }
+      referenceFor('table', components, /Table[ /]?(表格)?$/i, 'Table 表格', '承载 Ship 项目计划数据'),
+      referenceFor('toolbar', components, /Table.*工具栏|工具栏/i, 'Table 工具栏', '承载搜索与批量操作'),
+      referenceFor('filter', components, /Table.*筛选|筛选/i, 'Table 筛选', '按状态筛选任务'),
+      referenceFor('sort', components, /Table.*排序|排序/i, 'Table 排序', '按字段排序项目计划')
     ];
   }
   var refs = [
-    { role: 'layout', component: pickAIComponent(components, /Layout|布局|Card|卡片|Container|容器/i, 'Card / Layout'), reason: '页面结构与信息分区' },
-    { role: 'action', component: pickAIComponent(components, /Button|按钮|Action/i, 'Button 按钮'), reason: '主操作与次操作' }
+    referenceFor('layout', components, /Layout|布局|Card|卡片|Container|容器|页面模板/i, 'Card / Layout', '页面结构与信息分区'),
+    referenceFor('action', components, /Button|按钮|Action/i, 'Button 按钮', '主操作与次操作')
   ];
   if (pageType === 'login' || pageType === 'form') {
-    refs.push({ role: 'input', component: pickAIComponent(components, /Input|输入|Form|表单|Select|选择/i, 'Input / Form 表单'), reason: '输入与校验' });
-  } else if (type === 'dashboard') {
-    core = '<section class="stats"><div><small>本周完成任务</small><b>128</b><span>较上周 +18%</span></div><div><small>进行中项目</small><b>24</b><span>8 个待关注</span></div><div><small>交付准时率</small><b>92%</b><span>较上周 +6%</span></div></section><section class="grid"><div class="panel"><div class="panel-head"><h2>' + escapeHTML(title) + '</h2><button>查看详情</button></div><div class="trend"><div class="axis"><span>120</span><span>80</span><span>40</span><span>0</span></div><div class="chart"><svg viewBox="0 0 520 180" preserveAspectRatio="none" aria-label="项目趋势图"><defs><linearGradient id="area" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="' + primary + '" stop-opacity=".28"/><stop offset="1" stop-color="' + primary + '" stop-opacity=".02"/></linearGradient></defs><path d="M0 148 C45 126,72 137,108 108 S172 112,210 84 S271 93,307 53 S367 72,401 43 S467 45,520 16 L520 180 L0 180Z" fill="url(#area)"/><path d="M0 148 C45 126,72 137,108 108 S172 112,210 84 S271 93,307 53 S367 72,401 43 S467 45,520 16" fill="none" stroke="' + primary + '" stroke-width="4" stroke-linecap="round"/></svg><div class="chart-labels"><span>周一</span><span>周二</span><span>周三</span><span>周四</span><span>周五</span><span>周六</span><span>周日</span></div></div></div></div><div class="panel accent"><h2>待处理事项</h2><ul><li><b>设计评审</b><span>今天 15:00</span></li><li><b>原型验收</b><span>明天</span></li><li><b>需求排期</b><span>本周内</span></li></ul>' + componentBadges + '</div></section><section class="panel" style="margin-top:16px"><div class="panel-head"><h2>项目任务</h2><button class="ghost">筛选</button></div><table><thead><tr><th>任务名称</th><th>负责人</th><th>状态</th><th>更新时间</th></tr></thead><tbody><tr><td>设计系统组件盘点</td><td>产品设计组</td><td><em>进行中</em></td><td>刚刚</td></tr><tr><td>原型交互验收</td><td>体验团队</td><td><em>待确认</em></td><td>今天</td></tr></tbody></table></section>';
+    refs.push(referenceFor('input', components, /Input|输入|Form|表单|Select|选择/i, 'Input / Form 表单', '输入与校验'));
   } else {
-    refs.push({ role: 'data', component: pickAIComponent(components, /Table|表格|List|列表|Data|数据/i, 'Table / List 数据展示'), reason: '承载业务数据' });
+    refs.push(referenceFor('data', components, /Table|表格|List|列表|Data|数据/i, 'Table / List 数据展示', '承载业务数据'));
   }
-  refs.push({ role: 'feedback', component: pickAIComponent(components, /Alert|Message|Notify|Toast|提示|通知/i, 'Message / Alert 反馈'), reason: '状态反馈' });
+  refs.push(referenceFor('feedback', components, /Alert|Message|Notify|Toast|提示|通知/i, 'Message / Alert 反馈', '状态反馈'));
   return refs;
 }
 
@@ -844,7 +854,7 @@ function buildAIPrompt(userPrompt, library, context) {
   ];
 }
 
-function buildLocalAIHTML(prompt, library) {
+function buildLegacyLocalAIHTML(prompt, library) {
   var tokens = normalizeAITokens(library);
   var refs = buildComponentReferences(prompt, library);
   if (isShipTableWorkflow(library, prompt)) {
@@ -875,6 +885,36 @@ function buildLocalAIHTML(prompt, library) {
     core = '<section class="stats"><div><small>项目数</small><b>28</b><span>+12%</span></div><div><small>组件引用</small><b>' + escapeHTML(String(refs.length)) + '</b><span>来自组件库</span></div><div><small>完成率</small><b>86%</b><span>+8%</span></div></section><section class="grid"><div class="panel"><div class="panel-head"><h2>最近任务</h2><button>新建</button></div><ul><li><b>组件库解析</b><span>进行中</span></li><li><b>AI 页面预览</b><span>已完成</span></li><li><b>插件发布</b><span>待验证</span></li></ul></div><div class="panel accent"><h2>生成策略</h2><p>页面已按组件库 Token、字体、字号和组件语义自动组织，可继续在对话中要求调整。</p>' + componentBadges + '</div></section>';
   }
   return '<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>' + escapeHTML(title) + '</title><style>*{box-sizing:border-box}body{margin:0;background:#f4f6fb;color:#172033;font-family:"' + fontFamily + '",-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",sans-serif;font-size:' + fontSize + 'px}.page{min-height:100vh;padding:32px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:0 0 20px}.stats div,.panel,.login-card{background:' + surface + ';border:1px solid #e7eaf3;border-radius:' + radius + ';box-shadow:0 14px 36px rgba(15,23,42,.06)}.stats div{padding:20px}.stats small{display:block;color:#8a94a6}.stats b{display:block;font-size:34px;color:' + primary + ';margin:8px 0}.stats span{color:' + accent + '}.grid{display:grid;grid-template-columns:1.2fr .8fr;gap:16px}.panel{padding:22px}.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}.panel h2{margin:0;font-size:20px}button{border:0;border-radius:10px;background:' + primary + ';color:white;padding:10px 16px;font-weight:700;cursor:pointer}.ghost{background:#f1f5f9;color:#475569}input,select,textarea{width:100%;border:1px solid #dfe4ee;border-radius:10px;padding:12px 14px;background:#fff;font:inherit}textarea{min-height:96px;margin-top:14px}.toolbar{display:flex;gap:10px;margin-bottom:14px}.toolbar input{flex:1}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:13px;border-bottom:1px solid #edf0f6}th{color:#8a94a6;font-weight:600}em{font-style:normal;color:' + primary + ';background:' + primary + '18;padding:4px 8px;border-radius:999px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}label{display:block;color:#64748b;margin-bottom:12px}label input,label select{margin-top:7px}.actions{display:flex;justify-content:flex-end;gap:10px;margin-top:16px}.login-card{padding:30px}.panel ul{list-style:none;padding:0;margin:0}.panel li{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid #edf0f6}.accent p{line-height:1.8;color:#64748b}.trend{display:flex;gap:12px;height:226px}.axis{width:28px;display:flex;flex-direction:column;justify-content:space-between;color:#a0a8b5;font-size:11px;padding:10px 0 24px}.chart{flex:1;display:flex;flex-direction:column;min-width:0;background:repeating-linear-gradient(to bottom,transparent 0,transparent 52px,#edf0f5 53px)}.chart svg{flex:1;width:100%;min-height:0}.chart-labels{display:flex;justify-content:space-between;color:#9aa3af;font-size:12px;padding-top:8px}@media(max-width:860px){.grid,.login-card{display:block}.stats,.form-grid{grid-template-columns:1fr}.accent{margin-top:16px}}</style></head><body><main class="page">' + core + '</main></body></html>';
+}
+
+// 本地生成同样要消费组件库的真实资源。每个带 previewUrl 的引用均是
+// Sketch 解析后保存的 SVG 缩略图，而不是按组件名绘制的假示意图。
+function buildLocalAIHTML(prompt, library) {
+  var tokens = normalizeAITokens(library);
+  var refs = buildComponentReferences(prompt, library);
+  if (isShipTableWorkflow(library, prompt)) return buildShipTableHTML(prompt, library);
+  var primary = tokens.colorPrimary;
+  var surface = tokens.colorSurface;
+  var radius = tokens.borderRadius;
+  var font = String(tokens.fontFamily || 'system-ui').replace(/["<>]/g, '');
+  var pageType = inferAIPageType(prompt);
+  var title = pageType === 'login' ? '登录工作台' : pageType === 'form' ? '新建业务对象' : pageType === 'list' ? '业务记录' : /项目|任务/.test(prompt) ? '项目协作工作台' : '业务数据总览';
+  var realAssets = refs.filter(function(ref) { return ref.previewUrl; }).slice(0, 4);
+  var assets = realAssets.map(function(ref) {
+    return '<figure class="real-component"><img src="' + escapeHTML(ref.previewUrl) + '" alt="' + escapeHTML(ref.component) + '"><figcaption>' + escapeHTML(ref.component) + '</figcaption></figure>';
+  }).join('');
+  var body = '';
+  if (pageType === 'login') {
+    body = '<section class="login"><div class="intro"><small>WELCOME</small><h1>' + escapeHTML(title) + '</h1><p>' + escapeHTML(prompt) + '</p></div><form class="card"><label>团队账号<input placeholder="请输入账号"></label><label>密码<input type="password" placeholder="请输入密码"></label><button type="button">登录</button></form></section>';
+  } else if (pageType === 'form') {
+    body = '<section class="card"><header><div><small>NEW RECORD</small><h1>' + escapeHTML(title) + '</h1></div><button>保存草稿</button></header><div class="form-grid"><label>名称<input placeholder="请输入名称"></label><label>负责人<input placeholder="选择负责人"></label><label>状态<select><option>设计中</option><option>待评审</option></select></label><label>优先级<select><option>高</option><option>中</option></select></label></div><label>说明<textarea placeholder="补充业务说明"></textarea></label><footer><button class="ghost">取消</button><button>提交</button></footer></section>';
+  } else if (pageType === 'list') {
+    body = '<section class="card"><header><div><small>RESULTS</small><h1>' + escapeHTML(title) + '</h1></div><button>新建记录</button></header><div class="toolbar"><input placeholder="搜索名称 / 状态"><button class="ghost">筛选</button><button class="ghost">导出</button></div><table><thead><tr><th>名称</th><th>负责人</th><th>状态</th><th>更新时间</th></tr></thead><tbody><tr><td>待处理事项</td><td>设计团队</td><td><em>进行中</em></td><td>刚刚</td></tr><tr><td>本周工作</td><td>产品团队</td><td><em>待确认</em></td><td>今天</td></tr></tbody></table></section>';
+  } else {
+    body = '<section class="hero"><div><small>AI GENERATED</small><h1>' + escapeHTML(title) + '</h1><p>' + escapeHTML(prompt) + '</p></div><button>创建新项目</button></section><section class="stats"><div><small>待处理</small><b>12</b><span>较上周 +8%</span></div><div><small>进行中</small><b>24</b><span>本周新增 6 项</span></div><div><small>完成率</small><b>86%</b><span>保持稳定</span></div></section><section class="card"><header><h2>工作概览</h2><button class="ghost">查看全部</button></header><div class="work"><div><b>需求评审</b><span>待确认</span></div><div><b>交互验收</b><span>进行中</span></div><div><b>设计交付</b><span>已完成</span></div></div></section>';
+  }
+  var referenced = assets ? '<section class="asset-section"><h2>已引用的 Sketch 组件</h2><div class="asset-grid">' + assets + '</div></section>' : '';
+  return '<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>' + escapeHTML(title) + '</title><style>*{box-sizing:border-box}body{margin:0;background:#f5f7fb;color:#172033;font-family:"' + font + '",-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",sans-serif;font-size:' + Number(tokens.fontSizeBase || 14) + 'px}.page{max-width:1440px;min-height:100vh;margin:auto;padding:32px}.hero,.card,.stats>div{background:' + surface + ';border:1px solid rgba(15,23,42,.09);border-radius:' + radius + ';box-shadow:0 12px 32px rgba(15,23,42,.055)}.hero{display:flex;justify-content:space-between;gap:20px;align-items:center;padding:26px;margin-bottom:18px}.hero h1,.card h1{margin:5px 0 8px;font-size:26px}.hero p{margin:0;color:#64748b;line-height:1.7}.hero small,.card small{color:' + primary + ';font-size:11px;font-weight:700;letter-spacing:.1em}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px}.stats>div{padding:18px}.stats small{display:block;color:#8a94a6}.stats b{display:block;font-size:30px;color:' + primary + ';margin:8px 0}.stats span{color:#64748b;font-size:12px}.card{padding:22px}.card header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}.card h2{margin:0;font-size:18px}button{border:0;border-radius:' + radius + ';background:' + primary + ';color:#fff;padding:10px 16px;font:inherit;font-weight:650;cursor:pointer}.ghost{background:#edf2f7;color:#475569}input,select,textarea{width:100%;border:1px solid #dfe5ee;border-radius:' + radius + ';padding:11px 13px;background:#fff;font:inherit}textarea{height:92px;resize:vertical}.toolbar{display:flex;gap:10px;margin-bottom:16px}.toolbar input{flex:1}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:13px;border-bottom:1px solid #edf0f4}th{color:#7b8798;font-weight:600}em{font-style:normal;color:' + primary + ';background:' + primary + '14;padding:4px 8px;border-radius:999px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.card label{display:block;color:#64748b;margin-bottom:14px}.card label input,.card label select{margin-top:7px}.card footer{display:flex;justify-content:flex-end;gap:10px;margin-top:16px}.login{display:grid;grid-template-columns:1.1fr .9fr;gap:20px;min-height:520px;align-items:center}.intro h1{font-size:38px;margin:10px 0}.intro p{color:#64748b;max-width:430px;line-height:1.8}.login .card button{width:100%;margin-top:10px}.work div{display:flex;justify-content:space-between;padding:15px 0;border-bottom:1px solid #edf0f4}.work span{color:' + primary + '}.asset-section{margin-top:20px}.asset-section h2{font-size:16px;margin:0 0 12px}.asset-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.real-component{margin:0;background:#fff;border:1px solid #e4e9f1;border-radius:' + radius + ';overflow:hidden}.real-component img{display:block;width:100%;height:210px;object-fit:contain;background:#fff}.real-component figcaption{padding:10px 12px;color:#64748b;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}@media(max-width:760px){.page{padding:16px}.stats,.form-grid,.login,.asset-grid{grid-template-columns:1fr}.hero{align-items:flex-start;flex-direction:column}.toolbar{flex-wrap:wrap}}</style></head><body><main class="page">' + body + referenced + '</main></body></html>';
 }
 
 function buildAIResult(prompt, library, html, meta) {
