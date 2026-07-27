@@ -315,6 +315,55 @@ function iconPaths(layer, paths = [], rootSize = null, offset = { x: 0, y: 0 }, 
   return paths;
 }
 
+function escapeSvgText(value = "") {
+  return String(value).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\"/g, "&quot;").replace(/'/g, "&#39;");
+}
+
+// 在生产环境没有 Sketch.app / sketchtool 时，仍根据 Sketch 的真实图层
+// （位置、尺寸、填充色、边框、文字）生成 SVG 预览。它不是规则占位图，
+// 而是该组件画板的轻量矢量缩略图；Sketchtool 可用时仍优先使用其原始导出。
+function sketchThumbnailSvg(rootLayer) {
+  const rootFrame = rootLayer?.frame || {};
+  const width = Math.max(1, Math.round(Number(rootFrame.width) || 320));
+  const height = Math.max(1, Math.round(Number(rootFrame.height) || 180));
+  const parts = [];
+  let count = 0;
+  const draw = (layer, isRoot = false, parentX = 0, parentY = 0) => {
+    if (!layer || layer.isVisible === false || Number(layer?.style?.contextSettings?.opacity) === 0 || count >= 720) return;
+    const frame = layer.frame || {};
+    const x = isRoot ? 0 : parentX + Math.round(Number(frame.x) || 0);
+    const y = isRoot ? 0 : parentY + Math.round(Number(frame.y) || 0);
+    const w = Math.max(0, Number(frame.width) || 0);
+    const h = Math.max(0, Number(frame.height) || 0);
+    const opacity = Math.max(0, Math.min(1, Number(layer?.style?.contextSettings?.opacity ?? 1)));
+    const fill = firstFill(layer);
+    const border = layer?.style?.borders?.find((entry) => entry.isEnabled !== false && entry.color)?.color;
+    const strokeWidth = Number(layer?.style?.borders?.find((entry) => entry.isEnabled !== false)?.thickness) || 1;
+    const style = ` fill="${fill ? rgba(fill) : "none"}"${border ? ` stroke="${rgba(border)}" stroke-width="${strokeWidth}"` : ""}${opacity < 1 ? ` opacity="${opacity.toFixed(3)}"` : ""}`;
+    const isDrawable = w > 0 && h > 0 && ["artboard", "rectangle", "oval", "shapeGroup", "shapePath", "bitmap", "star", "triangle", "polygon"].includes(layer._class);
+    if (isDrawable && (fill || border || layer._class === "bitmap")) {
+      count += 1;
+      const radius = Math.max(0, Number(layer.fixedRadius) || 0);
+      if (layer._class === "oval") parts.push(`<ellipse cx="${x + w / 2}" cy="${y + h / 2}" rx="${w / 2}" ry="${h / 2}"${style}/> `);
+      else parts.push(`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${radius}"${style || " fill=\"#e2e8f0\""}/> `);
+    }
+    if (layer._class === "text" && w > 0 && h > 0) {
+      const attrs = layer?.style?.textStyle?.encodedAttributes || {};
+      const font = attrs.MSAttributedStringFontAttribute?.attributes || {};
+      const color = attrs.MSAttributedStringColorAttribute || firstFill(layer) || { red: .2, green: .24, blue: .32, alpha: 1 };
+      const text = String(layer?.attributedString?.string || layer.name || "").replace(/\s+/g, " ").trim();
+      if (text) {
+        count += 1;
+        parts.push(`<text x="${x}" y="${y + Math.min(h - 1, Math.max(9, (Number(font.size) || 14)))}" fill="${rgba(color)}" font-family="${escapeSvgText(fontFamily(font.name || "System"))}" font-size="${Math.max(7, Number(font.size) || 14)}" font-weight="${fontWeight(font.name || "")}">${escapeSvgText(text.slice(0, 90))}</text>`);
+      }
+    }
+    for (const child of layer.layers || []) draw(child, false, x, y);
+  };
+  draw(rootLayer, true);
+  const background = deepFill(rootLayer) ? "" : `<rect width="${width}" height="${height}" fill="#FFFFFF"/>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" preserveAspectRatio="xMidYMid meet">${background}${parts.join("")}</svg>`;
+}
+
 function iconPriority(name = "") {
   let score = 0;
   if (/Base基础\/1\.icon图标/i.test(name)) score += 120;
@@ -477,6 +526,25 @@ function componentScore(item) {
 
 async function exportSketchPreviews(sketchPath, libraryId, assets) {
   const target = join(ASSET_ROOT, libraryId);
+  const items = [...assets.icons, ...assets.components];
+  const writeJsonSvgPreviews = async () => {
+    await mkdir(target, { recursive: true });
+    let exported = 0;
+    for (const item of items) {
+      if (!item?.id || !item.previewSvg) continue;
+      const fileName = `${item.id}.svg`;
+      if (!existsSync(join(target, fileName))) await writeFile(join(target, fileName), item.previewSvg, "utf8");
+      if (existsSync(join(target, fileName))) {
+        item.previewUrl = `/api/framo/assets/${libraryId}/${fileName}`;
+        item.previewEngine = "sketch-json-svg";
+        exported += 1;
+      }
+    }
+    return exported;
+  };
+  const stripPreviewMarkup = () => {
+    for (const item of items) delete item.previewSvg;
+  };
   const attachExistingPreviews = () => {
     let exported = 0;
     for (const item of [...assets.icons, ...assets.components]) {
@@ -490,12 +558,13 @@ async function exportSketchPreviews(sketchPath, libraryId, assets) {
     return exported;
   };
   if (!existsSync(SKETCHTOOL)) {
-    const exported = attachExistingPreviews();
-    return exported > 0 ? { engine: "prebuilt-svg", exported } : { engine: "json-fallback", exported: 0 };
+    const existing = attachExistingPreviews();
+    const generated = await writeJsonSvgPreviews();
+    stripPreviewMarkup();
+    return generated > 0 ? { engine: "sketch-json-svg", exported: generated } : (existing > 0 ? { engine: "prebuilt-svg", exported: existing } : { engine: "json-fallback", exported: 0 });
   }
   await rm(target, { recursive: true, force: true });
   await mkdir(target, { recursive: true });
-  const items = [...assets.icons, ...assets.components];
   const warnings = [];
   const runExport = (batch) => execFileAsync(SKETCHTOOL, [
     "export", "layers", sketchPath,
@@ -539,7 +608,11 @@ async function exportSketchPreviews(sketchPath, libraryId, assets) {
       exported += 1;
     }
   }
-  return { engine: "sketchtool", exported, requested: iconIds.length + componentIds.length, warnings };
+  // 不可被 sketchtool 导出的 foreign Symbol / 非 Symbol 画板，仍以其真实
+  // JSON 图层生成预览，避免客户端落回占位缩略图。
+  const generated = await writeJsonSvgPreviews();
+  stripPreviewMarkup();
+  return { engine: exported ? "sketchtool" : "sketch-json-svg", exported: Math.max(exported, generated), requested: iconIds.length + componentIds.length, warnings };
 }
 
 function parseSketchDocument(document, pages) {
@@ -565,7 +638,8 @@ function parseSketchDocument(document, pages) {
         width: Math.round(layer.frame?.width || 0),
         height: Math.round(layer.frame?.height || 0),
         category: (layer.name || "Component").split(/[\/_-]/)[0],
-        preview: { color: rgba(deepFill(layer) || { red: .94, green: .94, blue: .94, alpha: 1 }), radius: layer?.style?.contextSettings?.opacity === 0 ? 0 : 10 }
+        preview: { color: rgba(deepFill(layer) || { red: .94, green: .94, blue: .94, alpha: 1 }), radius: layer?.style?.contextSettings?.opacity === 0 ? 0 : 10 },
+        previewSvg: sketchThumbnailSvg(layer)
       });
     }
     if (layer._class === "artboard" && layer.do_objectID) {
@@ -574,7 +648,8 @@ function parseSketchDocument(document, pages) {
         name: layer.name || "Untitled screen",
         width: Math.round(layer.frame?.width || 0),
         height: Math.round(layer.frame?.height || 0),
-        preview: { color: rgba(deepFill(layer) || { red: .96, green: .97, blue: .99, alpha: 1 }), radius: 10 }
+        preview: { color: rgba(deepFill(layer) || { red: .96, green: .97, blue: .99, alpha: 1 }), radius: 10 },
+        previewSvg: sketchThumbnailSvg(layer)
       });
     }
 
@@ -761,6 +836,7 @@ function parseSketchDocument(document, pages) {
     width: group.representative.width,
     height: group.representative.height,
     preview: group.representative.preview
+    , previewSvg: group.representative.previewSvg
   })).sort((a, b) => a.category.localeCompare(b.category, "zh-CN") || a.name.localeCompare(b.name, "zh-CN"));
 
   const fontFamilies = new Map();
