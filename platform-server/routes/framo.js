@@ -649,7 +649,7 @@ function inferAIPageType(prompt) {
   if (/营销|官网|landing|活动/.test(text)) return 'landing';
   // 先辨别业务域，再辨别控件名称。比如“项目与文档管理平台”同时包含
   // “项目”和“文档”，不能因为出现“表格”或“创建”就掉回固定后台模板。
-  if (/(项目|任务|计划|协作).*(文档|知识库|文件|资料)|(文档|知识库|文件|资料).*(项目|任务|计划|协作)|工作台|管理平台/.test(text)) return 'workspace';
+  if (/(项目|任务|计划|协作).*(文档|知识库|文件|资料)|(文档|知识库|文件|资料).*(项目|任务|计划|协作)/.test(text)) return 'workspace';
   if (/文档|知识库|文件库|资料库|目录|文件管理/.test(text)) return 'documents';
   if (/看板|kanban|泳道/.test(text)) return 'kanban';
   if (/项目|任务|里程碑|排期|计划/.test(text)) return 'project';
@@ -657,6 +657,7 @@ function inferAIPageType(prompt) {
   if (/表单|录入|编辑|创建.{0,8}(表单|记录|事项)|form/.test(text)) return 'form';
   if (/列表|表格|查询|筛选|table|list/.test(text)) return 'list';
   if (/详情|profile|detail/.test(text)) return 'detail';
+  if (/工作台|管理平台/.test(text)) return 'workspace';
   return 'workspace';
 }
 

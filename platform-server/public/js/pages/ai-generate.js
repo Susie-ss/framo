@@ -192,14 +192,17 @@ function aiGenSendMessage() {
   aiGenSetLoading(true);
 
   var library = getSelectedLibrary();
+  // 普通输入默认是一次全新的页面生成，不能把上一轮页面/文案误当成当前需求。
+  // 只有明确说“继续、修改、在此基础上”等指令时，才将历史与当前预览交给后端迭代。
+  var isFollowUp = /^(继续|调整|修改|改成|优化|在此基础|基于上一版|保持|把.+改)/.test(prompt);
   fetch('/api/framo/ai/generate', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       prompt: prompt,
       libraryId: library ? library.id : undefined,
-      currentHtml: aiGenCurrentHTML && aiGenCurrentHTML !== renderEmptyPreview() ? aiGenCurrentHTML : '',
-      history: aiGenMessages.slice(-8).map(function(item) {
+      currentHtml: isFollowUp && aiGenCurrentHTML && aiGenCurrentHTML !== renderEmptyPreview() ? aiGenCurrentHTML : '',
+      history: (isFollowUp ? aiGenMessages.slice(-8) : []).map(function(item) {
         return { type: item.type, text: item.text };
       })
     })
